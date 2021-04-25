@@ -1,1 +1,10 @@
-sha
+menu 菜单 
+command 命令
+context 语境
+explore 探索
+
+visual 视觉的
+modify 修改/修饰/变更
+participate 参加/参与/加入
+novice 初学者/新手
+contribute 有助于/贡献
