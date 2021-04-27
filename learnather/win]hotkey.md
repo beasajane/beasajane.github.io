@@ -10,10 +10,14 @@ Ctrl + 向左键	将光标移动到上一个字词的起始处
 Ctrl + 向下键	将光标移动到下一个段落的起始处
 Ctrl + 向上键	将光标移动到上一个段落的起始处
 
+alt + shift 键盘切换
 
 Alt + 向左键	后退
 Alt + 向右键	前进
 
+
+ctrl+zuojian duoxuan 
+shift+zuojian lianxuan 
 
 
 
