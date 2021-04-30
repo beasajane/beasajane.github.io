@@ -52,3 +52,15 @@ div.b ul :nth-child(n + 65) {
 div.b ul :nth-child(-n + 50):nth-child(n + 35) {
   color: blue;
 }
+
+/* .prime ul li:nth-child(1),
+.prime ul li:nth-child(2n + 4),
+.prime ul li:nth-child(3n + 9),
+.prime ul li:nth-child(5n + 25),
+.prime ul li:nth-child(7n + 49) {
+  color: red;
+} */
+
+.prime ul li:not(:nth-child(1)):not(:nth-child(2n + 4)):not(:nth-child(3n + 9)):not(:nth-child(5n + 25)):not(:nth-child(7n + 49)){
+  color: red;
+}
