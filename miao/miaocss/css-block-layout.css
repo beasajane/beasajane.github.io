@@ -1,0 +1,64 @@
+header { /* /让黑色背景不随窗口的变化而变化，就不限定背景的宽度 */
+  background-color: black;
+  color: white;
+}
+.p1 {
+  width: 600px;
+  margin: auto;
+}
+body {
+  margin: 0px;
+  /* 让header的边框与窗口的边框重合，需将窗口的body 的margin设置为0px */
+}
+/* header { background-color: black; color: white;} */
+
+.p2 {
+  width: 600px;
+  margin: 1em auto;
+}
+
+.p3 {
+  width: 600px;
+  margin: auto;
+  border-bottom: dotted 1px black;
+}
+
+.p3.p4 {
+  border-bottom: dotted 1px #0000;
+}
+
+#d1 div:hover {  
+  background-color: red;
+}
+#d1 {
+  width: 600px;
+  margin: 0 auto;
+}
+
+
+#d1 div  {
+  background-color: rgb(255,192,203);
+  box-sizing: border-box;
+  text-align: center;
+  margin: 15px 0px ;
+  width: 180px;
+  height: 40px;
+  line-height: 34px; 
+  /* 行高line-height 与 元素显示高度相等，同时text-align值为center，上下居中 */
+  border: 3px solid black;
+}
+
+#d1 div:nth-child(3n + 2) {
+  margin-left: 210px;
+  margin-top: -55px;
+}
+
+#d1 div:nth-child(3n + 3) {
+  margin-left: 420px;
+  margin-top: -55px;
+}
+
+.p5 {
+  background-color: violet;
+  text-align: center;
+}
