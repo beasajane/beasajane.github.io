@@ -1,0 +1,57 @@
+* {
+  box-shadow: 0px 0px 1px inset rgb(250, 2, 2);
+}
+
+xbody {
+  margin: 0;
+}
+header {
+  background-color: brown;
+}
+nav {
+  width: 600px;
+  color: blue;
+  background-color: #deb887;
+  xtext-align: center;
+  margin: 20px auto;
+}
+main {
+  box-sizing: border-box;
+  border: solid black 2px;
+  width: 600px;
+  padding: 0 10px;
+  margin: auto;
+}
+
+main > p {
+  height: 64px;
+  margin: 16px auto;
+  overflow: auto;
+}
+
+main > div:hover {
+  margin: 0 -10px;
+}
+
+main > div {
+  height: 50px;
+  background-color: cadetblue;
+}
+
+section {
+  width: 0px; 
+  /* 默认值充满行 设置0 那么content-box将没有空间直接被框填满，同时padding默认值为0 */
+  border-width: 0px 50px 50px 50px;
+  border-color: #0000 #0000 darkgreen #0000;
+  border-style: solid;
+  margin: 70px auto auto auto;
+  /* text-align：center；让元素中的文字居中。让元素居中，在常规流中，使用margin：auto。定元素的width长度，margin-left-right：设置为auto，自动评分余下的宽度。 */
+}
+
+section.a {
+  width: 0px;
+  border-width: 50px;
+  border-color: #0000 #0000 blue #0000;
+  border-style: solid;
+  margin: 20px auto auto auto;
+}
