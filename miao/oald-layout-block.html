@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>oald-layoput-block</title>
+</head>
+<style>
+  body {
+    margin:0;
+  }
+  .a {
+    box-sizing: border-box;
+    border: green 3px solid;
+    width: 200px;
+    height: 100vh;
+  }
+  .b {
+    box-sizing: border-box;
+    border: indianred 3px solid;
+    width: calc(100vw - 600px);
+    height: 100px;
+    margin: -100vh 0 0 200px;
+  }
+  .c {
+    box-sizing: border-box;
+    border: indianred 3px solid;
+    width: calc(100vw - 600px);
+    height: calc(100vh - 100px);
+    margin-left: 200px;
+  }
+
+  .d {    
+    box-sizing: border-box;
+    border: indigo 3px solid;
+    width: 200px;
+    height: 100vh;
+    margin:-100vh 0 0 calc(100vw - 400px);
+   }
+  .e {    
+    box-sizing: border-box;
+    border: indigo 3px solid;
+    width: 200px;
+    height: 100vh;
+    margin: -100vh 0 0 calc(100vw - 200px);
+    }
+</style>
+<body>
+  <div class="a">aaa</div>
+  <div class="b">bbb</div>
+  <div class="c">ccc</div>
+  <div class="d">ddd</div>
+  <div class="e">edd</div>
+</body>
+</html>

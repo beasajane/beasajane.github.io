@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>qq-mail-block</title>
+  <style>
+    div.a {
+      width: auto;
+      height: 80px;
+      box-sizing: border-box;
+      border: 1px grey solid;
+      
+    }
+    div.b {
+      width: 220px;
+      height: calc(100vh - 80px);
+      box-sizing: border-box;
+      border: 1px magenta dashed;
+      overflow:auto;
+    }
+    div.c {
+      width: auto;
+      height: calc(100vh - 80px);
+      margin:0 0 0 220px;
+      box-sizing: border-box;
+      border: 1px blue solid;
+      margin-top: calc(80px - 100vh);
+      overflow: auto;
+    }
+    /* <!-- 
+      1 、px
+
+px就是pixel（像素）的缩写，相对长度单位，相对于屏幕分辨率。
+
+2、em
+
+参考物是父元素的font-size，具有继承的特点。浏览器默认字体是16px，整个页面内1em不是一个固定的值。
+
+字体大小同样都是1.5em，但是效果却截然不同，按照W3C提供的公式，我们可以计算下： class为id1的div字体大小继承自父元素body：16px*1.5em = 24px class为id2的div字体大小继承自父元素id1：24px*1.5em = 36px class为id3的div字体大小继承自父元素id2：36px*1.5em = 54px
+
+3、rem
+
+rem是CSS3新增的一个相对单位，但相对的只是HTML根元素。通过它既可以做到只修改根元素就成比例地调整所有字体大小，又可以避免字体大小逐层复合的连锁反应。
+
+4、%
+
+% 百分比，相对长度单位，相对于父元素的百分比值
+
+元素宽高与字体大小使用区别：
+
+（1）尽量使用相对尺寸单位
+
+使用相对尺寸单位计量，则在调整页面的布局的时候，不需要遍历所有的内部DOM结构，重新设置内部子元素的尺寸大小。如果是随着父容器或者是整体页面布局而改变尺寸，则使用%更好，如元素的高度和宽度设置。
+
+（2）字体尺寸尽量使用em、rem
+
+为了字体大小的可维护性和伸缩性，推荐使用em，如果存在3层以及3层以上的字体相对尺寸的设置，可以考虑使用rem。
+      5、vw和vh
+
+vm、vh、vmin、vmax是一种视窗单位，也是相对单位。它相对的不是父节点或者页面的根节点。而是由视窗（Viewport）大小来决定的，单位 1，代表类似于 1%。 视窗(Viewport)是你的浏览器实际显示内容的区域—，换句话说是你的不包括工具栏和按钮的网页浏览器。
+
+具体描述如下：
+
+vw：视窗宽度的百分比（1vw 代表视窗的宽度为 1%）
+vh：视窗高度的百分比
+vmin：取当前Vw和Vh中较小的那一个值
+vmax：取当前Vw和Vh中较大的那一个值
+
+vh和vw相对于视口的高度和宽度， 1vh 等于1/100的视口高度，1vw 等于1/100的视口宽度 比如：浏览器高度900px，宽度为750px, 1 vh = 900px/100 = 9 px，1vw = 750px/100 = 7.5 px， 很容易实现与同屏幕等高的框。
+
+calc + vm 计算宽度 --> */
+  </style>
+</head>
+
+<body>
+  <div class="a">fasdf</div>
+  <div class="b">dasd</div>
+  <div class="c">dasfasd Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima incidunt illo est vero quis, quidem hic consectetur, iusto eligendi dolor nemo reprehenderit at veritatis eaque iste voluptatum! Et eligendi commodi quidem ea ab earum explicabo nostrum? Sit non aliquam porro at accusamus? Voluptatibus quos vitae illum provident facilis perspiciatis, rerum deleniti velit repellat tempore rem corrupti alias consequatur animi nisi. Consequuntur vero reprehenderit earum quos aliquam numquam nobis est dolores iusto architecto repellendus molestias illo, necessitatibus nisi dolorem, cumque consectetur nulla. Laudantium esse asperiores possimus alias atque fuga sapiente qui. Consequuntur maiores beatae asperiores deleniti voluptate fuga eius dolor quo, itaque possimus velit, necessitatibus error culpa ipsa nihil assumenda ducimus? Autem, pariatur non aut labore quisquam ipsam mollitia molestias quae quo nostrum explicabo reprehenderit soluta blanditiis cum eos dolor unde voluptates. Obcaecati quo laboriosam consequatur culpa distinctio aspernatur totam iste, id sunt molestiae ratione, molestias dignissimos voluptate rerum expedita laudantium, voluptatibus animi dicta! Harum modi corporis odio nisi assumenda recusandae eum temporibus repudiandae voluptate perspiciatis ab consectetur tempore, sequi fuga sit error voluptatibus pariatur quod incidunt illum minus a! Facilis unde asperiores tenetur facere. Officiis, odio? Omnis minima natus perferendis et cum consequuntur molestiae, ducimus similique, corporis aut, porro atque quas saepe accusantium dignissimos hic. Eligendi iusto a dolorem maiores quisquam itaque non adipisci perspiciatis provident distinctio quaerat quasi beatae mollitia nostrum minus perferendis iure optio, incidunt laboriosam quia modi! Deserunt nobis harum laboriosam enim, repellendus maiores suscipit exercitationem placeat et non dolor sunt neque ipsam soluta provident obcaecati repudiandae. Blanditiis id ad labore, odit aliquam ratione. Sequi ullam voluptas earum dolor necessitatibus quas suscipit voluptates cupiditate minima laborum. Magnam rerum modi eveniet pariatur, ullam laboriosam suscipit at accusamus, non quis neque totam impedit laborum rem mollitia praesentium molestias blanditiis sunt quam. Delectus in blanditiis dignissimos, tenetur id debitis! Consequuntur voluptas aperiam aspernatur itaque adipisci eum corrupti maxime neque dignissimos, minima doloremque velit consectetur vitae laudantium illo ullam at, harum nemo fuga quam rerum provident ipsum explicabo facilis. Aut, exercitationem esse? Recusandae vel dolor earum in ea maiores quis perferendis ut aperiam sit autem ipsa ipsam vitae accusamus, placeat quae rerum nesciunt architecto. Error, laboriosam minus ipsam dolorum vel possimus itaque vero ratione totam eum tenetur. Soluta, quidem exercitationem adipisci doloribus numquam magnam vel provident commodi pariatur dignissimos ab, laudantium iusto architecto nostrum facere repellat aspernatur sunt. Quibusdam laborum perferendis repellat sit nobis labore sequi! Nemo, in. Temporibus explicabo dolores iure officiis deleniti, eos dolorem esse at quasi. Corporis maiores laudantium quae quas ut voluptatem porro ullam magni iste! Ipsa laudantium dolore ut similique tempore, deserunt, eveniet quisquam rem modi nostrum nulla aliquam sequi blanditiis minima vel. Voluptate totam omnis, sit in eos consequuntur hic ipsa deserunt accusantium vero veniam cupiditate repudiandae rem. Consectetur eum cum ex et. Ut, reiciendis similique dignissimos praesentium obcaecati inventore quos doloremque ullam. Eius sapiente sunt dicta maxime mollitia quis magnam at, labore quod cupiditate quas eligendi, sint asperiores harum autem, fugit quam nulla. Iusto excepturi ullam exercitationem eveniet dolorem, labore ipsum consequuntur tenetur magnam necessitatibus unde odit laborum. Tenetur, unde necessitatibus! Deserunt voluptate placeat porro nam assumenda at necessitatibus eligendi, quae magni amet voluptas eius velit neque quam aliquid consectetur, maxime veniam iste ab impedit. Voluptatum, impedit aut placeat doloremque tempore cum ea in facere, et harum dignissimos! Nostrum quidem quam in eveniet voluptatem consectetur porro quas iusto! Similique repellendus aliquid asperiores ipsa unde molestiae deleniti, doloribus eaque illum? Itaque laudantium odit quo tempore illum. Nihil nulla repellat deserunt quo porro? Odit voluptatum culpa et animi velit consectetur voluptas asperiores eius vel explicabo dicta aperiam veniam officiis maiores sapiente laboriosam aliquid eos illo, doloremque beatae, error reprehenderit voluptates! Ipsum maiores amet explicabo atque asperiores quia et fugit? Praesentium quis accusantium deleniti, enim nam molestias optio. Ea quod impedit quibusdam dolore. Nisi ea porro nulla ipsum dolore numquam molestiae. Porro, accusantium eius totam repellendus reiciendis ex quibusdam incidunt rerum pariatur ea amet! Voluptates aut maxime, aliquam facilis laboriosam eum. Maiores ipsa consequatur rerum tempora quia eaque quibusdam quos quo odit adipisci quaerat praesentium doloribus velit eveniet voluptatem, doloremque totam. Officia provident, exercitationem voluptates modi dolorem temporibus eos aliquid porro? Maxime ullam optio minus eos non provident voluptates tenetur, cum ab porro officiis consequatur consequuntur odio id ipsum aspernatur neque? Cupiditate dolorem amet autem nobis facere corrupti? Nesciunt odit nemo asperiores sunt amet, laborum vero consequuntur unde itaque at saepe qui neque eius obcaecati ducimus fugit et, earum ex numquam modi repudiandae dolor dicta laboriosam temporibus? Illum, praesentium. Dolores rem accusantium doloremque aliquid nobis sint nesciunt? Quam quis, totam suscipit ad error eius recusandae accusantium corrupti perspiciatis, iusto aspernatur, enim voluptatum ipsam magni molestiae. Corrupti eum temporibus officiis voluptates, natus modi ratione. Et voluptas, eius aspernatur unde maxime nisi inventore fugit cum maiores nam commodi debitis beatae laborum saepe laudantium quas nostrum ex magni aperiam. Incidunt at itaque recusandae dolor voluptatibus laudantium aspernatur ex quaerat corporis?</div>
+</body>
+</html>
