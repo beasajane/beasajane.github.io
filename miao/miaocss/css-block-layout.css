@@ -62,3 +62,30 @@ body {
   background-color: violet;
   text-align: center;
 }
+
+#d2 {
+  width: 600px;
+  margin: 0 auto;
+}
+
+#d2 div:hover {
+  background-color: red;
+}
+
+#d2 div {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 180px;
+  height: 40px;
+  background-color: magenta;
+  vertical-align: middle;
+  border: 3px dashed;
+  margin: 15px 30px 15px 0px ;
+  
+  line-height: 40px;
+  /* 行内框的高度 根据规则行间距（leading）定义，line-height 与 font-size之差 ，然后平分到上下半行间距（half-leading）故：文字在给定height的border-box内居中。字符框（font-size）距离上下边线为half-leading*/
+  text-align: center;
+}
+#d2 div:nth-child(3n + 3) {
+  margin: 15px 0px;
+}
