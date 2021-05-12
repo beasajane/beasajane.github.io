@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: cadetblue;
+    }
+    .a {
+      position: fixed;
+      background-color: chartreuse;
+      top: 0; right: calc(100% - 200px); bottom: 0; left: 0;
+    }
+    .bc {
+      position: fixed;
+      background-color:chocolate;
+      top: 0; right: 400px; bottom: 0px; left: 200px;
+    }
+    .b {
+      position: absolute;
+      background-color:hotpink;
+      top: 0; right:0; bottom: calc(100vh - 100px); left: 0;
+    }
+    .c {
+      position: absolute;
+      background-color: magenta;
+      top: 100px; right: 0; bottom: 0; left: 0;
+    }
+    .d {
+      position: fixed;
+      background-color:darkcyan;
+      top: 0; right: 200px; bottom: 0; left: calc(100% - 400px);
+    }
+    .e {
+      position: fixed;
+      background-color:darkmagenta;
+      top: 0; right: 0; bottom: 0; left: calc(100% - 200px);
+    }
+  </style>
+</head>
+<body>
+  <div class="position">
+    <div class="a">aaa</div>
+    <div class="bc">
+      <div class="b">bbb</div>
+      <div class="c">ccc</div>
+    </div>
+    <div class="d">ddd</div>
+    <div class="e">eee</div>
+  </div>
+</body>
+</html>
