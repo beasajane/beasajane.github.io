@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>不使用相对尺寸布局</title>
+  <style>
+    * {
+      box-shadow: 0 0 1px tan;
+      background-color: ragb(0,0,0,0.07);
+    }
+    body {
+      margin: 0;
+    }
+    header {
+      position: fixed;
+      top: 0; right: 0; left: 0;
+      height: 100px;
+    }
+    aside {
+      position: fixed;
+      top: 100px; bottom: 0; left: 0;
+      width: 200px;
+    }
+    main {
+      position: fixed;
+      top: 100px; right: 0; bottom: 0; left: 200px;
+    }
+  </style>
+</head>
+<body>
+  <header>aaa</header>
+  <aside>bbb</aside>
+  <main>ccc</main>
+</body>
+</html>
