@@ -39,17 +39,18 @@
       color: white;
       box-sizing: border-box;
       border: 1px solid #014DA1;
-      width: 98px;
+      width: 100px;
       height: 48px;
       vertical-align: bottom;
       text-align: center; 水平居中 ;
       line-height: 48px; 垂直居中 ;
       font-size: 1rem;
-      overflow: hidden;
+      xwhite-space: nowrap;
     }
-    .top:hover {
-      background-color: #022853;
-      overflow: visible;
+    .top:hover .f-ul{
+      xbackground-color: #022853;
+      visibility: visible;
+      transition: 2s;
     }
     ul {
       padding: 0;
@@ -63,23 +64,24 @@
       margin: 0px;
       padding: 0px;
       list-style: none;
-      overflow: hidden;
+      visibility: hidden;
     }
     
     .jianjie {
-      width: 100px;
+      width: 98px;
       position: relative;
       overflow: hidden;
+      zwhite-space: nowrap;
     }
     .jianjie:hover {
-      overflow: visible;
       transition: 2s;
+      overflow: visible;
     }
     .s-ul {
+      position:absolute;
       display: inline-block;
       width: 100px;
       padding: 0px;
-      position:absolute;
       top: 0px;
       left: 98px;
       list-style: none;
