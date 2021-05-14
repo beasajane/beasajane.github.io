@@ -1,0 +1,86 @@
+
+    * {
+      background-color: rgba(0,0,0,0.07);
+      box-shadow: 0 0 1px red;
+    }
+    body{
+      margin: 0;
+    }
+
+    .woqu {
+      width: atuo;
+      background-color: #014DA1;
+    }
+    .header {
+      position: relative;
+      height: 140px;
+      width: 1300px;
+      margin: auto;
+    }
+    img {
+      position: absolute;
+      width: 362px;
+      height: 110px;
+      zoom: 0.8;
+      margin: 26px;
+    }
+
+    .navigation {
+      position: absolute;
+      width: 800px;
+      height: 48px;
+      right: 0px;
+      bottom: 5px;
+      font-size: 0;
+    }
+
+    .top {
+      display:inline-block;
+      color: white;
+      box-sizing: border-box;
+      border: 1px solid #014DA1;
+      width: 98px;
+      height: 48px;
+      vertical-align: bottom;
+      text-align: center; 水平居中 ;
+      line-height: 48px; 垂直居中 ;
+      font-size: 1rem;
+      overflow: hidden;
+    }
+    .top:hover {
+      background-color: #022853;
+      overflow: visible;
+    }
+    ul {
+      padding: 0;
+      list-style: none;
+      margin: 0;
+      background-color: #C3DFFA;
+      color: #014896;
+    }
+    .f-ul {
+      position: relative;
+      margin: 0px;
+      padding: 0px;
+      list-style: none;
+      overflow: hidden;
+    }
+    
+    .jianjie {
+      width: 100px;
+      position: relative;
+      overflow: hidden;
+    }
+    .jianjie:hover {
+      overflow: visible;
+      transition: 2s;
+    }
+    .s-ul {
+      display: inline-block;
+      width: 100px;
+      padding: 0px;
+      position:absolute;
+      top: 0px;
+      left: 98px;
+      list-style: none;
+    }
