@@ -1,5 +1,5 @@
 
-    * {
+    x* {
       background-color: rgba(0,0,0,0.07);
       box-shadow: 0 0 1px red;
     }
@@ -24,7 +24,12 @@
       zoom: 0.8;
       margin: 26px;
     }
-
+    
+    ul {
+      padding: 0;
+      list-style: none;
+      margin: 0;
+    }
     .navigation {
       position: absolute;
       width: 800px;
@@ -52,36 +57,29 @@
       visibility: visible;
       transition: 2s;
     }
-    ul {
-      padding: 0;
-      list-style: none;
-      margin: 0;
-      background-color: #C3DFFA;
-      color: #014896;
-    }
     .f-ul {
       position: relative;
-      margin: 0px;
-      padding: 0px;
-      list-style: none;
-      visibility: hidden;
+      background-color: #C3DFFA;
+      color: #014896;
+      xvisibility: hidden;
     }
     
-    .jianjie {
+    x.jianjie {
       width: 98px;
       position: relative;
       overflow: hidden;
       zwhite-space: nowrap;
     }
-    .jianjie:hover {
+    x.jianjie:hover {
       transition: 2s;
-      overflow: visible;
+      xoverflow: visible;
     }
-    .s-ul {
+    x.s-ul {
       position:absolute;
       display: inline-block;
-      width: 100px;
-      padding: 0px;
+      width: 300px;
+      background-color: #C3DFFA;
+      color: #014896;
       top: 0px;
       left: 98px;
       list-style: none;
