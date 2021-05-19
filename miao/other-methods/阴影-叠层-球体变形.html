@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+  <style>
+    x* {
+  background-color: rgba(0,0,0,0.06);
+  box-shadow: 0 0 1px red;
+}
+xbody {
+  margin: 0;
+}
+.beijing {
+  width: 800px;
+  height: 600px;
+  position: relative;
+}
+input {
+  display: none;
+}
+/* 背景颜色由内向外展开 */
+label{
+  position: absolute;
+  width: 270px;
+  height: 156px;
+    /* background-color: #3CF759; */
+  box-sizing: border-box;
+  top: 0px; right: 0px;
+  bottom: 0; left: 0;
+  margin: auto;
+  border: 3px grey solid;
+  border-radius: 78px;
+  transition: all 0.5s;
+}
+.kuang{
+  position: absolute;
+  width: 264px;
+  height: 150px;
+  box-sizing: border-box;
+  background-color: white;
+  top: 0px; right: 0px;
+  bottom: 0; left: 0;
+  margin: auto;
+  border-radius: 78px;
+  cursor: pointer;
+  transition: 0.5s 0.1s ;
+}
+input:checked + label {
+  border: 5px green solid;
+  box-shadow: inset 0px 0px 0px 78px #3CF759; }
+  /* input:checked + label .kuang {
+  width: 0;
+  height: 0;
+} */
+
+
+/* 球过渡时，中间长度的变型 */
+
+ .qiu{
+  position: absolute;
+  box-shadow: 0px 5px 30px 1px  rgb(197 197 197);
+  border-radius: 180px;
+  background-color: white;
+  top: 5px; right: 116px; bottom: 5px; left: 8px;
+  transition: all 0.5s ease, right 0.5s 0.05s ease;
+}
+
+input:checked + label .qiu {
+  right: 8px;
+  left: 116px;
+  transition: all 0.5s ease, left 0.5s 0.05s ease;
+}
+  </style>
+</head>
+<body>
+    <div class="beijing">
+    <input type="checkbox" id="anniu">
+    <label for="anniu">
+     <!--  <div class="kuang"></div> -->
+       <div class="qiu"></div>
+    </label>
+  </div>
+</body>
+</html>

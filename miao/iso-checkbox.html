@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+  <style>
+    x* {
+  background-color: rgba(0,0,0,0.06);
+  box-shadow: 0 0 1px red;
+}
+xbody {
+  margin: 0;
+}
+.kuang {
+  position: relative;
+  width: 800px;
+  height: 600px;
+  border: 1px solid;
+  overflow: auto;
+}
+.yuanjiao {
+  position: absolute;
+  border: 4px #C6CBC7 solid;
+  width: 270px;
+  height: 156px;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 78px;
+}
+section {
+  height: 500px;
+  width: 500px;
+  background-color: tan;
+}
+input {
+  display: none;
+}
+label {
+  display: block;
+  box-sizing: border-box;
+  box-shadow: 0 0 10px #C6CBC7, 0 0 10px #C6CBC7, 0 0 10px #C6CBC7;
+  xborder:4px solid ;
+  position: absolute;
+  width:140px;
+  height: 140px;
+  top: 8px;
+  left: 8px;
+  border-radius: 70px;
+  cursor: pointer;
+}
+input:checked + label {
+  left: calc(100% - 148px);
+  transition: 2s ;
+}
+  </style>
+</head>
+<body>
+  <div class="kuang">
+    <div class="yuanjiao">
+      <input type="checkbox" id="qiu">
+      <label for="qiu"></label>
+    </div>
+  </div>  
+  <section>
+    
+  </section>
+</body>
+</html>

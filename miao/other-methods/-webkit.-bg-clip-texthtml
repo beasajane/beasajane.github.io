@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+  background-color: rgba(0,0,0,0.06);
+  box-shadow: 0 0 1px red;
+}
+body {
+  margin: 0;
+}
+div {
+  xcolor: #29384700;
+  xcolor: transparent;
+  /* 纯粹的无色文字，文字背景色剪裁的文字颜色效果不够深 */
+  color: rgba(23,98,234,0.5);
+  /* 如果加上一个透明度的文字颜色效果会更好一些 */
+  margin: 10px;
+  background-image: url(https://share.america.gov/wp-content/uploads/2013/09/blog-14.jpg);
+  -webkit-background-clip: text;
+  border: 5px #803423 solid;
+  padding: 5px;
+  height: 305px;
+  overflow: hidden;
+}
+  </style>
+</head>
+<body>
+  <div>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat placeat culpa expedita temporibus tempore voluptate consequatur vero, animi fuga perspiciatis modi! Unde necessitatibus modi soluta magnam, in hic. Facere, optio
+   Maiores recusandae quibusdam possimus. Provident non assumenda, ullam? Labore ea quibusdam suscipit nemo fugiat consequuntur harum dicta, asperiores tenetur voluptatum excepturi, assumenda modi saepe optio, cumque voluptas ipsam neque! Labore
+   Saepe, cumque iure! Natus voluptates nobis quae quas, odio reiciendis error eius porro, nihil ad, sequi quod exercitationem! Necessitatibus cupiditate libero, ratione inventore optio quibusdam est! Quam eum repudiandae, illo
+  </div>
+</body>
+</html>

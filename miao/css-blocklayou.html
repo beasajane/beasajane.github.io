@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!-- saved from url=(0054)https://pimingxin.github.io/miao/css-block-layout.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>css-block-layout</title>
+  <style>
+
+    * {
+      box-shadow: 0 0 1px orange;
+      background-color: rgba(0,0,0,0.07);
+      width: 600px;
+      margin: auto;
+      overflow: hidden;
+    }
+    /* 试出来了，但是没用，必须要总结，成为自己的东西才行 */
+    #d1 {
+      xborder:cornflowerblue 1px solid;
+      width: 630px;
+      /* 宽度时content的宽度 */
+      margin-left: -15px;
+      font-size: 0;
+      /* 去除空格，将父元素的字体大小设置为0，两个单词之间的间隙就为零，然后在将将子元素的大小重置为正常文本的大小 */
+    }
+    #d1 div {
+      font-size: 16px;
+      box-sizing: border-box;
+      display: inline-block;
+      border: solid 2px coral;
+      background-color: teal;
+      width: 180px;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      margin: 15px;
+    }
+
+
+
+
+    ul {
+     xwidth: 600px;
+      xmargin: auto;
+      padding: 0px
+    }
+    li {
+      list-style: none;
+      border-bottom: black dotted 2px;
+    }
+  </style>
+</head>
+<body >
+  <header><p class="p1">hello world 请调整浏览器窗口大小查看效果</p></header>
+  <p class="p2">页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px</p>
+  <div id="d1">s
+    <div>宽180高40(包含边框)</div><div>产品</div>
+    <div>产品</div>
+    <div>水平间隙30px</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>垂直间隙15px</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>边框宽度3px</div>
+    <div>产品</div>
+    <div>产品</div>
+  </div>
+
+  <!-- ul>li.o$*5>lorem1 -->
+
+  <ul>
+    <li class="o1">Lorem.</li>
+    <li class="o2">Quidem!</li>
+    <li class="o3">Quas?</li>
+    <li class="o4">Consequatur.</li>
+    <li class="o5">Quia?</li>
+  </ul>
+
+
+    <p class="p3">link</p>
+    <p class="p3">link</p>
+    <p class="p3">link</p>
+    <p class="p3">link</p>
+    <p class="p3 p4">link</p>
+    <p class="p5">©版权所有<br>本页所有布局均使用块元素</p>
+    <img src="" alt="">
+  <div id="d2">
+    <div>宽180高40(包含边框)</div><div>产品</div><div>产品</div><div>水平间隙30px</div><div>产品</div><div>产品</div><div>垂直间隙15px</div><div>产品</div><div>产品</div><div>边框宽度3px</div><div>产品</div><div>产品</div>
+  <!-- inline-block元素作为一个外部整体，作为inline元素存在，且是作为替换元素的inline元素存在。具有文本的效果。那么在输出上会有空格出现，影响行内布局的宽度。所有有替换元素的所有规则都在inline-block元素上适应。  父级块元素中的匿名文本将对其造成影响。
+  inline-block在内部上则作为一个block元素，所有block元素的规则都在inline-block元素上适应。具有自己的width，height属性。margin， border，padding在垂直方向也会对其布局造成影响。
+  -->
+  </div>
+</body>
+</html>

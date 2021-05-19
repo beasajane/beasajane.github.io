@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    table {
+  xborder-collapse: collapse;
+  border-spacing: 0px;
+    
+}
+td {
+  xbox-sizing: border-box;
+  width:100px;
+  height: 100px;
+  border: 2px solid blue;
+  text-align: center;
+  xbox-shadow: 0 0 0 1px blue;
+  xvertical-align: middle;
+}
+
+td:hover {
+  border: 2px solid red;
+  z-index: 10;
+  color: gold;
+  font-size: 27px;
+}
+section {
+  margin: 30px;
+}
+div {
+  width: 100px;
+  height: 100px;
+  xbox-sizing: border-box;
+  border: 3px solid blue;
+  text-align: center;
+  line-height: 100px;
+  position:relative;
+}
+
+section div:nth-child(3n + 2) {
+  margin-top: -106px;
+  margin-left: 104px;
+  }
+section div:nth-child(3n + 3) {
+  margin-top: -106px;
+  margin-left: 207px;
+}
+section div:nth-child(3n + 4) {
+  margin-top: -3px;
+}
+xsection div:nth-child(5) {
+  margin-top:-45px
+}
+
+section div:hover {
+  border: 3px solid red;
+  box-shadow:inset 0 0 2px 2px red;
+  z-index: 2;
+  color: gold;
+  xfont-size: 27px;
+}
+ul{
+  width: 360px;
+  padding:0;
+  list-style: none;
+  font-size: 0;
+}
+li {
+  font-size: 1rem;
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  line-height: 100px;
+  border: 2px blue solid;
+  margin:atuto;
+}
+li:hover {
+  border: red 2px solid;
+}
+  </style>
+</head>
+<body>
+  <table>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>5</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>8</td>
+      <td>9</td>
+    </tr>
+  </table>
+  
+  <section>
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+    <div>6</div>
+    <div>7</div>
+    <div>8</div>
+    <div>9</div>
+  </section>
+
+  <ul>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+    <li>6</li>
+    <li>7</li>
+    <li>8</li>
+    <li>9</li>
+  </ul>
+  
+</body>
+</html>

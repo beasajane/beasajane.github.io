@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+  background-color: rgba(0,0,0,0.06);
+  box-shadow: 0 0 1px red;
+}
+body {
+  margin: 0;
+}
+div {
+  width: 300px;
+  height: 300px;
+  position: relative;
+}
+div img {
+  position: absolute;
+  max-width: 100%;
+  max-height: 100%;
+  top: 0; right: 0; bottom: 0; left: 0;
+  margin: auto;
+}
+
+div ~ img {
+      width: 300px;
+  height: 300px;
+  object-fit: contain;
+}
+  </style>
+</head>
+<body>
+  <div>  
+    <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/c583f2edc613f1be20fa415910b13ce3.jpg?thumb=1&w=234&h=614" alt="mi">
+  </div>
+  <div>
+    <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/5d4298059889417157e8492750328492.jpg?w=632&h=340" alt="">  
+  </div>
+
+    <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/5d4298059889417157e8492750328492.jpg?w=632&h=340" alt="">
+   <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/c583f2edc613f1be20fa415910b13ce3.jpg?thumb=1&w=234&h=614" alt="mi">
+</body>
+</html>

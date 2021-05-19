@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+  <style>
+  * {
+    margin:0px;
+    background-color: rgba(0,0,0,0.06);
+    box-shadow: 0 0 1px red;
+  }
+  ul {
+    margin: 0;  
+    padding: 0;
+    list-style: none;
+  }
+  div > ul > li {
+    display: inline-block;
+  }
+  li {
+    white-space: nowrap;
+    position: relative;
+    background-color: #948568;
+  }
+  li:hover {
+    background-color: #239450;
+  }
+  ul.first ul {
+    position: absolute;
+    xdisplay: none;
+    visibility: hidden;
+    xoverflow: hidden;
+    xopacity: 0;
+    xheight: 0;
+    left: 0;
+    top: 100%
+  }
+  ul.first  ul  ul {
+    left: 100%;
+    top: 0;
+  }
+  li:hover > ul{
+    xdisplay: block;
+    xheight: 100px;
+    transition: 2s;
+    xopacity: 1;
+    visibility: visible;
+  }
+
+
+  div {
+    margin: 200px;
+    position: relative;
+  }
+  span {
+      display: block;
+      position: relative;
+      border: 2px solid darkcyan; 
+      width: 100px;
+      height: 100px;
+      background-image: url(https://beasajane.github.io/picture/web_heart_animation.png);
+      zoom: 0.2;
+    }
+    input:checked + label span{
+      transition: 1s steps(28);
+      background-position: -2800px 0;
+    }
+    input {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="menu">
+    <ul class="first">
+      <li>xue
+          <ul class="second">
+            <li>123d
+              <ul class="third">
+                <li>dkajs aklsd</li>
+                <li>dasd dd</li>
+                <li>ad adfas</li>
+                <li>asdf d
+                  <ul class="forth">
+                    <li>dkajs aklsd</li>
+                    <li>dasd dd</li>
+                    <li>ad adfas</li>
+                    <li>asdf d</li>
+                  </ul>
+                </li>
+              </ul>
+             </li>
+             <li>45sd af6</li>
+             <li>sdad
+              <ul>
+                <li>dkajs aklsd</li>
+                <li>dasd dd</li>
+                <li>ad adfas</li>
+                <li>asdf d
+                  <ul>
+                    <li>dkajs aklsd</li>
+                    <li>dasd dd</li>
+                    <li>ad adfas</li>
+                    <li>asdf d</li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      <li>xiao</li>
+      <li>jian</li>
+      <li>jie</li>
+    </ul>
+  </div>
+  <div>
+    <input type="checkbox" name="" id="heart">
+    <label for="heart"> <span></span> </label>
+  </div>
+</body>
+</html>
