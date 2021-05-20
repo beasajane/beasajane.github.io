@@ -27,6 +27,27 @@ span {
   top: 0; right: 0;
   margin: auto;
 }
+xspan {
+  xoverflow: hiddeen;
+  xoverflow: scoll;
+  overflow: auto;
+  border: 1px black;
+  xpadding: 10px;
+  margin: 20px;
+  xwidth: 20px;
+ xheight: 20px;
+}
+/* mdn 讲的很清楚 能够触发  BFC的是overflow不为visible的块级元素 */
+div {
+  xoverflow: hiddeen;
+  xoverflow: scoll;
+  xpadding: 10px;
+  margin: 20px;
+  border: 1px solid black;
+  xwidth: 20px;
+  xheight: 20px;
+}
+
   </style>
 </head>
 <body>
@@ -36,5 +57,8 @@ span {
   <div>
         <div>a Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore debitis optio expedita blanditiis saepe temporibus enim ea esse! Architecto et quam eos laboriosam iste, sapiente unde similique numquam amet fugit.</div>
   </div>
+  <div>
+    <span><span><span>10</span></span></span>
+</div>
 </body>
 </html>
