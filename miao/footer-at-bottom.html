@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    html{
+      height: 100%;
+    }
+    body {
+      margin: 0;
+      height: 100%;
+      position: relative;
+      display: flow-root;
+      color: rgb(51,51,51);
+      font-size: 16px;
+      font-weight: 300px;
+      line-height: 1.4;
+    }
+    div[a] {
+      margin: 50px auto;
+      max-width: 400px;
+      min-width: 210px;
+    }
+    h1 {
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    a {
+      color: rgb(51,122,183);
+      text-decoration: none;
+    }
+    a:hover {
+      color: rgb(35,82,124);
+      text-decoration: underline;
+    }
+    [b] {
+      background-color: rgb(176,176,176);
+      width: 100%;
+      height: 60px;
+      position: sticky;
+      top: calc(100vh - 60px);
+    }
+    footer {
+      height: 60px;
+      display: block;
+      max-width: 400px;
+      min-width: 210px;
+      margin: auto;
+      color: rgb(119,119,119)
+    }
+    span {
+      display: inline-block;
+      line-height: 60px;
+    }
+  </style>
+</head>
+<body>
+  <div a>
+    <h1>Sticky footer</h1>
+    <p>Pin a fixed-height footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS.</p>
+    <p>Use <a href="http://"> the sticky footer with a fixed navbar </a>if need be, too.</p>
+  </div>
+  <div b>
+  <footer>
+    <span> Place sticky footer content here.</span>
+  </footer>
+</div>
+</body>
+</html>

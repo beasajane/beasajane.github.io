@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <input type="text" autofocus>
+  <!-- 自动获得焦点 -->
+  <!-- <form >
+        action处理表单提交的 URL。会被某些元素的formaciton属性覆盖。
+        method浏览器使用这种 HTTP 方式来提交 表单. 
+          值由post get dialog等 查看mdn
+        target表示在提交表单之后，在哪里显示响应信息。
+          值：_self\_blank\_parent\_top  会被其他元素的formtarget覆盖
+        autocapitalize：控制文本格式。取值：none：禁用、sentences：自动对每句话首字母大写、words：自动对每个单词首字母大写、characters：自动大写所有的字母。
+        autocomplete：浏览器自动补全条目   on：开启、off：关闭
+      novalidate：此布尔属性表示提交表单时不需要验证表单。如果没有声明该属性，表示表单需要通过验证。
+     -->
+
+<!-- <button> 元素表示一个可点击的按钮，可以用在表单或文档其它需要使用简单标准按钮的地方。
+        常用属性： autofocus disabled form formtarget  
+        name type（属性值：submit、reset、button（如果不是向服务器提交数据，将type值设置为button）、
+        menu（打开一个指定的菜单））value(初始值)  -->
+
+<!-- <fieldset> 用于对表单中的控制元素进行分组（也包括 label 元素）
+  （内置<legend>元素作为fieldset标题。）
+            form   将该值设为一个 <form> 元素的 id 属性值以将 <fieldset> 设置成这个 <form> 的一部分。
+            disabled   不可编辑，也不会随着 <form> 一起提交。它们也不会接收到任何浏览器事件，如鼠标点击或与聚焦相关的事件。注意：<legend>元素 中的表单元素不会被禁用。
+            name   元素分组的名称
+          -->
+
+<!-- <select> 元素表示一个提供选项菜单的控件。
+          id 属性以将其与 <label> 元素关联在一起，提高可及 性（accessibility）。
+          name 属性表示提交到服务器的相关数据点的名字。
+          每个菜单选项由 <select> 中的一个 <option> 元素定义。
+ -->
+<!-- <option>  用于定义在 <select>,  <optgroup> 或 <datalist> 元素中包含的项。
+                <option> 可以在弹出窗口和 HTML 文档中的其他项目列表中表示菜单项。
+      value   其中包含被选中时需要提交到服务器的数据值。如果不含 value 属性，则 value 值默认为元素中的文本。
+      selected   这个布尔属性存在时表明这个选项是否一开始就被选中。
+      disabled   如果设置了这个布尔属性，则该选项不可选。
+      label   更短版本的选项 <option label="Volvo">Volvo (Latin for "I roll")</option> 显示的是Volvo
+      注意：datelist 历史记录
+ -->
+<!-- <optgroup> 为<select> 元素中的选项创建分组。
+            disabled
+            label 选项组的名字，浏览器用以在用户界面中标记选项。使用这个元素时必须加上这个属性。
+            <select>
+          <option selected hidden disabled>请选择</option>
+          <optgroup label="少年">
+            <option>1到6岁</option>
+            <option>7到12岁</option>
+          </optgroup>
+          <optgroup label="青年">
+            <option>13到15岁</option>
+            <option>16到19岁</option>
+          </optgroup>
+          <optgroup label="壮年">
+            <option>20岁到30岁</option>
+            <option>31到42岁</option>
+          </optgroup>
+        </select>
+ -->
+
+<!-- datalist  
+            select控件不一样的是，这个输入框除了可以选择选项外，我们还可以直接输入内容。不受选项的影响。
+            所以当你的输入框需要提供一些选项给用户选择，但又不限制用户的输入内容时，不可以用这个datalist+input的组合来实现了。（即，输入的表单内容必须是选项中的，否则无效）仅仅比select属性多了一种选择方式。
+   -->
+
+<!-- <input> 元素用于为基于Web的表单创建交互式控件，以便接受来自用户的数据。
+            <input>的工作方式相当程度上取决于type属性的值，不同的 type 值会在各自的参考页中进行介绍。如果未指定此属性，则采用的默认类型为 text。
+            type属性值
+                text 默认值。单行的文本区域，输入中的换行会被自动去除。
+                button 没有默认行为的按钮，上面显示 value 属性的值，默认为空。
+                submit 用于提交表单的按钮。
+                radio 单选按钮，允许在多个拥有相同 name 值的选项中选中其中一个。
+                checkbox 复选框，可设为选中或未选中。
+                  color（颜色控件）、date（输入的日期控件）、time（用于输入时间的控件，不包括时区）、datetime-local（输入的日期和时间控件）、month（输入年和月的控件，没有时区）、number（用于输入数字的控件。）week（用于输入以年和周数组成的日期，不带时区。）url（用于输入 URL 的控件。）、tel （用于输入电话号码的控件。）
+                file 让用户选择文件的控件。使用accept属性规定控件能选择的文件类型。
+                hidden 不显示的控件，其值仍会提交到服务器。
+                email 编辑邮箱地址的区域。
+                image 带图像的 submit 按钮。显示的图像由 src 属性规定。如果 src 缺失，alt 属性就会显示。
+                search 用于搜索字符串的单行文字区域。输入文本中的换行会被自动去除。在支持的浏览器中可能有一个删除按钮，用于清除整个区域。拥有动态键盘的设备上的回车图标会变成搜索图标。
+                reset 此按钮将表单的所有内容重置为默认值。不推荐。
+                range 此控件用于输入不需要精确的数字。控件是一个范围组件，默认值为正中间的值。
+
+            input属性
+            
+
+ -->
+
+<!-- <textarea> 元素表示一个多行纯文本编辑控件，当你希望用户输入一段相当长的、不限格式的文本。
+         * id属性 为了提高可访问性（accessibility）， 用于将 <textarea>与一个 <label> 关联的 id 属性。
+         * name 属性，用于设置随表单一同提交到服务器的相关数据的名字。
+         * rows 和 cols 属性，用于声明 <textarea> 的精确尺寸。这对于一致性非常有帮助，因为不同浏览器的默认值常常不一样。
+         * 位于开始标签和闭合标签之间的默认内容。<textarea> 不支持 value 属性。
+         * 其他常见属性，如* autocomplete, * autofocus, disabled, * placeholder, readonly, 和 * required(必须的）。
+   -->
+
+   
+   <!-- <input>元素的属性包括全局HTML属性和以下属性：
+
+   属性	相关的 type	描述
+   accept	file	用于规定文件上传控件中期望的文件类型
+   alt	image	image type的alt属性，是可访问性的要求。
+   autocomplete	所有	用于表单的自动填充功能
+
+
+   ** autofocus	所有	页面加载时自动聚焦到此表单控件
+
+
+   capture	file	文件上传控件中媒体拍摄的方式
+   
+   ** checked	radio, checkbox	用于控制控件是否被选中
+   
+   dirname	text, search	表单区域的一个名字，用于在提交表单时发送元素的方向性
+   disabled	所有	表单控件是否被禁用
+   
+   ** form	所有	将控件和一个form元素联系在一起
+   
+   formaction	image, submit	用于提交表单的URL
+   formenctype	image, submit	表单数据集的编码方式，用于表单提交
+   formmethod	image, submit	用于表单提交的HTTP方法 
+   formnovalidate	image, submit	提交表单时绕过对表单控件的验证
+   formtarget	image, submit	表单提交的浏览上下文
+   height	image	
+   和 <img> 的 height 属性相同；垂直方向
+   
+   list	绝大部分	自动填充选项的<datalist> 的id值
+   max	数字 type	最大值
+   maxlength	password, search, tel, text, url	value 的最大长度（最多字符数目）
+   min	数字 type	最小值
+   minlength	password, search, tel, text, url	value 的最小长度（最少字符数目）
+   multiple	email, file	布尔值。 是否允许多个值
+   ** name	所有	input表单控件的名字。以名字/值对的形式随表单一起提交
+   pattern	password, text, tel	匹配有效 value 的模式（pattern）
+   
+   
+   ** placeholder	password, search, tel, text, url	当表单控件为空时，控件中显示的内容（值为提示性文字）
+
+
+   readonly	绝大部分	布尔值。存在时表示控件的值不可编辑
+   required	绝大部分	布尔值。表示此值为必填项或者提交表单前必须先检查该值
+   size	email, password, tel, text	控件的大小
+   src	image	和<img> 的 src 属性一样；图像资源的地址
+   step	数字type	有效的递增值
+   type	所有	input表单控件的type
+   value	所有	表单控件的值。以名字/值对的形式随表单一起提交
+   width	image	与 <img> 的 width 属性一样 -->
+
+</body>
+</html>
