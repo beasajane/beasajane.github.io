@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      background-color: #0001;
+      box-shadow: 0 0 1px red;
+    }
+    [image] {
+      width: 30px;
+      height: 200px;
+      overflow: hidden;
+      position: relative;
+    }
+    /* img {
+      width: 300px;
+      height: 200px;
+      transition: 2s;
+    }
+    :target {
+      border: hotpink 3px dashed;
+      transition: 2s;
+    } */
+    img {
+      position: absolute;
+      width: 0px;
+      height: 0px;
+      top: 0; right: px; bottom: 0; left: 0;
+      margin: auto;
+      xfloat: left;
+      opacity: 0;
+      transition: 1.5;
+    }
+    :target {
+      transition: 1.5s;
+      opacity: 1;
+      width: 300px;
+      height: 200px;
+      top: 0; right: 0; bottom: 0; left: 0;
+      margin: auto;
+    }
+    x:not(:target) {
+
+    }
+
+  </style>
+</head>
+<body>
+  <div>
+    <a  href="#手表">手表</a>
+    <a  href="#笔记本">笔记本</a>
+    <a  href="#手机">手机</a>
+    <a href="">das</a>
+  </div>
+  <div image>
+    <img id="手表" src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/5d4298059889417157e8492750328492.jpg?w=632&h=340" alt="">
+    <img id="笔记本" src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/b30177d629bfbe2fb42251c1b8538f7b.jpg?w=632&h=340" alt="">
+    <img id="手机" src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/793913688bfaee26b755a0b0cc8575fd.jpg?w=632&h=340" alt="">
+  </div>
+
+  
+</body>
+</html>
