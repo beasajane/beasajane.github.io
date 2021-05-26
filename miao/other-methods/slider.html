@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    x* {
+      border: hotpink 1px solid;
+    }
+    [al] {
+      width: 400px;
+      height: 220px;
+      position: relative;
+    }
+    [images~="a"] {
+      width: 100px;
+      height: 200px;
+      overflow: hidden;
+      position: absolute;
+      top: 20px;
+      right: 100%;
+    }
+    [images~="a1"] {
+      left:0;
+      right: 200px;
+    }
+    [images~="a2"] {
+      left: 100px;
+      right: 100px;
+    }
+    [images~="a3"] {
+      left: 200px;
+      right: 0px;
+    }
+    img {
+      width: 300px;
+      height: 200px;
+      position: absolute;
+      top: 0;
+      left: 100%;
+      transition: 1s 1s;
+    }
+    input:nth-child(1):checked ~ div img:nth-child(1),
+    input:nth-child(2):checked ~ div img:nth-child(2),
+    input:nth-child(3):checked ~ div img:nth-child(3) {
+      left:0;
+      transition: 1s;
+      z-index: 5;
+    }
+  </style>
+</head>
+<body>
+  <div al>
+    <input type="radio" name="puture-1st" checked>
+    <input type="radio" name="puture-1st">
+    <input type="radio" name="puture-1st">
+    <div images="a a1">
+      <img src="https://img1.kakaku.k-img.com/images/maga/14119/img01.jpg" alt="">
+      <img src="https://img95.699pic.com/photo/50107/9563.jpg_wh860.jpg" alt="">
+      <img src="https://www.mariterra.jp/wp/wp-content/uploads/2020/08/beautiful-seascape_main.jpg" alt="">
+    </div>
+    <div images="a a2">
+      <img ima="" src="https://img1.kakaku.k-img.com/images/maga/14119/img01.jpg" alt="">
+      <img ima="" src="https://img95.699pic.com/photo/50107/9563.jpg_wh860.jpg" alt="">
+      <img ima="" src="https://www.mariterra.jp/wp/wp-content/uploads/2020/08/beautiful-seascape_main.jpg" alt="">
+    </div>
+    <div images="a a3">
+      <img src="https://img1.kakaku.k-img.com/images/maga/14119/img01.jpg" alt="">
+      <img src="https://img95.699pic.com/photo/50107/9563.jpg_wh860.jpg" alt="">
+      <img src="https://www.mariterra.jp/wp/wp-content/uploads/2020/08/beautiful-seascape_main.jpg" alt="">
+    </div>
+  </div>
+</body>
+</html>
