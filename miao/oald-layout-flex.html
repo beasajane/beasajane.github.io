@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      box-shadow: 0 0 1px red;
+    }
+    body {
+      margin: 0;
+    }
+    div[a] {
+      display: flex;
+      flex-direction: row;
+      height: 100vh;
+      width: 100%;
+    }
+    [a1] {
+      width: 200px;
+      height: 100vh;
+      order: 1;
+    }
+    [a2], [a3] {
+      flex-basis: 200px;
+      height: 100vh;
+      order: 3;
+    }
+    main[container] {
+      display: flex;
+      height: 100vh;
+      width: 10px;
+      flex-grow:1;
+      order: 2;
+    }
+    div[b] {
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      height: 100px;
+    }
+    main[sion] {
+      flex-grow: 1;
+      height: 1px;
+      flex-shrink: 1;
+      overflow: auto;
+    }
+
+  </style>
+</head>
+<body>
+  <div a>
+    <aside a1>oald</aside>
+    <aside a2>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores repellat, debitis ipsam, voluptates, dolores consequuntur nulla blanditiis labore necessitatibus vel voluptas. Doloremque maxime voluptate hic debitis adipisci amet, in sint!</aside>
+    <aside a3>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur asperiores, eum tempore, eligendi beatae nostrum cum animi vel unde deleniti optio a in quis illum! Ipsa cupiditate quas magni quo.</aside>
+    <main container>
+      <div b>
+        <header>top</header>
+        <main sion>bottom Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum, harum totam! Saepe incidunt accusamus velit nesciunt blanditiis placeat, consequatur vitae? Quidem soluta quibusdam sunt quam hic accusantium ut placeat dolorum?
+        Sint atque eveniet natus quas soluta architecto aliquam vero omnis quam, expedita a vel voluptates voluptatibus veritatis ut provident rem quia odit illo ipsum. Distinctio recusandae est in consequuntur veniam.
+        Quam aspernatur reiciendis rem ducimus ex. Nam ipsum possimus perferendis, accusamus ut repudiandae distinctio dolor fuga sunt laboriosam temporibus blanditiis consequatur molestiae voluptate aspernatur quisquam, inventore omnis animi autem nostrum.
+        Odit officia rerum non laudantium? Beatae porro consectetur saepe assumenda aut temporibus unde et molestiae! Error sapiente hic quis, repellendus ex eveniet consequatur odio quibusdam! Ipsa quisquam a repellat tempora!
+        Minima nam illo ex cumque tenetur, culpa aliquam labore libero, ea, eum inventore eius itaque obcaecati nesciunt quos laborum aliquid repellat dolorem voluptas minus repellendus ab dolorum tempore! Similique, vel?
+        Adipisci voluptates vel tempora quae obcaecati architecto quibusdam laboriosam praesentium, fugiat nostrum a voluptate earum saepe ab dolor delectus placeat suscipit deserunt corrupti assumenda quisquam aut debitis voluptas officiis. Totam.
+        Iure dignissimos quo hic laudantium, ut amet totam veniam cupiditate repellendus saepe distinctio dolores delectus accusantium doloremque vel culpa quas laborum exercitationem sint modi et quae eum adipisci voluptatem! Pariatur!
+        Id, explicabo corrupti neque autem, nulla libero quidem illo assumenda inventore, error excepturi hic voluptas beatae similique corporis reiciendis officiis vero provident? Unde, mollitia? Dolorem iste autem ipsa fugiat! Explicabo?
+        Accusamus, obcaecati? Veniam similique tenetur dicta quia. Tenetur exercitationem officia sequi ad beatae similique pariatur amet cupiditate sit molestias est, optio animi dolorem voluptate reiciendis molestiae totam aliquid, perferendis consectetur.
+        Consequuntur, praesentium enim? Praesentium tenetur voluptates odit exercitationem numquam quos, iste delectus tempore veniam deleniti quod cupiditate iusto. Sit consequatur neque nobis expedita ipsa assumenda? Modi temporibus praesentium quisquam sequi.</main>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
