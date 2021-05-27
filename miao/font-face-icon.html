@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    @font-face {
+  font-family: "xiaomi-icon";
+  src: url(../fonts/xiaomi-icon-font.woff) format("woff");
+}
+.icon {
+  xfont-family: "xiaomi-icon";
+  display: inline-block;
+  font: normal normal normal 14px/1 "xiaomi-icon";
+  font-size: inherit;
+  box-sizing: border-box;
+}
+.icon-bgi {
+  color: red;
+  background-image: linear-gradient(#039, #906, #02834597);
+}
+.icon-2x::before {
+  font-size: 2em;
+}
+.icon-5x::before {
+  font-size: 5em;
+}
+.icon:hover::before {
+  background-color: grey;
+}
+.icon:hover::before {
+  font-size: 1.1;
+}
+
+.icon-tool::before {
+  content: "\e634";
+}
+.icon-n7::before {
+  content: "\e635";
+}
+.icon-n15::before {
+  content: "\e636";
+}
+.icon-package::before {
+  content:"\e638";
+}
+.icon-coordinate::before {
+  content: "\e637";
+}
+  </style>
+</head>
+<body>
+  <span class="icon icon-tool icon-bgi icon-5x"></span> 维修
+  <span class="icon icon-n7 icon-5x"></span>7
+  <span class="icon icon-n15 icon-5x"></span>15
+  <span class="icon icon-package icon-5x"></span>打包
+  <span class="icon icon-coordinate icon-5x"></span>定位
+</body>
+</html>
