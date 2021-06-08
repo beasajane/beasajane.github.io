@@ -21,7 +21,7 @@
   var a
   var b
   var c
-  console.log((+prompt('a', "正负一万以内的数字") + +prompt("b", "一万以内的数字")) * +prompt('c', "正负一万之间的整数"))6578
+  console.log((+prompt('a', "正负一万以内的数字") + +prompt("b", "一万以内的数字")) * +prompt('c', "正负一万之间的整数"))
     
   </script>
   <script id="ch0103/03" type="none">
@@ -32,7 +32,6 @@
     b = +prompt('b', "给b赋值一个整数")
     c = +prompt('c', "给c赋值一个整数")
     console.log( (a + b) / c)
-    console.log()
   </script>
   <script id="ch0103/04" type="none">
     var a
@@ -43,7 +42,7 @@
     a = +prompt("a", "除数")
     x = tatal % a
     y = (tatal - x) / a
-    console.log('整数商为' + x, '余数为' + y)
+    console.log(y, x)
   </script>
   <script id="ch0103/05" type="none">
     var a
@@ -59,22 +58,21 @@
     var b
     a = +prompt("a", '确诊人数')
     b = +prompt("b", "死亡人数")
-    console.log((b / a) + "%")
+    console.log((b / a * 100).toFixed + "%")
   </script>
-  <script id="ch0103/07" type="none">
+  <script id="ch0103/07" >
     var a
     var b
     var c
     var d
     var x
-    var y
     a = +prompt("a", "系数1")
     b = +prompt("b", "系数2")
     c = +prompt("c", "系数3")
     d = +prompt("d", "系数4")
     x = +prompt("x", "一元三次方程的赋值3")
-    y = a * x * x *x + b * x * x + c * x + d
-    console.log(y)
+     
+    console.log((a * x * x *x + b * x * x + c * x + d).toFixed(7))
   </script>
   <script id="ch0103/08" type="none">
     var f 
