@@ -98,7 +98,7 @@
     d = 2 * r
     c = 2 * pi * r
     s = pi + r * r
-    console.log("直径d=" + d.toFixed(4), "周长c=" + c.toFixed(4), '面积s=' + s.toFixed(4))
+    console.log(d.toFixed(4),c.toFixed(4),s.toFixed(4))
   </script>
   <script id="ch0103/10" type="none">
     var r1
@@ -116,16 +116,17 @@
     a = +prompt('a', "输入浮点数a")
     b = +prompt('b', '输入浮点数b < a')
     r = a % b 
-    console.log(r)
+    console.log(r.toFixed(4))
   </script>
   <script id="ch0103/12" type="none">
     var V
     var r
     var pi
     pi = 3.14
-    r = +prompt('r', '输入球体半径m')
+    r = +prompt('r')
     V = (4 / 3) * pi * r * r * r
-    console.log(V.toFixed(2) + '立方米')
+    console.log(V.toFixed(2))
+    <!-- (4/3*3.14*r*r*r).toFixed(2) -->
   </script>
   <script id="ch0103/13"  type="none">
     var n
@@ -137,7 +138,7 @@
     t =((n - h * 100) - ((n - h * 100) % 10)) / 10
     s = (n - h * 100) % 10
     console.log(s * 100 + t * 10 + h)
-    console.log("该数值的反数是" + s + t + h)
+    console.log(s + t + h)
   </script>
   <script id="ch0103/14" type="none">
     var h
