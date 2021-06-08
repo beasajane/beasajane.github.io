@@ -33,10 +33,12 @@
     var a
     var b
     var c
+    var d
     a = +prompt("a")
     b = +prompt('b')
     c = +prompt('c')
-    console.log( (a + b) / c)
+    d =  (a + b) / c
+    console.log(d)
   </script>
   <script id="ch0103/04" type="none">
     var a
@@ -63,7 +65,7 @@
     var b
     a = +prompt("a", '确诊人数')
     b = +prompt("b", "死亡人数")
-    console.log((b / a * 100).toFixed + "%")
+    console.log((b / a * 100).toFixed(3) + "%")
   </script>
   <script id="ch0103/07" >
     var a
@@ -71,13 +73,12 @@
     var c
     var d
     var x
-    a = +prompt("a", "系数1")
-    b = +prompt("b", "系数2")
-    c = +prompt("c", "系数3")
-    d = +prompt("d", "系数4")
-    x = +prompt("x", "一元三次方程的赋值3")
-     
-    console.log((a * x * x *x + b * x * x + c * x + d).toFixed(7))
+    a = +prompt("a")
+    b = +prompt("b")
+    c = +prompt("c")
+    d = +prompt("d")
+    x = +prompt("x")
+    console.log((a * x * x * x + b * x * x + c * x + d).toFixed(7))
   </script>
   <script id="ch0103/08" type="none">
     var f 
