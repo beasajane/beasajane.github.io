@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script type="none">
+    var A , B, C
+    A = +prompt('A', 'numb')
+    B = +prompt('B', 'numb')
+    C = A + B
+    console.log( C )
+  </script>
+  
+  <script id="ch0103/02" type="none">
+  var a, b, c
+  console.log((+prompt('a', "正负一万以内的数字") + +prompt("b", "一万以内的数字")) * +prompt('c', "正负一万之间的整数"))6578
+    
+  </script>
+  <script id="ch0103/03" type="none">
+    var a, b, c
+    a = +prompt("a", "输入一个整数");
+    b = +prompt('b', "给b赋值一个整数")
+    c = +prompt('c', "给c赋值一个整数")
+    console.log( (a + b) / c)
+    console.log()
+  </script>
+  <script id="ch0103/04" >
+    
+  </script>
+  <script id="ch0103/01" type="none">
+    var a, tatal, x, y
+    tatal = +prompt("tatal", '被除数')
+    a = +prompt("a", "除数")
+    x = tatal % a
+    y = (tatal - x) / a
+    console.log('整数商为' + x, '余数为' + y)
+  </script>
+  <script id="ch0103/05" type="none">
+    var a, b, c
+    a = +prompt("分子", a)
+    b = +prompt("分母", b)
+    c = a / b
+    console.log(c.toFixed(9))
+  </script>
+  <script id="ch0103/06" type="none">
+    var a, b
+    a = +prompt("a", '确诊人数')
+    b = +prompt("b", "死亡人数")
+    console.log((b / a) + "%")
+  </script>
+  <script id="ch0103/07" type="none">
+    var a, b, c, d, x, y
+    a = +prompt("a", "系数1")
+    b = +prompt("b", "系数2")
+    c = +prompt("c", "系数3")
+    d = +prompt("d", "系数4")
+    x = +prompt("x", "一元三次方程的赋值3")
+    y = a * x * x *x + b * x * x + c * x + d
+    console.log(y)
+  </script>
+  <script id="ch0103/08" type="none">
+    var f, c
+    f = +prompt("f", "输入当前的华氏温度")
+    c = 5 * (f - 32) / 9
+    console.log( c.toFixed(5))
+  </script>
+  <script id="ch0103/09" type="none">
+    var r, d, c, s , pi 
+    r = +prompt("输入半径长度", "0 < r <= 10,000")
+    pi = 3.14159267
+    d = 2 * r
+    c = 2 * pi * r
+    s = pi + r * r
+    console.log("直径d=" + d.toFixed(4), "周长c=" + c.toFixed(4), '面积s=' + s.toFixed(4))
+  </script>
+  <script id="ch0103/10" type="none">
+    var r1, r2, R
+    r1 = +prompt("r1", "输入电阻1的大小")
+    r2 = +prompt("r2", "输入电阻2的大小")
+    R = 1 / (1 / r1 + 1 / r2)
+    console.log(R.toFixed(2))
+  </script>
+  <script id="ch0103/11" type="none">
+    var a, b, r
+    a = +prompt('a', "输入浮点数a")
+    b = +prompt('b', '输入浮点数b < a')
+    r = a % b 
+    console.log(r)
+  </script>
+  <script id="ch0103/12" type="none">
+    var V, r, pi
+    pi = 3.14
+    r = +prompt('r', '输入球体半径m')
+    V = (4 / 3) * pi * r * r * r
+    console.log(V.toFixed(2) + '立方米')
+  </script>
+  <script id="ch0103/13"  type="none">
+    var n, h, t, s,
+    n = +prompt('n', '输入一个三位数')
+    h = (n - (n % 100)) / 100
+    t =((n - h * 100) - ((n - h * 100) % 10)) / 10
+    s = (n - h * 100) % 10
+    console.log(s * 100 + t * 10 + h)
+    console.log("该数值的反数是" + s + t + h)
+  </script>
+  <script id="ch0103/14" type="none">
+    var h, r, pi, n, v
+    v = 20 * 1000
+    pi = 3.14
+    h = +prompt("h", '输入圆桶的高度')
+    r = +prompt('r', '输入圆桶的半径')
+    n = v / ( pi  * r * r * h)
+    console.log("至少要喝", (n - (n % 1)) + 1,"桶水")
+
+  </script>
+  <script id="ch0103/15" type='none'>
+    var x, y, n, m
+    n = +prompt("n", '输入苹果总数量')
+    x = +prompt('x', '输入虫子几个小时吃掉一个苹果')
+    y = +prompt('y', '输入经过多长时间发现虫子')
+    m = n - ((y - y % x) / x + 1)
+    console.log('还剩', m, '个完整的苹果')
+  </script>
+  <script id="ch0103/16" type="勾三股四">
+    var xa, ya, xb, yb, LAB
+    xa = +prompt("xa", '输入坐标a点的x轴方向大小')
+    ya = +prompt('ya', '输入坐标a点的y轴方向大小')
+    xb = +prompt('xb', "输入坐标b点的x轴方向大小")
+    yb = +prompt('yb', '输入坐标b点y轴方向的大小')
+    LAB = Math.sqrt((xa - xb) * (xa - xb) + (ya -yb) * (ya -yb))
+    console.log(LAB)
+  </script>
+  <script id="ch0103/01" >
+    
+  </script>
+  <script id="ch0103/18"  type="等差数列">
+    var a1, a2, n, an
+    a1 = +prompt("a1", '输入等差数列第一项')
+    a2 = +prompt('a2', '输入等差数列第二项')
+    n = +prompt('n', '输入该等差数列的项数')
+    an = (a2 - a1) * n
+    console.log(an)
+  </script>
+  <script id="ch0103/19" type="A * B">
+    var A, B
+    A = +prompt("A", "输入A值，1 <= A")
+    B = +prompt('B', "输入B值， B <= 50000")
+    console.log(A * B)
+  </script>
+  <script id="ch0103/01" >
+    var n
+    n = +prompt('n', '输入n的值，n为2的幂，0 <= n < 31')
+    console.log(2 ** n)
+  </script>
+</body>
+</html>
