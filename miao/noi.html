@@ -7,8 +7,12 @@
   <title>Document</title>
 </head>
 <body>
-  <script type="none">
-    var A , B, C
+  <script id="ch0103/01" type="none">
+    var A 
+    va
+    var B
+    va
+    var C
     A = +prompt('A', 'numb')
     B = +prompt('B', 'numb')
     C = A + B
@@ -21,18 +25,20 @@
     
   </script>
   <script id="ch0103/03" type="none">
-    var a, b, c
+    var a
+    var b
+    var c
     a = +prompt("a", "输入一个整数");
     b = +prompt('b', "给b赋值一个整数")
     c = +prompt('c', "给c赋值一个整数")
     console.log( (a + b) / c)
     console.log()
   </script>
-  <script id="ch0103/04" >
-    
-  </script>
-  <script id="ch0103/01" type="none">
-    var a, tatal, x, y
+  <script id="ch0103/04" type="none">
+    var a
+    var tatal
+    var x
+    var y
     tatal = +prompt("tatal", '被除数')
     a = +prompt("a", "除数")
     x = tatal % a
@@ -40,20 +46,28 @@
     console.log('整数商为' + x, '余数为' + y)
   </script>
   <script id="ch0103/05" type="none">
-    var a, b, c
+    var a
+    var b
+    var c
     a = +prompt("分子", a)
     b = +prompt("分母", b)
     c = a / b
     console.log(c.toFixed(9))
   </script>
   <script id="ch0103/06" type="none">
-    var a, b
+    var a
+    var b
     a = +prompt("a", '确诊人数')
     b = +prompt("b", "死亡人数")
     console.log((b / a) + "%")
   </script>
   <script id="ch0103/07" type="none">
-    var a, b, c, d, x, y
+    var a
+    var b
+    var c
+    var d
+    var x
+    var y
     a = +prompt("a", "系数1")
     b = +prompt("b", "系数2")
     c = +prompt("c", "系数3")
@@ -63,13 +77,18 @@
     console.log(y)
   </script>
   <script id="ch0103/08" type="none">
-    var f, c
+    var f 
+    var c
     f = +prompt("f", "输入当前的华氏温度")
     c = 5 * (f - 32) / 9
     console.log( c.toFixed(5))
   </script>
   <script id="ch0103/09" type="none">
-    var r, d, c, s , pi 
+    var r
+    var d
+    var c
+    var s 
+    var pi 
     r = +prompt("输入半径长度", "0 < r <= 10,000")
     pi = 3.14159267
     d = 2 * r
@@ -78,28 +97,37 @@
     console.log("直径d=" + d.toFixed(4), "周长c=" + c.toFixed(4), '面积s=' + s.toFixed(4))
   </script>
   <script id="ch0103/10" type="none">
-    var r1, r2, R
+    var r1
+    var r2
+    var R
     r1 = +prompt("r1", "输入电阻1的大小")
     r2 = +prompt("r2", "输入电阻2的大小")
     R = 1 / (1 / r1 + 1 / r2)
     console.log(R.toFixed(2))
   </script>
   <script id="ch0103/11" type="none">
-    var a, b, r
+    var a
+    var b
+    var r
     a = +prompt('a', "输入浮点数a")
     b = +prompt('b', '输入浮点数b < a')
     r = a % b 
     console.log(r)
   </script>
   <script id="ch0103/12" type="none">
-    var V, r, pi
+    var V
+    var r
+    var pi
     pi = 3.14
     r = +prompt('r', '输入球体半径m')
     V = (4 / 3) * pi * r * r * r
     console.log(V.toFixed(2) + '立方米')
   </script>
   <script id="ch0103/13"  type="none">
-    var n, h, t, s,
+    var n
+    var h
+    var t
+    var s
     n = +prompt('n', '输入一个三位数')
     h = (n - (n % 100)) / 100
     t =((n - h * 100) - ((n - h * 100) % 10)) / 10
@@ -108,7 +136,11 @@
     console.log("该数值的反数是" + s + t + h)
   </script>
   <script id="ch0103/14" type="none">
-    var h, r, pi, n, v
+    var h
+    var r
+    var pi
+    var n
+    var v
     v = 20 * 1000
     pi = 3.14
     h = +prompt("h", '输入圆桶的高度')
@@ -118,7 +150,10 @@
 
   </script>
   <script id="ch0103/15" type='none'>
-    var x, y, n, m
+    var x
+    var y
+    var n
+    var m
     n = +prompt("n", '输入苹果总数量')
     x = +prompt('x', '输入虫子几个小时吃掉一个苹果')
     y = +prompt('y', '输入经过多长时间发现虫子')
@@ -126,7 +161,11 @@
     console.log('还剩', m, '个完整的苹果')
   </script>
   <script id="ch0103/16" type="勾三股四">
-    var xa, ya, xb, yb, LAB
+    var xa
+    var ya
+    var xb
+    var yb
+    var LAB
     xa = +prompt("xa", '输入坐标a点的x轴方向大小')
     ya = +prompt('ya', '输入坐标a点的y轴方向大小')
     xb = +prompt('xb', "输入坐标b点的x轴方向大小")
@@ -138,7 +177,10 @@
     
   </script>
   <script id="ch0103/18"  type="等差数列">
-    var a1, a2, n, an
+    var a1
+    var a2
+    var n
+    var an
     a1 = +prompt("a1", '输入等差数列第一项')
     a2 = +prompt('a2', '输入等差数列第二项')
     n = +prompt('n', '输入该等差数列的项数')
@@ -146,7 +188,8 @@
     console.log(an)
   </script>
   <script id="ch0103/19" type="A * B">
-    var A, B
+    var A
+    var B
     A = +prompt("A", "输入A值，1 <= A")
     B = +prompt('B', "输入B值， B <= 50000")
     console.log(A * B)
