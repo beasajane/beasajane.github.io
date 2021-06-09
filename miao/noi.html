@@ -231,9 +231,7 @@
   <script id="ch0104/04" type="none">
    var char = prompt("输入一个字符", '判断是不是奇数')
    // A 65 YES 
-  // if (n % 2 == 0) console.log('YES')
-  // else console.log("NO")
-  console.log(char.charCodeAt() % 2 === 1 ?  "Yes" : "NO")
+  console.log(char.charCodeAt() % 2 === 1 ? "YES" : "NO")
   </script>
   <script id="ch0104/05" type="none">
     var x = Number(prompt('第一个值'))
@@ -257,6 +255,87 @@
     var n = +prompt('输入一个整数')
     if (n % 3 === 0 && n % 5 === 0) console.log('YES')
     else console.log('NO')
+  </script>
+  <script id="ch0104/09" type="判断能够被3， 5， 7整除">
+    var n = prompt('输入一个整数') - 0
+    if (n % 3 == 0 && n % 5 == 0 && n % 7 == 0) console.log(3, 5, 7)
+    else if (n % 3 == 0 && n % 5 == 0) console.log(3, 5)
+    else if (n % 3 == 0 && n % 7 == 0) console.log(3, 7)
+    else if (n % 5 == 0 && n % 7 == 0) console.log(5, 7)
+    else if (n % 3 == 0) console.log(3)
+    else if (n % 5 == 0) console.log(5)
+    else if (n % 7 == 0) console.log(7)
+    else console.log('n')
+  </script>
+  <script id="ch0104/10" type="两门课中尤其仅有一颗及格">
+    var mathe = prompt('输入数学成绩'), langu = prompt('输入语文成绩')
+    if (mathe < 60 || langu < 60) 
+      if (mathe > 60 || langu > 60) console.log('1')
+      else console.log("0")
+    else console.log('0')
+  </script>
+  <script id="ch0104/11" type="判断能否赴约">
+    var date = +prompt("输入星期几出去", 'number')
+    if (date != 1 || date != 3 || date != 5) console.log('YES')
+    else console.log("NO")
+  </script>
+  <script id="ch0104/12" type="判断骑行还是步行快">
+    var n = +prompt('输入要行走的距离')
+    var bt = n / 3 + 50
+    var wt = n / 1.2
+    if (bt > wt) console.log('Walk')
+    else if (bt < wt) console.log("Bike")
+    else console.log("All")
+  </script>
+  <script id="ch0104/13" type="分段函数">
+    var N = +prompt("输入一个浮点数", "0 <= N < 20")
+    if (0 <= N < 5) console.log((-N + 2.5).toFixed(3))
+    else if (5 <= N < 10) console.log((2 - 1.5 * (N - 3) * (N - 3)).toFixed(3))
+    else console.log((N / 2 - 1.5).toFixed(3))
+  </script>
+  <script id="ch0104/14" type="计算邮资">
+    var we = +prompt('输入邮件的重量')
+    var ex = prompt("是否加急", "y（加急）/ n（不加急）")
+    if (ex = "y") 
+    if (we <= 1000) console.log(8 + 5)
+    else console.log(Math.ceil((we - 1000) / 500) * 4  + 8 + 5)
+    else
+    if (we <= 1000) console.log(8)
+    else console.log(Math.ceil((we - 1000) / 500) * 4  + 8)
+  </script>
+  <script id="ch0104/15" type="输出三个数中最大的">
+    var n1 = +prompt('输入第一个整数'), n2 = +prompt('输入第二个整数'), n3 = +prompt('输入第三个整数')
+    if (n1 > n2 && n1 > n3) console.log(n1)
+    else if (n2 > n1 && n2 > n3) console.log(n2)
+    else console.log(n3)
+  </script>
+  <script id="ch0104/16" type="三角形判断">
+    var a = +prompt('输入第一个边长'), b = +prompt('输入第二个边长'), c = +prompt('输入第三个边长')
+    //排除法，排掉能确定的
+    if (a + b < c) console.log('no')
+    else if (a + c < b) console.log('no')
+    else if (b + c < a) console.log('no')
+    else console.log('yes')
+  </script>
+  <script id="ch0104/17" type="判断闰年">
+    var a = +prompt('输入某一年')
+    if (a % 400 == 0) console.log('N')
+    else if (a % 4 == 0) console.log("Y")
+    else console.log('N')
+  </script>
+  <script  id="ch0104/18" type="判断点是否再正方形内">
+    var x = +prompt('输入点的x轴坐标'), y = +prompt('输入点的y轴坐标')
+    if (x < 0) x = -x
+    if (y < 0) y = -y
+    if (x > 1 || y > 1) console.log('no')
+    else console.log('yes')
+  </script>
+  <script>
+    var a = +prompt("输入第一个数"), b = +prompt("输入第二个数"), c = prompt('输入运算符')
+    console.log("%s%s%s", a,c,b)
+  </script>
+  <script>
+    var a = +prompt('输入系数a'), b = +prompt('输入系数b'), c = +prompt('输入系数c')
   </script>
 </body>
 </html>
