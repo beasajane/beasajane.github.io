@@ -67,7 +67,7 @@
     b = +prompt("b", "死亡人数")
     console.log((b / a * 100).toFixed(3) + "%")
   </script>
-  <script id="ch0103/07" >
+  <script id="ch0103/07" type="none">
     var a
     var b
     var c
@@ -179,7 +179,7 @@
     l = Math.sqrt((xa - xb) * (xa - xb) + (ya - yb) * (ya - yb))
     console.log(l.toFixed(3))
   </script>
-  <script id="ch0103/17" >
+  <script id="ch0103/17" type="none">
     var ax, ay, bx, by, cx,cy,d
     ax = prompt("ax", "输入a点x轴方向坐标")
     ay = prompt("ay", "输入a点y轴方向坐标")
@@ -191,13 +191,10 @@
     console.log(d.toFixed(2))
   </script>
   <script id="ch0103/18"  type="等差数列">
-    var a1
-    var a2
-    var n
+    var a1 = Number(prompt("a1", '输入等差数列第一项'))
+    var a2 = Number(prompt('a2', '输入等差数列第二项'))
+    var n = Number(prompt('n', '输入该等差数列的项数'))
     var an
-    a1 = +prompt("a1", '输入等差数列第一项')
-    a2 = +prompt('a2', '输入等差数列第二项')
-    n = +prompt('n', '输入该等差数列的项数')
     an = (a2 - a1) * (n - 1) + a1
     console.log(an)
   </script>
@@ -212,6 +209,54 @@
     var n
     n = +prompt('n', '输入n的值，n为2的幂，0 <= n < 31')
     console.log(2 ** n)
+    <!-- Math.pow(2,n) -->
+  </script>
+  <script id="ch0104/01" type="noi">
+  var N = Number(prompt('输入一个整数'))
+  if (N >= 0) 
+    if (N > 0) console.log("positive") 
+    else console.log('zero')
+  else console.log('negative')
+  </script>
+  <script id="ch0104/02" type="noi">
+  var f = +prompt('输入一个浮点数')
+  if (f < 0) f = -f
+  console.log(f.toFixed(2))
+  </script>
+  <script id="ch0104/03" type="none">
+  var n = prompt("输入一个大于零的正整数") - 0
+  if (n % 2 === 0) console.log('even')
+  else if (n % 2 === 1) console.log('odd')
+  </script>
+  <script id="ch0104/04" type="none">
+   var char = prompt("输入一个字符", '判断是不是奇数')
+   // A 65 YES 
+  // if (n % 2 == 0) console.log('YES')
+  // else console.log("NO")
+  console.log(char.charCodeAt() % 2 === 1 ?  "Yes" : "NO")
+  </script>
+  <script id="ch0104/05" type="none">
+    var x = Number(prompt('第一个值'))
+    var y = +prompt('输入第二个值')
+    if (x > y) console.log(">")
+    else if (x = y) console.log("=")
+    else console.log("<")
+  </script>
+  <script id="ch0104/06" type="判断是否为两位数">
+    var n = Number(prompt("输入一个三位数（包含）以内的数"))
+    <!-- console.log(10 <= n < 100 ? "1" : "0") -->
+    if (10 <= n < 100) console.log('1')
+    else console.log('0')
+  </script>
+  <script id="ch0104/07" type="是否中奖">
+    var luckly = prompt('输入幸运瓶盖的数量') - 0, encourage = prompt('输入鼓励瓶盖的数量') - 0
+    if (luckly / 10 > 1 || encourage / 20 > 1) console.log('1')
+    else console.log('0')
+  </script>
+  <script id="ch0104/08" type="判断一个数能否同时被3和5整除">
+    var n = +prompt('输入一个整数')
+    if (n % 3 === 0 && n % 5 === 0) console.log('YES')
+    else console.log('NO')
   </script>
 </body>
 </html>
