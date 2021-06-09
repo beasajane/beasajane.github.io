@@ -118,6 +118,7 @@
     b = +prompt('b', '输入浮点数b < a')
     r = a % b 
     console.log(r.toFixed(4))
+    // 浮点数 不精确
   </script>
   <script id="ch0103/12" type="none">
     var V
@@ -130,17 +131,14 @@
     <!-- (4/3*3.14*r*r*r).toFixed(2) -->
   </script>
   <script id="ch0103/13"  type="none">
-    var n
-    var h
-    var t
-    var s
-    n = +prompt('n', '输入一个三位数')
-    h = (n - (n % 100)) / 100
+    var n = +prompt('n', '输入一个三位数')
+    var h = (n - (n % 100)) / 100
+    var t = (n % 100 - n % 10) / 10
+    var s = n  % 10
     <!-- t =((n - h * 100) - ((n - h * 100) % 10)) / 10 -->
-    t = (n % 100 - n % 10) / 10
     <!-- s = (n - h * 100) % 10 -->
-    s = n  % 10
-    console.log(s * 100 + t * 10 + h)
+    <!-- console.log(s * 100 + t * 10 + h) -->
+    console.log(String(s) + t + h)
   </script>
   <script id="ch0103/14" type="none">
     var h
