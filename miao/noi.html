@@ -330,12 +330,32 @@
     if (x > 1 || y > 1) console.log('no')
     else console.log('yes')
   </script>
-  <script>
+  <script id="ch0104/19" type="简单计算器">
     var a = +prompt("输入第一个数"), b = +prompt("输入第二个数"), c = prompt('输入运算符')
-    console.log("%s%s%s", a,c,b)
+    if (b == 0) console.log("Divided by zero!")
+    else if (c == "+") console.log(a + b)
+    else if (c == '-') console.log(a - b)
+    else if (c == '*') console.log(a * b)
+    else if (c == '/') console.log(a / b)
+    else console.log('Invalid operator!')
   </script>
-  <script>
+  <script id="ch0104/20" type="求一元二次方程的根">
     var a = +prompt('输入系数a'), b = +prompt('输入系数b'), c = +prompt('输入系数c')
+    var x1 = (-b + Math.sqrt(b * b - 4 * a * c)) / (2 * a) 
+    var x2 = (-b - Math.sqrt(b * b - 4 * a * c))/ (2 * a) 
+    var real = -b / (2 * a), ima = Math.sqrt(4 * a * c - b * b) / (2 * a)
+    if(b * b == 4 * a * c) console.log("x1=x2=%s", x1)
+    if(b * b > 4 * a * c) console.log("x1=%s,x2=%s", x1,x2)
+    if(b * b < 4 * a * c) console.log("x1=%s+%si;x2=%s+%si", real.toFixed(5), ima.toFixed(5),real.toFixed(5), ima.toFixed(5))
+  </script>
+  <!--  变量可以为 中文 -->
+  <script id="ch0104/21" >
+  var n = +prompt("苹果数量")
+  var x = +prompt("虫子几个小时吃掉一个苹果")
+  var y = +prompt('经过了几个小时，发现虫子')
+  if (y <= 0) console.log(n)
+  else if ((y / x) > n ) console.log("0")
+  else console.log(Math.floor(n - (y / x)))
   </script>
 </body>
 </html>
