@@ -37,7 +37,7 @@
     a = +prompt("a")
     b = +prompt('b')
     c = +prompt('c')
-    d =  (a + b) / c
+    d = (Math.floor((a + b)  / c))
     console.log(d)
   </script>
   <script id="ch0103/04" type="none">
@@ -73,11 +73,12 @@
     var c
     var d
     var x
+    x = +prompt("x")
     a = +prompt("a")
     b = +prompt("b")
     c = +prompt("c")
     d = +prompt("d")
-    x = +prompt("x")
+    // x = +prompt("x") 顺序也要一样
     console.log((a * x * x * x + b * x * x + c * x + d).toFixed(7))
   </script>
   <script id="ch0103/08" type="none">
@@ -94,7 +95,7 @@
     var s 
     var pi 
     r = +prompt("输入半径长度", "0 < r <= 10,000")
-    pi = 3.14159267
+    pi = 3.14159
     d = 2 * r
     c = 2 * pi * r
     s = pi + r * r
@@ -135,10 +136,11 @@
     var s
     n = +prompt('n', '输入一个三位数')
     h = (n - (n % 100)) / 100
-    t =((n - h * 100) - ((n - h * 100) % 10)) / 10
-    s = (n - h * 100) % 10
+    <!-- t =((n - h * 100) - ((n - h * 100) % 10)) / 10 -->
+    t = (n % 100 - n % 10) / 10
+    <!-- s = (n - h * 100) % 10 -->
+    s = n  % 10
     console.log(s * 100 + t * 10 + h)
-    console.log(s + t + h)
   </script>
   <script id="ch0103/14" type="none">
     var h
@@ -151,8 +153,8 @@
     h = +prompt("h", '输入圆桶的高度')
     r = +prompt('r', '输入圆桶的半径')
     n = v / ( pi  * r * r * h)
-    console.log((n - (n % 1)) + 1)
-
+    <!-- console.log((n - (n % 1)) + 1) -->
+    console.log(Math.ceil(n))
   </script>
   <script id="ch0103/15" type='none'>
     var x
@@ -162,7 +164,8 @@
     n = +prompt("n", '输入苹果总数量')
     x = +prompt('x', '输入虫子几个小时吃掉一个苹果')
     y = +prompt('y', '输入经过多长时间发现虫子')
-    m = n - ((y - y % x) / x + 1)
+    m = n - Math.ceil(y / x)
+    <!-- m = Math.floor(n - (y / x)) -->
     console.log(m)
   </script>
   <script id="ch0103/16" type="勾三股四">
@@ -170,16 +173,24 @@
     var ya
     var xb
     var yb
-    var LAB
+    var l
     xa = +prompt("xa", '输入坐标a点的x轴方向大小')
     ya = +prompt('ya', '输入坐标a点的y轴方向大小')
     xb = +prompt('xb', "输入坐标b点的x轴方向大小")
     yb = +prompt('yb', '输入坐标b点y轴方向的大小')
-    LAB = Math.sqrt((xa - xb) * (xa - xb) + (ya -yb) * (ya -yb))
-    console.log(LAB)
+    l = Math.sqrt((xa - xb) * (xa - xb) + (ya - yb) * (ya - yb))
+    console.log(l.toFixed(3))
   </script>
-  <script id="ch0103/01" >
-    
+  <script id="ch0103/17" >
+    var ax, ay, bx, by, cx,cy,d
+    ax = prompt("ax", "输入a点x轴方向坐标")
+    ay = prompt("ay", "输入a点y轴方向坐标")
+    bx = prompt("bx", "输入b点x轴方向坐标")
+    by = prompt("by", "输入b点y轴方向坐标")
+    cx = prompt("cx", "输入c点x轴方向坐标")
+    cy = prompt("cy", "输入c点y轴方向坐标")
+    d = 1 / 2 * ((ax * by) + (ay * cx) + (bx * cy) - (by * cx) - (ay * bx) - (ax * cy))
+    console.log(d.toFixed(2))
   </script>
   <script id="ch0103/18"  type="等差数列">
     var a1
