@@ -668,7 +668,7 @@
     console.log(total, h1)
   </script>
   <script id="ch0105/21" type="角谷猜想">
-    <!-- debugger
+    /* debugger
     var n = +prompt('输入一个正整数', '<= 2,000,000')
     while (n !== 1) {
       if (n % 2 !== 0) {
@@ -679,7 +679,7 @@
         console.log(String(n) + "/" + 2 +  '=' + (n = n / 2))
         n = n / 2
       }
-    } -->
+    } */
     
   var n = +prompt('输入一个正整数', '小于等于 2,000,000')
   while (n !== 1) {
@@ -730,7 +730,7 @@
       }
     }
     console.log(n - count)
-    <!-- debugger
+    /* debugger
     var m = +prompt('输入药品总量') 
     var n = +prompt('输入该天取药的人数')
     var count = 0 // 取到药的人数
@@ -745,10 +745,9 @@
         count = count
       } 
     }
-    console.log(count) -->
+    console.log(count) */
   </script>
   <script id="ch0105/24" type="正常血压">
-    debugger
     var n = +prompt('输入测量血压的次数',"n < 100") 
     var count = 0;  // 保持血压正常时长计数器
     var max = 0 // 计算病人保持正常血压的最长小时数的计数器
@@ -762,6 +761,7 @@
       }
       else count = 0;
     }
+    console.log(max)
   </script>
   <script id="ch0105/25" type="求特殊自然数">
     
