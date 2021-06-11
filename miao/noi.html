@@ -566,7 +566,7 @@
     for (var i = 0; i < n; i++) {
       y = y + (y * speed) 
     }
-    console.log(y.toFixed)
+    console.log(y.toFixed(4))
   </script>
   <script id="ch0105/15" type='银行利息'>
     var R = +prompt('符合年利率', "0~20") / 100
@@ -625,7 +625,7 @@
   var n = +prompt('n组临床对照实验','1 < n <= 20')
   var x = 1 / +prompt('总病例数') * +prompt('有效病例') * 100     // 鸡尾酒疗法的有效率为x
   var y
-  for (var i = 0; i < n ; i++) {
+  for (var i = 1; i < n ; i++) {
      y = 1 / +prompt('总病例数') * +prompt('有效病例') * 100  //每次声明，初始化y的值，让前面的值不影响后面的值
     if (y - x > 5) console.log('better')
     else if (y - x < -5) console.log("worse")
@@ -646,7 +646,7 @@
     console.log(Math.ceil(total))
   </script>
   <script id="ch0105/20" type="球弹跳高度的计算">
-    <!-- n = +prompt('n') //题目错了
+    /* n = +prompt('n') //题目错了
     var h = +prompt('初始高度')
     var total = 0 //综合高度
     var h1 = 0 // 第n次弹跳高度
@@ -655,11 +655,11 @@
       h = h / 2; 
       h1 = h
     }
-    console.log(total, h1) -->
+    console.log(total, h1) */
     
     var h = +prompt('初始高度')
-    var total = 0 //综合高度
-    var h1 = 0 // 第n次弹跳高度
+    var total = 20 //小球经过的距离 第一次单距离 h ，第二次到第九次双距离，为上一次的单次距离
+    var h1 = 0 // 第n次落地后弹跳高度
     for (var i = 0; i < 10 ; i ++ ) {
       total = total + h ;
       h = h / 2; 
