@@ -646,55 +646,17 @@
     }
     console.log(Math.ceil(total))
   </script>
-  <script id="ch0105/20" type="球弹跳高度的计算">
-    /* n = +prompt('n') //题目错了????
-    var h = +prompt('初始高度')
-    var total = 0 //综合高度
-    var h1 = 0 // 第n次弹跳高度
-    for (var i = 0; i < n ; i ++ ) {
-      total = total + h ;
-      h = h / 2; 
-      h1 = h
+  <script id="ch0105/20" type="角谷猜想">
+    var n = +prompt('输入初始高度')
+    var sum = h
+    for (var i = 0; i < 10; i++) {
+      h = h / 2
+      sum = sum + h * 2
     }
-    console.log(total, h1) */
-    
-    /* var h = +prompt('初始高度')
-    var total = 20 //小球经过的距离 第一次单距离 h ，第二次到第九次双距离，为上一次的单次距离,
-    var h1 = 0 // 第n次落地后弹跳高度
-    for (var i = 0; i < 10 ; i ++ ) {
-      total = total + h ;
-      h = h / 2; 
-      h1 = h
-    }
-  console.log((total - h1).toFixed(4), h1.toFixed(7))  //输出的时第十次落地时的总距离，同时第十次落地后弹跳的高度 */
-
-  /* var h = +prompt("初始高度")
-  var line = h //第n词落地时经过的距离
-  var h1 = h1 // 第n次落地后弹起的高度
-  for (var i = 1; i < 10; i++) {
-    h = h / 2 
-    if (i == 9) {
-      line = h + line 
-    }
-    else line = 2 * h + line
-  }
-  for (var i = 0; i < 10; i++) {
-    h1 = h1 / 2
-  }
-  console.log(line.toFixed(4), h1.toFixed(7)) */
-   var h = +prompt('初始高度')
-   var n = +prompt('输入弹跳次数')
-   var line = h + h
-   var h1 = h 
-   for (var i = 0; i < (n - 2) ; i++) {
-     h = h / 2
-     line = line + h
-   }
-   for (var i = 0; i < n ; I ++ ) {
-     h1 = h1 / 2
-   }
-   console.log(line.toFixed(4), h1.toFixed(7))
+    console.log((sum - 2 * h).toFixed(4))
+    console.log(h.toFixed(7))
   </script>
+  
   <script id="ch0105/21" type="角谷猜想">
     /* debugger
     var n = +prompt('输入一个正整数', '<= 2,000,000')
