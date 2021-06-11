@@ -668,7 +668,7 @@
     }
   console.log((total - h1).toFixed(4), h1.toFixed(7))  //输出的时第十次落地时的总距离，同时第十次落地后弹跳的高度 */
 
-  var h = +prompt("初始高度")
+  /* var h = +prompt("初始高度")
   var line = h //第n词落地时经过的距离
   var h1 = h1 // 第n次落地后弹起的高度
   for (var i = 1; i < 10; i++) {
@@ -681,7 +681,19 @@
   for (var i = 0; i < 10; i++) {
     h1 = h1 / 2
   }
-  console.log(line.toFixed(4), h1.toFixed(7))
+  console.log(line.toFixed(4), h1.toFixed(7)) */
+   var h = +prompt('初始高度')
+   var n = +prompt('输入弹跳次数')
+   var line = h + h
+   var h1 = h 
+   for (var i = 0; i < (n - 2) ; i++) {
+     h = h / 2
+     line = line + h
+   }
+   for (var i = 0; i < n ; I ++ ) {
+     h1 = h1 / 2
+   }
+   console.log(line.toFixed(4), h1.toFixed(7))
   </script>
   <script id="ch0105/21" type="角谷猜想">
     /* debugger
