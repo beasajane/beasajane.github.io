@@ -360,10 +360,10 @@
   </script>
   <script  id="ch0104/18" type="判断点是否再正方形内">
     var x = +prompt('输入点的x轴坐标'), y = +prompt('输入点的y轴坐标')
-    <!-- if (x < 0) x = -x
+    /* if (x < 0) x = -x
     if (y < 0) y = -y
     if (x > 1 || y > 1) console.log('no')
-    else console.log('yes') -->
+    else console.log('yes') */
     if (y < -1 || y > 1 || x < -1 || x > 1 ) console.log('no')
     else console.log('yes')
   </script>
@@ -646,7 +646,7 @@
     console.log(Math.ceil(total))
   </script>
   <script id="ch0105/20" type="球弹跳高度的计算">
-    /* n = +prompt('n') //题目错了
+    /* n = +prompt('n') //题目错了????
     var h = +prompt('初始高度')
     var total = 0 //综合高度
     var h1 = 0 // 第n次弹跳高度
@@ -655,7 +655,7 @@
       h = h / 2; 
       h1 = h
     }
-    console.log(total, h1) */
+    console.log(total.toFixed(4), h1.toFixed(7)) */
     
     var h = +prompt('初始高度')
     var total = 20 //小球经过的距离 第一次单距离 h ，第二次到第九次双距离，为上一次的单次距离
