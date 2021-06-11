@@ -273,6 +273,14 @@
       if (mathe > 60 || langu > 60) console.log('1')
       else console.log("0")
     else console.log('0')
+    
+    <!-- var a, b, c, d, n = 0
+    if (a < 60) n = n + 1
+    if (b < 60) n = n + 1
+    if (c < 60) n = n + 1
+    if (d < 60) n = n + 1
+    if (n = 1) console.log("1")
+    else console.log('0') -->
   </script>
   <script id="ch0104/11" type="判断能否赴约">
     var date = +prompt("输入星期几出去", 'number')
@@ -303,18 +311,45 @@
     if (we <= 1000) console.log(8)
     else console.log(Math.ceil((we - 1000) / 500) * 4  + 8)
   </script>
-  <script id="ch0104/15" type="输出三个数中最大的">
+  <script id="ch0104/14/2" type="计算邮资">
+    var we = +prompt('输入邮件的重量')
+    var ex = prompt("是否加急", "y（加急）/ n（不加急）")
+    var price = 8 //基础价格
+    if ( we > 1000) {
+      price = price + Math.ceil( (we - 1000) / 500) * 4
+    }
+    if (ex == "y") {
+      price = price + 5 //赋值语句的应用
+    }
+    console.log(price)
+  </script>
+  <script id="ch0104/15" type="输出三个数中最大的(组合条件法）">
     var n1 = +prompt('输入第一个整数'), n2 = +prompt('输入第二个整数'), n3 = +prompt('输入第三个整数')
     if (n1 > n2 && n1 > n3) console.log(n1)
     else if (n2 > n1 && n2 > n3) console.log(n2)
     else console.log(n3)
   </script>
+  <script id="ch0104/15/02" type="输出三个数中最大的">
+    var n1 = +prompt('输入第一个整数'), n2 = +prompt('输入第二个整数'), n3 = +prompt('输入第三个整数')
+    var max
+    max = n1
+    if (n2 > max) {
+      max = n2
+    }
+    if (n3 > max) {
+      max = n3
+    }
+    console.log(max)
+  </script>
   <script id="ch0104/16" type="三角形判断">
     var a = +prompt('输入第一个边长'), b = +prompt('输入第二个边长'), c = +prompt('输入第三个边长')
     //排除法，排掉能确定的
-    if (a + b < c) console.log('no')
+    <!-- if (a + b < c) console.log('no')
     else if (a + c < b) console.log('no')
     else if (b + c < a) console.log('no')
+    else console.log('yes') -->
+    
+    if (a + b < c || a + c < b || b + c < a) console.log('no')
     else console.log('yes')
   </script>
   <script id="ch0104/17" type="判断闰年">
@@ -325,37 +360,395 @@
   </script>
   <script  id="ch0104/18" type="判断点是否再正方形内">
     var x = +prompt('输入点的x轴坐标'), y = +prompt('输入点的y轴坐标')
-    if (x < 0) x = -x
+    <!-- if (x < 0) x = -x
     if (y < 0) y = -y
     if (x > 1 || y > 1) console.log('no')
+    else console.log('yes') -->
+    if (y < -1 || y > 1 || x < -1 || x > 1 ) console.log('no')
     else console.log('yes')
   </script>
   <script id="ch0104/19" type="简单计算器">
     var a = +prompt("输入第一个数"), b = +prompt("输入第二个数"), c = prompt('输入运算符')
-    if (b == 0) console.log("Divided by zero!")
+    <!-- if (b == 0) console.log("Divided by zero!")
     else if (c == "+") console.log(a + b)
     else if (c == '-') console.log(a - b)
     else if (c == '*') console.log(a * b)
     else if (c == '/') console.log(a / b)
+    else console.log('Invalid operator!') -->
+
+    //必须多选一
+    if (c == "+") console.log(a + b)
+    else if (c == '-') console.log(a - b)
+    else if (c == '*') console.log(a * b)
+    else if (c == '/') {
+      if (b == 0) console.log("Divided by zero!")
+      else console.log(a / b)
+    }
     else console.log('Invalid operator!')
   </script>
   <script id="ch0104/20" type="求一元二次方程的根">
     var a = +prompt('输入系数a'), b = +prompt('输入系数b'), c = +prompt('输入系数c')
-    var x1 = (-b + Math.sqrt(b * b - 4 * a * c)) / (2 * a) 
-    var x2 = (-b - Math.sqrt(b * b - 4 * a * c))/ (2 * a) 
-    var real = -b / (2 * a), ima = Math.sqrt(4 * a * c - b * b) / (2 * a)
-    if(b * b == 4 * a * c) console.log("x1=x2=%s", x1)
-    if(b * b > 4 * a * c) console.log("x1=%s,x2=%s", x1,x2)
-    if(b * b < 4 * a * c) console.log("x1=%s+%si;x2=%s+%si", real.toFixed(5), ima.toFixed(5),real.toFixed(5), ima.toFixed(5))
+    var delta = b * b - 4 * a * c
+    var x1 = (-b + Math.sqrt(delta)) / (2 * a) 
+    var x2 = (-b - Math.sqrt(delta))/ (2 * a) 
+    var real = -b / (2 * a), ima = Math.sqrt(-delta) / (2 * a)
+     <!-- ima = Math.sqrt(4 * a * c - b * b) / (2 * a) -->
+    if(delta == 0) console.log("x1=x2=%s", x1)
+    if(delta > 0) console.log("x1=%s,x2=%s", x1,x2)
+    if(delta < 0) console.log("x1=%s+%si;x2=%s+%si", real.toFixed(5), ima.toFixed(5), real.toFixed(5), ima.toFixed(5)) 
   </script>
   <!--  变量可以为 中文 -->
-  <script id="ch0104/21" >
+  <script id="ch0104/21" type="none">
   var n = +prompt("苹果数量")
   var x = +prompt("虫子几个小时吃掉一个苹果")
   var y = +prompt('经过了几个小时，发现虫子')
   if (y <= 0) console.log(n)
   else if ((y / x) > n ) console.log("0")
   else console.log(Math.floor(n - (y / x)))
+  </script>
+  <script id="ch0105/01" type="none">
+  var n = +prompt('输入班级人数')
+  var count = 0, total = 0;
+  while (count < n) {
+    var age = +prompt('输入学生的年龄')
+    total = age + total
+    count = count + 1
+  }
+  console.log((total / n).toFixed(2))
+  </script>
+  <script id="ch0105/02" type="财务管理">
+  debugger
+  var count = 0, total = 0
+  while(count < 12) {
+    var surplus = +prompt('输入' + (count + 1) + "月的结余")
+    total = surplus + total 
+    count = count + 1
+  }
+  console.log('$'+ (total / 12).toFixed(2) )
+  </script>
+  <script id="ch0105/03" type="均值">
+    var n = +prompt("输入样本的数量")
+    var total = 0, count = 0, average
+    while ( count < n) {
+      var sample = +prompt('输入第' + (count + 1) + '个样本数据')
+      total = sample + total 
+      count ++
+    }
+    average = total / n
+    console.log(average.toFixed(4))
+  </script>
+  <script id="ch0105/04" type="求整数的和与均值">
+    var n =  +prompt('整数的个数')
+    var total = 0, count = 0, average
+    while (count < n) {
+      var integer = +prompt('输入第' + (count + 1) + "个整数")
+      total += integer
+      count ++
+    }
+    average = total / n
+    console.log(total, average.toFixed(5))
+  </script>
+  <script id="ch0105/05" type="最高的分数">
+    var n = +prompt('输入参与考试的人数'),  max = 0, count = 0
+    while (count < n) {
+      var score = +prompt('输入第' + (count + 1) + '个学生的分数')
+      if( max < score ) max = score
+      count = count + 1
+    }
+    console.log(max)
+  </script>
+  <script id="ch0105/06" type="整数序列的元素最大跨度值">
+    var n = +prompt('输入整数序列的项目数量',"1 <= n <= 1000"),  max = -Infinity, min = +Infinity, count = 0
+    while (count < n) {
+      var integer = +prompt('输入第' + (count + 1) + '个不超过1000的非负整数')
+      if( max < integer ) max = integer
+      if( min > integer ) min = integer
+      count = count + 1
+    }
+    console.log(max - min)
+  </script>
+  <script id="ch0105/07" type="奥运奖牌计数">
+    var n = + prompt("输入A国参与决赛项目的天数")
+    var totalg = 0, totals = 0, totalb = 0, total, count = 0
+    while ( count < n ) {
+      var gold = +prompt('输入第' + (count + 1) + '天获得金牌的个数')
+      totalg += gold
+      var silver = +prompt('输入第' + (count + 1) + '天获得金牌的个数')
+      totals += silver 
+      var bronze = +prompt('输入第' + (count + 1) + '天获得金牌的个数')
+      totalb += bronze
+      count ++
+    }
+    total = totalg + totals + totalb 
+    console.log(totalg, totals, totalb, total)
+  </script>
+  <script id="ch0105/08" type="多边形内角和">
+    var n = +prompt('确定n变形，n位数字', 'n'), count = 0
+    var sumdegree = (n - 2) * 180
+    while ( count < n - 1) {
+      var degree = +prompt('输入第' + (count + 1) + '个已知内角角度')
+      sumdegree -= degree;
+      count ++
+    }
+    console.log(sumdegree)
+  </script>
+  <script id="ch0105/09" type="奇数求和">
+    var m = +prompt("输入整数m的值")
+    var n = +prompt('输入整数n的值且大于m的值')
+    var total = 0;
+    var count = m
+    if ( m % 2 === 0) {
+      count = count + 1
+      while (count <= n) {
+        total += count
+        count += 2
+      }
+    }
+    if ( m % 2 !== 0) {
+      while (count <= n) {
+        total += count
+        count += 2
+      }
+    }
+    console.log(total)
+  </script>
+  <script id="ch0105/10" type="满足条件的数累加">
+    var m = +prompt("输入整数m的值", '0 < m < n < 1000')
+    var n = +prompt('输入整数n的值且大于m的值', '0 < m < n < 1000')
+    var total = 0
+    if (0 < m && n < m && n < 1000) {
+      for (count = m + (17 - (m % 17)); count <= n; count += 17) {
+        total += count;
+      }
+      console.log(total)
+    }
+    else console.log('please input proper value')
+  </script>
+  <script id="ch0105/11" type="整数的个数">
+    var k = +prompt("正整数的个数",'1 < k < 100')
+    var n1 = 0, n5 = 0, n10 = 0
+    for ( var count = 0; count < k; count ++ ) {
+      var integer = +prompt('第' + (count + 1) + 'positive integer', "1 <= n <= 10")
+      if (integer == 1) n1 ++
+      if (integer == 5) n5 ++
+      if (integer == 10) n10 ++
+    }
+    console.log(n1,n5,n10)
+  </script>
+  <script id="ch0105/12" type='与指定数字相同的数的个数'>
+    var N = +prompt('表示整数序列的长度(N <= 100)'), m = +prompt('指定的数字')
+    var countm = 0
+    for (var i = 0; i < N; i++) {
+      var n = +prompt('输入序列第' + (i + 1) + '数')
+      if(n == m) countm ++
+    }
+    console.log(countm)
+  </script>
+  <script id="ch0105/13" type="乘方计算">
+    debugger 
+    var a = +prompt('一个整数a', '-1000000 <= a <= 1000000')
+    var n = +prompt('正整数n,即a的几次方', '1 <= n <= 10000')
+    var an = 1
+    for (var i = 0; i < n; i++) {
+      an *= a
+    }
+    console.log(an)
+  </script>
+  <script id="ch0105/14" type="人口增长问题">
+    var x = +prompt("我国人口多少亿")
+    var speed = 0.001
+    var n = +prompt('多少年后')
+    var y = x
+    for (var i = 0; i < n; i++) {
+      y = y + (y * speed) 
+    }
+    console.log(y.toFixed)
+  </script>
+  <script id="ch0105/15" type='银行利息'>
+    var R = +prompt('符合年利率', "0~20") / 100
+    var M = +prompt('现有总钱', '100~1000000')
+    var Y = +prompt('投资的年数', '0~400')
+    var sum = M
+    for (var i = 0; i < Y; i++) {
+      sum *= 1 + R 
+    }
+    console.log(Math.trunc(sum))
+  </script>
+  <!-- 买房子重点，问题要看懂 -->
+  <script id="ch0105/16" type='买房子'>
+    var N = +prompt('年薪')
+    var K = +prompt('房子增长率') / 100
+    var price = 200
+    var sum = 50 
+    for (var M = 2; ; M ++) {
+      price *= 1 + K
+      sum += N
+      if(sum >= price) {
+        break;
+      }
+      if(M > 20){
+        break;
+      }
+    }
+    console.log( M > 20 ? 'Impossible' : M )
+  </script>
+  <script id="ch0105/17" type="菲波那契数列">
+    var k = +prompt('输入斐波那契数列中第k个数')
+    var before = 1 , after = 1; 
+    if ( k <= 2) {
+      console.log(before)
+    }
+    else {
+      for (var i = 3; i <= k; i ++) {// 进入循环的初始值为k=3时
+        var middle = before + after; //第k个数的值, 每次进入循环就声明一次，初始化
+        before = after // 第（k -1）个数的值
+        after = middle // 第k个数的值
+      }
+      console.log(after)
+    }
+  </script>
+  <script id="ch0105/18" type="	鸡尾酒疗法">
+    var n = +prompt('n组临床对照实验','1 < n <= 20')
+    var x = 1 / +prompt('总病例数') * +prompt('有效病例') * 100     // 鸡尾酒疗法的有效率为x
+    for (var i = 0; i < n ; i++) {
+      var y = 1 / +prompt('总病例数') * +prompt('有效病例') * 100  //每次声明，初始化y的值，让前面的值不影响后面的值
+      if (y - x > 5) console.log('better')
+      else if (y - x < -5) console.log("worse")
+      else console.log('same')
+    }
+  </script>
+  <script id="ch0105/19" type="救援">
+    var n = +prompt('屋顶的数量')
+    var total = 0 //救人用的总时间
+    for(var i = 0; i < n; i ++) {
+      var x = +prompt('输入x轴坐标'), y = +prompt('输入y轴坐标')
+      var line =  Math.sqrt(x * x + y * y)
+      var t1 = line / 50 + line / 50 //每次行舟花费的时间
+      var t2 = +prompt('输入该坐标屋顶上的人数') * 1.5 //每个屋顶上的人登船下船需要的总时间
+      total += t1 + t2
+    }
+    console.log(Math.ceil(total))
+  </script>
+  <script id="ch0105/20" type="球弹跳高度的计算">
+    <!-- n = +prompt('n') //题目错了
+    var h = +prompt('初始高度')
+    var total = 0 //综合高度
+    var h1 = 0 // 第n次弹跳高度
+    for (var i = 0; i < n ; i ++ ) {
+      total = total + h ;
+      h = h / 2; 
+      h1 = h
+    }
+    console.log(total, h1) -->
+    
+    var h = +prompt('初始高度')
+    var total = 0 //综合高度
+    var h1 = 0 // 第n次弹跳高度
+    for (var i = 0; i < 10 ; i ++ ) {
+      total = total + h ;
+      h = h / 2; 
+      h1 = h
+    }
+    console.log(total, h1)
+  </script>
+  <script id="ch0105/21" type="角谷猜想">
+    <!-- debugger
+    var n = +prompt('输入一个正整数', '<= 2,000,000')
+    while (n !== 1) {
+      if (n % 2 !== 0) {
+        console.log(String(n) + "*" + 3 + '+' + 1 +  '=' + (n = n * 3 +1))
+        n = n * 3 + 1
+      }
+      if (n % 2 === 0 ) {
+        console.log(String(n) + "/" + 2 +  '=' + (n = n / 2))
+        n = n / 2
+      }
+    } -->
+    
+  var n = +prompt('输入一个正整数', '小于等于 2,000,000')
+  while (n !== 1) {
+    if (n % 2 !== 0) {
+      console.log(String(n) + "*" + 3 + '+' + 1 +  '=' + ( n * 3 +1))
+      n = n * 3 + 1
+    }
+    else if (n % 2 === 0 ) {
+      console.log(String(n) + "/" + 2 +  '=' + ( n / 2))
+      n = n / 2
+      if(n == 1) console.log('End')
+    }
+  }
+  </script>
+  <script id="ch0105/22" type="津津的储蓄计划">
+    var income = 300 //每月收入
+    var surplus = 0 //月初剩余
+    var save = 0 //存款
+    var count = 0
+    while (count < 12) {
+      var budget = +prompt("输入" + (count + 1) + '月的预算') // budget 每个月的预算
+      if ((income + surplus) - budget < 0) {
+        console.log(-(count + 1))
+        break
+      }
+      else {
+        save = save + Math.trunc(((income + surplus) - budget) / 100) * 100
+        surplus = ((income + surplus) - budget) % 100 
+      }
+      count = count + 1
+      if (count == 12) {
+        console.log(save * 1.2)
+      }
+    }
+  </script>
+  <script id="ch0105/23" type="药房管理">
+    
+    debugger
+    var m = +prompt('输入药品总量') 
+    var n = +prompt('输入该天取药的人数')
+    var count = 0 // 取到药的人数
+    
+    for (var i = 0; i < n; i ++) {
+      var number = +prompt("第" + (i + 1) + '个人取药的数量')
+      if(m >= number) {
+        m = m - number
+        count = count + 1
+      }
+    }
+    console.log(n - count)
+    <!-- debugger
+    var m = +prompt('输入药品总量') 
+    var n = +prompt('输入该天取药的人数')
+    var count = 0 // 取到药的人数
+    
+    for (var i = 0; i < n; i ++) {
+      var number = +prompt("第" + (i + 1) + '个人取药的数量')
+      if(m >= number) {
+        m = m - number
+        count = count + 1
+      }
+       if(m < number) {
+        count = count
+      } 
+    }
+    console.log(count) -->
+  </script>
+  <script id="ch0105/24" type="正常血压">
+    debugger
+    var n = +prompt('输入测量血压的次数',"n < 100") 
+    var count = 0;  // 保持血压正常时长计数器
+    var max = 0 // 计算病人保持正常血压的最长小时数的计数器
+    for (var i = 0; i < n ; i ++) {
+      var systolic = +prompt('收缩压'), diastolic = +prompt("舒张压")
+      if( 90 <= systolic && systolic <= 140 && 60 <= diastolic && diastolic <= 90) {
+        count = count + 1;
+        if (max < count) {
+          max = count
+        }
+      }
+      else count = 0;
+    }
+  </script>
+  <script id="ch0105/25" type="求特殊自然数">
+    
   </script>
 </body>
 </html>
