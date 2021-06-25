@@ -795,13 +795,13 @@
   <script id="ch0105/28" type="分离整数的各个数位">
     // 如何知道这个数有几位数
     // let 作用域为该作用域与子作用域
-    let integer = prompt("输入一个" + '输入一个整数，整数在1到100000000之间' + '的数')
+    let integer2 = prompt("输入一个" + '输入一个整数，整数在1到100000000之间' + '的数')
     let a
     do { //不知道循环几次，定然会有一次循环
-      a = integer % 10
-      integer = (integer - a) / 10
+      a = integer2 % 10
+      integer2 = (integer2 - a) / 10
       console.log(a)
-    }while(integer) // 0
+    }while(integer2) // 0
 
    /* var integer = +prompt('输入一个整数', '1到10000之间不包括')
     a1 = integer % 10
@@ -831,7 +831,7 @@
   fn1() */
   </script>
   //字符串1 = 字符串2 +（连字符） 字符串3 + 一个变量
-  <script id="ch0105/29" type="级数求和">
+  <script id="ch0105/29" type="	数字反转">
     let n = Number(prompt('-1,000,000,000 ≤ N≤ 1,000,000,000'))  
         let reverse = '', a, sin = 1
         if(n < 0) {
@@ -845,25 +845,11 @@
         }while(n)
         console.log(+reverse * sign)
   </script>
-  <script id="ch0105/30" type="级数求和">
-    function integerWidth(n) {
-      var count = 0
-      if (n == 0) {
-        return 1
-      }
-      for(; n ;) {
-        var a = n % 10 
-        count ++
-        n = (n - a) / 10
-      }
-      return count
-    }
-
+  <script id="ch0105/30" type="	含k个3的数">
     function containK3(m, k) {
       var count = 0
       if(m % 19 == 0) {
-        let width = integerWidth(m)
-        for (let i = 0; i < width ; i++ ) {
+        while(m) {
           var a = m % 10
           if(a == 3) {
             count ++
@@ -880,14 +866,16 @@
     //先遍历每个灯，再用每个灯遍历所有人
     let N = Number(prompt("灯的数量"))
     let M = Number(prompt('人数'))
+    let string = ''
 
     for(let i = 1; i <= N ; i ++) { 
       let light = true // 所有条件都要利用上，初始状态全部开启状态，而状态只有开关两个，就可以利用对比运算得到Boolean值（true/ false)来确定
       for(let j = 1; j <= M; j++) {
         if(i % j == 0) light = !light // 每个灯编号的倍数的灯都做相反处理，这简直就是告诉你怎么做了
       }
-      if(light == false) console.log(i)
+      if(light == false) string += i +','  
     }
+    console.log(string)
     // wc,这就没了？？？是不是有很多问号
     // 先遍历每个人，然后再用每一个人遍历所有灯
   /* var N = Number(prompt("灯的数量")), M = Number(prompt('人数'))
