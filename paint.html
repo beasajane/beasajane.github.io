@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>画图</title>
+  <style>
+    canvas {
+      border: 2px solid #f0f;
+      display: block;
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+  <canvas width="500" height="600"></canvas>
+</body>
+<script>
+  var canvas = document.querySelector('canvas')
+  canvas.style.imageRendering = 'pixelated' //放大时的插帧方式：不插帧，直接放大像素
+  var ctx = canvas.getContext('2d')
+
+  function dot(x, y, color = 'black') {
+    x = Math.round(x)
+    y = Math.round(y)
+    ctx.fillStyle = color
+    ctx.fillRect(x, y, 1, 1)
+  }
+ 
+  //  * YOUR TASk
+  //     * 在 坐标 (42, 42) 画出一个点
+  dot(42, 42, 'black')
+  //     * 画一条实线
+  for(let i = 20; i < 120; i++) {
+    dot(i, 20, "#987672")
+  }
+  //     * 画一条一个实点一个空点的虚线
+  for(let i = 20; i < 120; i = i + 2) {
+    dot(i, 25, "#029378")
+  }
+  //     * 画一条两个实点两个空点的虚线
+  for(let i = 20; i < 120; i += 3) {
+    dot(i, 30, '#098723')
+    dot(i+1, 30, "#097236")
+  }
+  for(let i = 20; i < 120; i += 3) {
+    dot(i, 35, '#097823' )
+  }
+  //     * 画一条三个实点两个空点的虚线
+  for(let i = 20; i < 120; i += 5 ){
+    dot(i, 40, '#029374') // 每画出一个点，就向前走4个点，周期为5
+    dot(i+1, 40, '#928374') // 在第一个点后面在画一个点，即留空3个，
+  }
+  //     * 画一条45度的斜线
+  for(let i = 50; i < 150; i ++) {
+    dot(i-30, i - 10, '#098624') // 斜率 平移30，即原点平移，不影响斜率，斜率 x轴方向位移1位，y轴方向位移一位
+    // 斜率表示方法  y=kx + b k=tanα，α为角度k=Δy/Δx; 直线 ax+by+c=0，斜率 k= - a / b
+  }
+  //     * 画一条30度的斜线（与x轴或y轴的夹角呈30度）
+  for(let i = 0; i < 100; i ++) { //三十度角如何表示，斜率是多少，
+    dot(i, Math.tan(Math.PI / 6) * i, '#284692' )
+  }
+  let k = Math.tan(Math.PI / 6) 
+  for(let x = 0; x <= 100; x++) {
+    let y = k * x 
+    dot(x, y, 'magenta')
+  }
+  let k1 = Math.tan(Math.PI / 3) 
+  for( let y = 0; y <= 100; y++) {
+    let x = (1 / k1) * y
+    dot(x, y,'gold')
+  }
+  
+  let k2 = Math.tan(Math.PI / 3) 
+  for( let x = 200; x <= 300; x++) {
+    let y = k2 * x 
+    dot(x, y,'grey')
+  }
+  
+  let k3 = Math.tan(Math.PI / 3) 
+  for( let y = 300; y <= 400; y++) {
+    let x = (1 / k3) * y
+    dot(x, y,'gold')
+  }
+  //     * 画一条跨越画布左上角和右下角的对角线
+  for(let i = 0; i < 500; i ++) { // 一个增大一个减小 |||  两个坐标轴数值同时增大
+    dot(i,i,'blue')
+    dot(i,500 - i,'red' )
+  }
+  for(let i = 0; i < 500; i ++) { // 画布的width= 500， height= 600  要想从左下角到右上角，就必须调整好斜率 
+    dot(i,1.2 * i,'blue')
+    dot(i, 600 - 1.2 * i, 'red')
+  }
+  var y5 = 600, y6 = 0
+  for(let y = y5; y >= y6; y --) { // 画布的width= 500， height= 600  要想从左下角到右上角，就必须调整好斜率 
+    dot( 5 / 6 * y, y,'brown')
+  }
+  // 左下角到右上角的对角线
+  for(let x = 0, y = 600; x <= 500, y >= 0; x = x + 5/6, y = y - 1) {
+    dot(x, y)
+  }
+  //     * 画一个空心矩形
+  for(let i = 0; i < 150; i ++ ){
+    dot(i + 150, 0 + 150)
+    dot(0 + 150,i + 150)
+    dot(150 + 150, i + 150)
+    dot(i + 150, 100 + 150)
+  }
+  // 想一劳永逸，最后却，走入了绝境
+  // 用最简单，最容易，最无脑的方法，然后再尝试其他的
+  // 画出x= 200，y= 100的矩形 先进行具象化，然后在一步一步完成
+  for(let i = 0; i <= 200; i++ ) {
+    dot(i,0) //第一水平线条线
+    dot(i, 0 + 100) //第二条水平线
+  }
+  for(let i = 0; i <= 100; i++) {
+    dot(0, i) //第一条垂直线
+    dot(0 + 200, i) // 第二条水平线
+  }
+    //可以进行平移
+
+  //     * 画一个实心矩形  ps:实心矩形是一个面，由线组成，线由点组成，
+  // 画200 * 100 的面
+  for(let i = 1; i < 200; i++) {
+    for(let j = 1; j < 100; j++ ) {
+      dot(i , j , "#5" + j  + '8' )
+    }
+  }
+  
+  var x1 = 50, x2 = 355
+  let y1 = 10, y2 = 120
+  for(let i = x1; i <= x2; i++) {
+    for(let j = y1; j <= y2; j++) {
+      dot(i / 4, j / 4, 'rgb(23,' + (i - 10) + ',87)')
+    }
+  }
+  //     * 画两个个空心的圆，居中：
+  let r1 = 1
+  for ( let y = -r1;  y <= r1; y++) { 
+    dot(Math.floor(Math.sqrt(r1 * r1 - y * y )) ,  y, '#096876')
+  }
+  for ( let y = -r1;  y <= r1; y++) { 
+    dot(y, Math.floor(Math.sqrt(r1 * r1 - y * y ))  , '#096876')
+  }
+  
+  //       * 一个半径为50像素
+  
+  let r = 50
+  for(let y = 300 - r; y <= 300 + r; y ++) {
+    dot(Math.floor(Math.sqrt(r * r - (y - 300) * (y - 300))) + 250, y, 'lightblue')
+    dot(-Math.floor(Math.sqrt(r * r - (y - 300) * (y - 300))) + 250, y, 'lightblue')
+  }
+  for(let x = 250 - r; x <= 250 + r; x ++) {
+    dot(x, Math.floor(Math.sqrt(r * r - (x - 250) * (x - 250))) + 300, 'lightblue')
+    dot(x, -Math.floor(Math.sqrt(r * r - (x - 250) * (x - 250))) + 300, 'lightblue')
+  }
+  //       * 一个半径为200像素
+  
+  let r2 = 200
+  for(let y = 300 - r2; y <= 300 + r2; y ++) {
+    dot(Math.floor(Math.sqrt(r2 * r2 - (y - 300) * (y - 300))) + 250, y, 'lightblue')
+    dot(-Math.floor(Math.sqrt(r2 * r2 - (y - 300) * (y - 300))) + 250, y, 'lightblue')
+  }
+  for(let x = 250 - r2; x <= 250 + r2; x ++) {
+    dot(x, Math.floor(Math.sqrt(r2 * r2 - (x - 250) * (x - 250))) + 300, 'lightblue')
+    dot(x, -Math.floor(Math.sqrt(r2 * r2 - (x - 250) * (x - 250))) + 300, 'lightblue')
+  }
+  //     * 画一个实心的圆，半径至少为100像素
+
+  //     * 画一个【大小合适】的sin(x)的图像
+for(let i = 1; i <= 555; i++) {
+  dot(i + 300,Math.sin(i / 5) * 5 + 300)
+}
+  //     * 画出rgb色彩空间的某一面（尺寸要大于100x100）
+  for(let r = 0; r <= 255; r++) {
+    for(let g = 0; g <= 255; g++) {
+      dot(r/2 + 350, g/2 + 450, 'rgb(' + r + ',' + g +',0)')
+    }
+  }
+  //       如果做出上一题后，尝试将其每个点的坐标乘以一个矩阵（如(2,0,0,2)或(1,0.27得到新的位置，即绘制出被线性变幻后的色彩空间某一面
+  //       可以考虑如下几种矩阵：
+  //          2 0
+  //          0 2
+  //          ------
+  //          1  0.27
+  //          0  1
+  //          ------
+  //          0.5    0.87
+  //          -0.87  0.5
+
+
+</script>
+<script>
+  // 不可更改上面的代码
+  // 你的代码写在这里
+  // YOUR CODE GOES BELOW
+
+</script>
+</html>

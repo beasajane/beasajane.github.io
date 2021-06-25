@@ -7,6 +7,7 @@
   <title>Document</title>
 </head>
 <body>
+  <h>hellow</h>
   <script id="ch0103/01" type="none">
     var A 
     var B
@@ -702,7 +703,7 @@
       }
       count = count + 1
       if (count == 12) {
-        console.log(save * 1.2)
+        console.log(save * 1.2 + surplus)//还要加上最后一个月余钱
       }
     }
   </script>
@@ -712,7 +713,6 @@
     var m = +prompt('输入药品总量') 
     var n = +prompt('输入该天取药的人数')
     var count = 0 // 取到药的人数
-    
     for (var i = 0; i < n; i ++) {
       var number = +prompt("第" + (i + 1) + '个人取药的数量')
       if(m >= number) {
@@ -755,7 +755,407 @@
     console.log(max)
   </script>
   <script id="ch0105/25" type="求特殊自然数">
+    for(var i = 81; i < 2401; i++) {
+      seven1 = i % 7
+      seven2 = Math.trunc((i % 49) / 7)
+      seven3 = Math.trunc(i / 49)
+      nine1 = i % 9
+      nine2 = Math.trunc((i % 81) / 9)
+      nine3 = Math.trunc(i / 81)
+      if (seven1 == nine3 && seven2 == nine2 && seven3 == nine1) {
+        console.log(i, String(seven3) + seven2 + seven1, String(nine3) + nine2 + nine1)
+        break
+      }
+    }
+  </script>
+  <script id="ch0105/26" type="统计满足条件的4位数个数">
+    var n = +prompt('四位数的个数')
+    var m, sum = 0
+    for (var i = 0; i < n ; i++){
+      m = +prompt('输入第' + (i + 1) + '个四位数')
+      a1 = m % 10
+      a2 = Math.trunc((m % 100) / 10)
+      a3 = Math.trunc((m % 1000) / 100)
+      a4 = Math.trunc(m / 1000)
+      if (a1 - a2 -a3 -a4 > 0) sum ++
+    }
+    console.log(sum)
+  </script>
+  <script id="ch0105/27" type="级数求和">
+    var k = +prompt('输入一个整数',"1<=~<=15")
+    var sn = 1;
+    for (var i = 1; ; i++){
+      sn = sn + sn / 2;
+      if(sn > k) {
+        console.log(i + 1)
+        break
+      } 
+    }
+  </script>
+  <script id="ch0105/28" type="分离整数的各个数位">
+    // 如何知道这个数有几位数
+    // let 作用域为该作用域与子作用域
+    debugger
+    let integer = prompt("输入一个" + '输入一个整数，整数在1到100000000之间' + '的数')
+    let a
+    do { //不知道循环几次，定然会有一次循环
+      a = integer % 10
+      integer = (integer - a) / 10
+      console.log(a)
+    }while(integer) // 0
+
+
+
+    console.log()
+   /* var integer = +prompt('输入一个整数', '1到10000之间不包括')
+    a1 = integer % 10
+    a2 = Math.trunc((integer % 100) / 10)
+    a3 = Math.trunc((integer % 1000) / 100)
+    console.log(a1, a2, a3) */
+    var integer = +prompt('输入一个整数', '1到10000之间不包括')
+    //.charAt() .toFixed()  // .length 
+    if( integer < 100000000 && integer > 1)
+    for (var i = 0; i < integer.length; i++) {
+      console.log(integer.charAt(i));
+    }
+    else alert('Thanks !')
+   
+  /*  function fn1() {
+      let k = prompt('请输入一个整数k')
+      if (+k <= 100000000 && +k >= 1) {
+          for (let i = k.length - 1; i >= 0; i--) {
+              console.log(k.charAt(i));
+          }
+          return true
+      } else {
+          alert('输入的k非法，请刷新重试')
+          return false
+      }
+  }
+  fn1() */
+  </script>
+  //字符串1 = 字符串2 +（连字符） 字符串3 + 一个变量
+  <script id="ch0105/29" type="级数求和">
+    let n = Number(prompt('-1,000,000,000 ≤ N≤ 1,000,000,000'))  
+    let reverse = '', a
+    do {
+      a = n % 10
+      n = (n - a) / 10
+      reverse += a
+    }while(n)
+    console.log(-reverse)
+  </script>
+  <script id="ch0105/29" type="级数求和">
+    function integerWidth(n) {
+      var count = 0
+      if (n == 0) {
+        return 1
+      }
+      for(; n ;) {
+        var a = n % 10 
+        count ++
+        n = (n - a) / 10
+      }
+      return count
+    }
+
+    function containK3(m, k) {
+      var count = 0
+      if(m % 19 == 0) {
+        let width = integerWidth(m)
+        for (let i = 0; i < width ; i++ ) {
+          var a = m % 10
+          if(a == 3) {
+            count ++
+          }
+          m = (m - a) / 10
+        }
+      }
+      return count == k ? 'YES' : 'NO'
+    }
+    containK3(Number(prompt('1 < m < 100000')), Number(prompt('1 < k < 5')))
+  </script>
+  <script id="ch0105/29" type="开关灯">
+  // 两种思维模式
+    //先遍历每个灯，再用每个灯遍历所有人
+    let N = Number(prompt("灯的数量"))
+    let M = Number(prompt('人数'))
+
+    for(let i = 1; i <= N ; i ++) { 
+      let light = true // 所有条件都要利用上，初始状态全部开启状态，而状态只有开关两个，就可以利用对比运算得到Boolean值（true/ false)来确定
+      for(let j = 1; j <= M; j++) {
+        if(i % j == 0) light = !light // 每个灯编号的倍数的灯都做相反处理，这简直就是告诉你怎么做了
+      }
+      if(light == false) console.log(i)
+    }
+    // wc,这就没了？？？是不是有很多问号
+    // 先遍历每个人，然后再用每一个人遍历所有灯
+  /* var N = Number(prompt("灯的数量")), M = Number(prompt('人数'))
+    if(M == 1) {
+      console.log(i)
+    }
+    if(M == 2) {//关
+      conosle.log(i % 2 !== 0)
+    }
+    for(let i = 3; i >= M ; i++ ) {
+      for (let i = 1; i >= N ; i++) {
+        if(M == 3) {//i % 2 == 0 && i % 3 == 0
+          console.log(2 * 3 * i)
+        }
+        if(M == 4) {
+          console.log()
+        }
+      }
+    } */
+  </script>
+  <script id="ch0105/32" type="求分数序列前n项和"> // 难点在将两个值转换，用o变量作为中转媒介
+    let n = Number(prompt('整数'))
+    let q = 2, p = 1, sum = 0, o 
+    for(let i = 0; i < n; i++) {
+      sum += q / p 
+      o = q + p
+      p = q
+      q = o
+    }
+    console.log(sum.toFixed(4)) 
+  </script>
+  <script id="ch0105/33" type="计算分数加减表达式的值">
+    let n = Number(prompt('输入一个正整数')) // 样例 2，输出为0.5000
+    let value = 0
+    for(let i = 1; i <= n; i ++) {
+      if (i % 2 == 1) {
+        value += 1 / i
+      }else {
+        value -= 1 / i
+      }
+    }
+    console.log(value.toFixed(4))
+
     
+    /* let n = Number(prompt('输入一个正整数')) // 样例 2，输出为0.5000
+    let value, sign = 1
+
+    for(let i = 1; i <= n; i ++) {
+      value += sign * 1 / i
+      sign *= -1
+    }
+    console.log(value.toFixed(4)) */
+  </script>
+  <script id="ch0105/34" type="求阶乘的和">
+    let n = Number(prompt('输入一个正整数'))
+    let sum = 0 
+      for(let i = 1; i <= n;i ++) { // 遍历 从1到n的所有整数
+        let factorial = 1
+        for(let j = 1; j <= i; j++) { //某一个数的阶乘
+          factorial *= j
+        }
+        sum += factorial
+      }
+      console.log(sum)
+  </script>
+  <script id="ch0105/35" type="求出e的值">
+    let n = Number(prompt('输入一个正整数'))
+    let e = 1
+      for(let i = 1; i <= n;i ++) { // 遍历 从1到n的所有整数
+        let factorial = 1
+        for(let j = 1; j <= i; j++) { //某一个数的阶乘
+          factorial *= j
+        }
+        e += 1 / factorial
+      }
+      console.log(e.toFixed(10))
+  </script>
+  <script id="ch0105/36" type="计算多项式的值">// polynomial 多项式值
+    let x = Number(prompt('float'))
+    let n = Number(prompt('正整数>=2'))
+    let polynomial = 1 //第一项
+    for(let i = 1; i <= n; i ++) { // 从第2项开始计算
+      item = 1 
+      for(let j = 1; j <= i; j++) { // 计算每一项
+        item *= x
+      }
+      polynomial += item
+    }
+    console.log(polynomial.toFixed(2))
+  </script>
+  <script id="ch0105/37" type="雇佣兵">
+    /*  雇佣兵的体力最大值为M，初始体力值为0、战斗力为N、拥有X个能量元素。
+    当雇佣兵的体力值恰好为M时，才可以参加一个为期M天的战斗期，战斗期结束体力值将为0。在同一个战斗期内，雇佣兵每连续战斗n天，战斗力就会上升1点，n为当前战斗期开始时的战斗力。（这句话意思，当前战斗开始时战斗力，，每次战斗开始，战斗里都不一样）
+    一个战斗期结束后，雇佣兵需要用若干个能量元素使其体力恢复到最大值M，从而参加下一个战斗期。
+    每个能量元素恢复的体力值不超过当前的战斗力。（这句话的意思是，一个能量元素可以恢复当前战斗力的值。）
+    每个能量元素只能使用一次。
+    请问：雇佣兵的战斗力最大可以到达多少。  */
+    
+    var M = Number(prompt('最大体力值')), N = Number(prompt('战斗力')), X = Number(prompt('拥有的能量'))
+
+          while(X > 0) { 
+            //每当体力值达到最大就会发生一次战斗，直到能量消耗完，但只有当连续战斗天数为N时（同时N<=M），才会增长战斗力
+            let 体力值 = 0
+            while(X >= 0) {
+              体力值 += N 
+              X --
+              if(体力值 >= M) {
+                break
+              }
+            }
+            体力值 = M
+            while(体力值 > N) {//当连续战斗为N天才会，增加战斗力，当体力值>=M时才会增加战斗力，而不是体力值>
+              // N += Math.floor(M / N) //最大战斗力，就是不断叠加，直到，不能叠加 
+              体力值 = M - N
+              N += 1
+            }
+          }
+          console.log(N)// 最大战斗力
+    /* 
+  let a = Number(prompt(`输入1个数 a`)) //最大体力值
+  let b = Number(prompt(`输入1个数 b`)) //战斗力
+  let c = Number(prompt(`输入1个数 c`)) // 能量数
+  let d = 0 //体力值
+  for (let i = c; i > 0; i--) {
+    d = d + b
+    if (d >= a) {
+      d = 0
+      b = Math.floor(a / b) + b
+    }
+  }
+  console.log(b) */
+  </script>
+  <script id="ch0105/38" type="计算多项式的导函数">
+    /* 1. 将系数输出即可，从大到小，2.一次计算三个多项式 3.当多项式不为常数项时，输出的常数项省略 */
+    let k = +prompt('输入要计算多少个多项式')
+    for (let i = 0; i < k ; i ++) {
+      let n = +prompt('输入多项式的最高次幂') 
+      if(n == 0) {
+        let n1 = +prompt('输入' + (n) +"次幂项系数")
+        console.log(0)
+      }else {
+        for(let i = n; i >= 0; i--){
+          let n2 = +prompt('输入' + (i) + '次幂项系数')
+          if(i > 0) {
+            console.log(n2 * i)
+          }
+        }
+      }
+    }
+
+  </script>
+  <script id="ch0105/40" type="数1的个数">
+    let n = +prompt('+integer')
+    let sum = 0
+
+    for(let i = 1; i <= n ; i++) {  //遍历所有的数
+      if(i % 7 !== 0){ //这个数不是7的倍数
+        for(let j = i; j; ) {
+          let a = j % 10
+          if(a == 7) {
+            break
+          }
+          j = (j - a) / 10
+          if(j == 0) { 
+            //当j == 0时，还没有跳出循环，说明，j上的数字都不为7
+            sum += i * i
+          }
+        }
+      }
+    }
+    console.log(sum)
+  </script>
+  <script id="ch0105/40" type="数1的个数">
+    // 输入要给整数，判断从1到这个整数之间的所有数，有几个1会出现。
+    // 把所有的数都列出来，然后一一判断个数 (横推)
+
+
+    // 先分析规律 0-9(1)  
+    // 10 - 19(11个 10 + 1)(11)   21 - 29 (12) ~ 90 - 99(1){共8个}  即0 ~ 99 共20个
+    // 100 - 199 (100 - 199  为100 个加上十位数20个 )
+    // 200 - 299 ( 100 加上 100 -199 之间的 20个，200 - 299 之间的20个 ，300 - 399 20个 4，5， 6，7，8，9 ，所以三位数为200个1)
+    // 分析法， 判断，这个整是几位数，234， 34， 4，各位数，>= 1 counter += 1 ； 十位数 >1  10 + 十位数字 ， =1  1 + 十位数字 ； 百位数 1> 1 100 + 十位数 >1  10 + 十位数字 ， =1  1 + 十位数字)
+
+
+
+    let n = Number(prompt('一个整数'))
+    let counter1 = 0
+    for (let i = 1; i <= n ; i++) {
+      let counter2 = 0
+      for(let j = i; j ;) { // i 为0时，Boolean值为false //
+        let a = j % 10 
+        if(a == 1) {
+          counter2 ++
+        }
+        j = (j - (j % 10)) / 10 // 一个整数将个位数去除，留下十位以上的数字 ，将整数分解，同时也是该循环的循环变量
+      }
+      counter1 += counter2
+    }
+    console.log(counter1)
+
+  </script>
+  <script id="ch0105/41" type="数字统计">
+    let min = Number(prompt('min integer'))
+    let max = Number(prompt('max integer'))
+    let counter1 = 0
+    for (let i = min; i <= max ; i++) {
+      let counter2 = 0
+      for(let j = i; j ;) { // i 为0时，Boolean值为false //
+        let a = j % 10 
+        if(a == 2) {
+          counter2 ++
+        }
+        j = (j - (j % 10)) / 10 // 一个整数将个位数去除，留下十位以上的数字 ，将整数分解，同时也是该循环的循环变量
+      }
+      counter1 += counter2
+    }
+    console.log(counter1)
+  </script>
+  <script id="ch0105/42" type="级数求和"></script>
+  <script id="ch0105/43" type="质因数分解"> 
+    // 已知输入的数是两个不同质数乘积，求这个两个质数中最大的
+    let n = Number(prompt('integer'))
+    for(let i = 2; ; i ++){ 
+  //遍历所有的数，一旦能够被该数整除，那么定然有一个数为n / i,且大于i
+      if(n % i == 0) {
+        let number = n / i
+        console.log(number)
+        break
+      }
+    }
+  </script>
+  <script id="ch0105/44" type="第n小的质数">
+// 思考方式，就是将所有的质数都计算出来，然后用计数器，找到这个第n个质数
+    let n = +prompt()
+    let count = 0 //计数器
+    for ( let i = 2;  ; i ++) { //遍历所有的数
+      let m = Math.ceil(Math.sqrt(i))
+      if (i == 2 || i == 3){
+        count ++
+      } else {
+          for(let j = 2; j <= m; j++) { 
+            if(i % j == 0) {
+              break
+            }
+            if(j == m) {
+              count += 1
+            }
+          }
+      }
+      if(count == n) {
+        console.log(i)
+        break
+      }
+    }
+  </script>
+  
+  <script id="ch0105/45" type="签到与金币">
+    let n = +prompt('输入连续签到天数')
+    let sumday = 0, sumgold = 0
+    for(let i = 1; ;i++) {
+      sumday += i  // sumday = 1 + 2 + 3 + .....
+      if(sumday > n) {
+        sumgold = sumgold + (n - ((sumday - i))) * i  // 计算获取i金币的天数，sumday 获取的金币为（i- 1）
+        console.log(sumgold)
+        break
+      }
+      sumgold += i * i  // sum = 1 ^ 2 + 2 ^ 2 + 3 ^ 2 + .....
+    }
   </script>
 </body>
 </html>
