@@ -795,7 +795,6 @@
   <script id="ch0105/28" type="分离整数的各个数位">
     // 如何知道这个数有几位数
     // let 作用域为该作用域与子作用域
-    debugger
     let integer = prompt("输入一个" + '输入一个整数，整数在1到100000000之间' + '的数')
     let a
     do { //不知道循环几次，定然会有一次循环
@@ -804,9 +803,6 @@
       console.log(a)
     }while(integer) // 0
 
-
-
-    console.log()
    /* var integer = +prompt('输入一个整数', '1到10000之间不包括')
     a1 = integer % 10
     a2 = Math.trunc((integer % 100) / 10)
@@ -819,7 +815,7 @@
       console.log(integer.charAt(i));
     }
     else alert('Thanks !')
-   
+   */
   /*  function fn1() {
       let k = prompt('请输入一个整数k')
       if (+k <= 100000000 && +k >= 1) {
@@ -837,15 +833,19 @@
   //字符串1 = 字符串2 +（连字符） 字符串3 + 一个变量
   <script id="ch0105/29" type="级数求和">
     let n = Number(prompt('-1,000,000,000 ≤ N≤ 1,000,000,000'))  
-    let reverse = '', a
-    do {
-      a = n % 10
-      n = (n - a) / 10
-      reverse += a
-    }while(n)
-    console.log(-reverse)
+        let reverse = '', a, sin = 1
+        if(n < 0) {
+            sign = -1
+            n = -n 
+        }
+        do {
+          a = n % 10
+          n = (n - a) / 10
+          reverse += a
+        }while(n)
+        console.log(+reverse * sign)
   </script>
-  <script id="ch0105/29" type="级数求和">
+  <script id="ch0105/30" type="级数求和">
     function integerWidth(n) {
       var count = 0
       if (n == 0) {
@@ -875,7 +875,7 @@
     }
     containK3(Number(prompt('1 < m < 100000')), Number(prompt('1 < k < 5')))
   </script>
-  <script id="ch0105/29" type="开关灯">
+  <script id="ch0105/31" type="开关灯">
   // 两种思维模式
     //先遍历每个灯，再用每个灯遍历所有人
     let N = Number(prompt("灯的数量"))
@@ -999,7 +999,7 @@
               }
             }
             体力值 = M
-            while(体力值 > N) {//当连续战斗为N天才会，增加战斗力，当体力值>=M时才会增加战斗力，而不是体力值>
+            while(体力值 >= N) {//当连续战斗为N天才会，增加战斗力，当体力值>=M时才会增加战斗力，而不是体力值>
               // N += Math.floor(M / N) //最大战斗力，就是不断叠加，直到，不能叠加 
               体力值 = M - N
               N += 1
@@ -1039,7 +1039,7 @@
     }
 
   </script>
-  <script id="ch0105/40" type="数1的个数">
+  <script id="ch0105/39" type="与7无关的数">
     let n = +prompt('+integer')
     let sum = 0
 
@@ -1106,7 +1106,8 @@
     }
     console.log(counter1)
   </script>
-  <script id="ch0105/42" type="级数求和"></script>
+  <script id="ch0105/42" type="画矩形">
+  </script>
   <script id="ch0105/43" type="质因数分解"> 
     // 已知输入的数是两个不同质数乘积，求这个两个质数中最大的
     let n = Number(prompt('integer'))
