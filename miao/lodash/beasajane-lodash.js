@@ -1,5 +1,4 @@
-var beasajane = {
-  chunk: 
+var beasajane = function(){
     function chunk(array, size){
       let subary = Math.ceil(array.length / size) //chunk 数量
       //let ary = Array(subary).fill([]) []是一个对象
@@ -19,4 +18,7 @@ var beasajane = {
       }
       return ary //return the new array of chunk
     }
-}
+    return {
+      chunk:chunk, 
+    }
+}()
