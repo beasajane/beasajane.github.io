@@ -1,0 +1,29 @@
+<head>
+  <title>5.2-数组遍历抽象-foreach</title>
+</head>
+<body>
+  <ul>
+    <li>利用普通函数构建抽象</li>
+    <li>对于数组的高阶函数foreach 数组遍历抽象</li>
+    <li>将函数作为参数传入；或将函数作为返回值输出；即将期望执行的操作（功能），封装成函数，传递到foreach 中</li>
+    <li>foreach 的函数参数，功能即：对数组的元素进行操作 </li>
+  </ul>
+  <ol>
+    <li>
+      循环体位于函数参数的内部，为当前元素指定变量名
+    </li>
+  </ol>
+</body>
+<script title='原理:对数组的每一个元素进行操作'>
+  function foreach(array, action) {
+    for(let i = 0; i < array.length; i++) {
+      action(array[i])
+    }
+  }
+</script>
+<script title="数组的标准方法：foreach ，一个功能将数组的元素提取出来，被参数函数操作，并没有返回值，">
+  let array = [1,3,4,4,5,65,6,6]
+  let sum = 0
+  array.forEach(number => sum += number) // forEach函数的参数函数，需要要借用外部的sum 变量，才能将array的元素累加
+  console.log(sum) 
+</script>

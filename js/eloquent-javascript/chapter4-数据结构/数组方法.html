@@ -1,0 +1,139 @@
+<script>
+  // length 属性（非方法）
+
+
+  function toString1(array) {
+    
+  }
+/*push , 接受 数组，N个元素， 返回的是数组的长度  作用将元素加入到数组的末尾
+pop
+*/
+function push1(array, element) {
+  if(arguments.length < 2) return array  // arguments （包含array的所有参数）非真数组，只有 length，indexof ，lastindexof，等几个属性
+  let leng = array.length
+  for(let i = array.length, j = 1; i < leng + arguments.length - 1 ; i++) {
+    array[i] = arguments[j++]
+  }
+  return array.length
+}
+function push1(array, ...elements) {  //s剩余参数 ...element,element 包含除了array外的所有后续的参数，同时，element是真数组
+  let leng = array.length
+  for(let i = leng, j = 0; i < leng + elements.length  ; i++) {
+    array[i] = elements[j++]
+  }
+  return array.length
+}
+
+function pop1(array) { // 删掉最后一个元素
+  for(let i = 0 ; i < array.length - 1; i++) {
+    
+  }
+}
+/*indexOf lastIndexOf*/
+a = [1,2,NaN] // indexof(不能对NaN做出判断)
+  // 把数组转换为字符串
+
+  function indexOf1(array, target, fromIndex = 0) { //查找目标，获得其下标
+    for(let i = fromIndex; i < array.length ; i++) { // 遍历数组，找到目标就返回
+      if(array[i] === target) return i
+    }
+    return -1 // 没找到就，返回-1
+  }
+  // 理解 arguments 数组一枚
+  function indexOf5(array, target, fromIndex) { //查找目标，获得其下标
+    if(arguments.length == 2) fromIndex = 0
+    for(let i = fromIndex; i < array.length ; i++) { // 遍历数组，找到目标就返回
+      if(array[i] === target) return i
+    }
+    return -1 // 没找到就，返回-1
+  }
+  function lastIndexOf1(array, target ,fromIndex = array.length - 1) { // 从后往前遍历查找目标，获得其下标
+    for(let i = fromIndex; i >= 0; i--) {
+      if(array[i] === target) return i
+      return -1
+    }
+  }
+
+  [1,2,3,4].indexOf(1, 2) // -> -1
+
+  /* slice 接受 数组，开始，结束下标；返回新数组数组
+  */
+  function slice1(array, startIndex = 0, endIndex = array.length ) { // 
+    let ary = []
+    let j = 0
+    if(endIndex > array.length) endIndex = array.length 
+    for(let i = startIndex; i < endIndex; i++) {
+      ary[j++] = array[i]
+    }
+    return ary
+  }
+  // concat() 连接两个以上数组，返回新数组
+  function concat1(array, ...parameter){
+    let result = array
+    let k = array.length
+    for(let i = 0; i < parameter.length; i++){
+      for(let j = 0 ; j < parameter[i].length; j++) {
+        result[k++] = parameter[i][j]
+      }
+    }
+    return result
+  }
+  // fill() 使用固定值替换数组中的元素
+  function fill1(array,value) {
+    for(let i = 0 ;i < array.length ; i++) {
+      array[i] = value
+    }
+    return array
+  }
+  // every()方法用于检测数组所有元素是否都符合指定条件（通过函数提供）
+  //注意： every() 不会对空数组进行检测。 every() 不会改变原始数组。
+  function every(array, f) {
+    for(let i = 0 ; i < array.length; i ++) {
+      if(!f(array[i])) return false
+    }
+    return true
+  }
+  a = [1,2,3,4,5,6]
+  console.log(every(a, item => item < 6))
+  console.log(every(a, item => item < 7))
+  //数组遍历
+  function forEach(array, action){
+    for(let i = 0 ; i < array.length; i ++) {
+      action(array[i])
+    }
+  }
+  // 数组过滤 filter  检测数值元素，并返回符合条件所有元素的新数组。
+  function filter1(array,f) {
+    let result = []
+    for(let i = 0 ; i < array.length; i ++) {
+      if(f(array[i]))  result.push(array[i])
+    }
+    return result
+  }
+  // 数据汇总（一个值） 将数组中数据（element） 汇总到sum product max 等reduce() 方法接收一个函数作为累加器，数组中的每个值（从左到右）开始缩减，最终计算为一个值。
+  // 注意: reduce() 对于空数组是不会执行回调函数的。
+  function reduce1(array, conbine) {
+    let result = 0
+    for(let i = 0; i < array.length ; i++) {
+      result = conbine(result, array[i])
+    }
+    return result
+  }
+  let re = [1,2,3,4,5,6]
+  console.log(reduce1(re, (sum , item) => sum + item))
+
+  function reduce1(array, conbine, initialValue) { // 增加 初始值 , 默认值为array第一项
+    let result = initialValue
+    let index = 0
+    if(initialValue == undefined) { // 条件 arguments.length == 2
+      result = array[0]
+      index = 1
+    }
+    for(let i = index; i < array.length ; i++) {
+      result = conbine(result, array[i], i, array) // 初始值，或计算后的返回值， 当前元素， 当前元素的索引， 但前元素的数组对象
+    }
+    return result
+  }
+
+
+</script>

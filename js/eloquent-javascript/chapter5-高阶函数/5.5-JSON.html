@@ -1,0 +1,60 @@
+<body>
+  <a href="https://www.json.org/json-en.html">json英文官方网站</a>
+  <a href="https://www.json.org/json-zh.html">json中文官方网站</a>
+  <ol>
+    <li>JSON.stringify 方法</li>
+    <li>JSON.parse 方法</li>
+    <li></li>
+  </ol> 
+</body>
+<script>
+  // javascript object natation
+  // 只能写直接量  vscode 配置文件 即用json写的，可以写注释
+  // 支持转义，在引号中不支持tab ，使用转移符 /t
+  // NaN undefined Infinity（不存在）
+  // null (存在)
+  // json ''可以作为内容，但不作为引号
+  // object 在内存中存储方式为随机
+  // 序列化  网络传输是按连续字节传输，将随机存储方式转化成连续存储方式
+  // 反序列化 将连续存储方式转化为随机存储方式，（此时的存储位置已经和序列化之前的object 不一样）
+
+  // 数据结构
+  // 将json格式的字符串 转化为 js语言的格式
+  function stringify(value){ // 将js 格式 转化为json 字符串格式
+    if(Array.isArray(value)) {
+        let str = '['
+        for (var i = 0; i < value.length; i++) {
+          str += stringify(value[i]) + ','
+        }
+        str = str.slice(0, -1)
+        return str + ']'
+      }
+      if(typeof value === 'object') {
+        let str = '{'
+        for(let j in value) {
+          str += '"' + j +'"'+':' + stringify(value[j]) + ','
+        }
+        str = str.slice(0, -1)
+        return str + '}'
+      }
+      if(typeof value === 'string') {
+        let str = value 
+        return str 
+        return '"' + value + '"'
+      }
+      if(typeof value === 'number') {
+        let str = value 
+        return str
+        return String(value)
+      }
+      if(typeof value === 'boolean') {
+        let str = value 
+        return str 
+        if (value) {
+          return 'true'
+        }else {
+          return 'false'
+        }
+      }
+    }
+</script>

@@ -1,0 +1,64 @@
+<script>
+  /*
+  找到最高值，然后往左右两边遍历
+  亦可从两边向中间遍历（如果中间不容易找，就从两边向向两边遍历
+  */
+  var trap = function(height) {
+    
+    let sum = 0
+
+    let max1 = {max: 0}
+    for(let i = 0; i < height.length - 1; i++) {
+      if(max1.max < height[i]) max1.max = height[i] //得到最大值的下标
+    }
+    let leftHeight = slice(0, max1.max)
+    let rightHeight = slice(max1.max, height.length)
+
+    trap(leftHeight)
+    trap(rightHeight)
+
+    sum += max1.max 
+  }
+  var trap = function(height) {
+
+    while(xxx) {
+
+    }
+
+    for(let i = 0; i < height.length - 1; i++) {
+      if(max1.max < height[i]) max1.max = height[i] //得到最大值的下标
+    }
+    let leftHeight = slice(0, max1.max)
+    let rightHeight = slice(max1.max, height.length)
+    while(xxx){//leftHeight
+      for(let i = 0; i < height.length - 1; i++) {
+      if(max1.max < height[i]) max1.max = height[i]
+      }
+    }
+  }
+
+  function trap1(height) {
+    let iArray = [] // left -> right
+    let jArray = [] // right -> left
+    let leftMax = 0
+    let rightMax = 0
+    for(let i = 0 ; i < height.length; i++) {
+      if(leftMax < heigth[i]) leftMax = height[i]
+      iArray[i] = leftMax
+    }
+    for(let j = height.length - 1; j >= 0; j--) {
+      if(rightMax < height[j]) rightMax = height[j]
+      jArray[j] = rightMax
+    }
+
+    let kArray = []
+    for(let k = 0; k < height.length ; k++) { //循环次数
+      kArray[k] = Math.min(iArray[k], jArray[k])
+    }
+    let sum = 0
+    for(let h = 0 ; h < height.length; h++) {
+      sum += kArray[h] - height[h]
+    }
+    return sum 
+  }
+</script>

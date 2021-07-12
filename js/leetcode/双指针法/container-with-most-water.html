@@ -1,0 +1,17 @@
+<script>
+  // 双指针趋近法 
+  /* 
+   * @param {number[]} height
+   * @param {number}
+  */
+  var maxArea = function(height) {
+    let i = 0
+    let j = height.length - 1
+    let maxA = -Infinity
+    while(j != i) {
+      let area = (j - i) * (heigth[j] > height[i] ? height[i++] : height[j--])
+      if(area > maxA) maxA = area
+    }
+    return maxA
+  }
+</script>

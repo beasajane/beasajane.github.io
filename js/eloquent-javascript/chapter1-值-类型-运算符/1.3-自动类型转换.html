@@ -1,0 +1,19 @@
+<script>
+  /*
+  强制类型转换
+  0 NaN 空字符串('') 视为false
+  即 0 == false  // true
+  '' == false // true
+
+  '' == 0  // true
+  
+  */
+  if(NaN == false) console.log(true)
+  else if(NaN == true) console.log(false)
+  else console.log(NaN)
+  //返回 undefined
+  if(undefined == false) console.log(true)
+  else if(undefined == true) console.log(false)
+  else console.log(undefined)
+  //返回 undefined  // 每一个操作都必须产生一个值 大多时候，会产生无意义的值undefined
+</script>

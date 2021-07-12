@@ -1,0 +1,66 @@
+<body>
+  <div>
+    函数组合
+  </div>
+
+</body>
+<script src="ancestry.js"></script>
+<script>
+    let ancestry = JSON.parse(ANCESTRY_FILE)
+    let men = ancestry.filter(person => person.sex == 'f')
+    let mapmenyear = men.map(yearsOld =>yearsOld.died - yearsOld.born)
+    let total = mapmenyear.reduce((sum,item) => sum += item, 0) 
+    let average = (total / men.length).toFixed(2)
+    console.log(ancestry.filter(person => person.sex == 'f').map(yearsOld =>yearsOld.died - yearsOld.born).reduce((sum, item) => sum += item, 0) / ancestry.filter(person => person.sex == 'f').length)
+
+      
+
+
+
+
+
+    function age(item) {
+      return item.died - item.born
+    }
+    function male(item) {
+      return item.sex == 'm'
+    }
+    function female(item) {
+      return item.sex == 'f'
+    }
+    function averages(array) {
+      function sum(a,b) {return a + b}
+      return array.reduce(sum) / array.length
+    }
+    console.log(averages(ancestry.filter(male).map(age)))
+    console.log(averages(ancestry.filter(female).map(age)))
+
+     
+   // let women = ancestry.filter(person => person.sex == 'm')
+
+    // let menyear = men.reduce((sum,item) => sum += item.died - item.born)
+    // let womenyear = women.reduce((sum, item) => sum += item.died - item.born)
+
+    // let menAverage = (menyear / men ).toFixed(2)
+    // let womemAverage = (womenyear / women).toFixed(2)
+    // filter
+    // reduce 
+    // foreach 
+    // map
+
+
+    var menCount = 0
+    var womencount = 0
+    var menAgeSum = 0
+    var womenAgeSum = 0
+    for(let i = 0; i < ancestry.length; i++ ) {
+      if(ancestry[i].sex == 'm') {
+        womencount++
+        womenAgeSum += ancestry[i].died - ancestry[i].born
+      }else {
+        menCount++
+        menAgeSum += ancestry[i].died - ancestry[i].born
+      }
+    }
+    console.log(menAgeSum / menCount, womenAgeSum / womencount)
+</script>

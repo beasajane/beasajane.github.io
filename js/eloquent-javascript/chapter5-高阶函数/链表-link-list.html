@@ -1,0 +1,341 @@
+<script>
+  // 创建一个链表
+  function createListNode (val) { // object 链表的每个节点（node）都是一个对象，创建链表就是创建对象
+    // var node = {}
+    // node.next = null
+    // node.val = value
+    // return node
+
+    // var node = {
+    //   next: null,
+    //   val: value,
+    // }
+    // return node
+
+    return {  // 节点需要两个属性
+      next: null,  // 一个用来保存节点的值
+      val: val, // 一个用来保存指向下一个节点的指针
+    }
+  }
+  function createListNode(val, next = null) {//创建一个链表节点，一个对象就是一个链表的节点
+    let node = {
+      val: val, 
+      next: next,
+    }
+    return node
+  }
+
+   // 操作链表的各种函数
+   function arrayToList0(array) { // 利用数组创建一个链表
+    let prevNode = createListNode(array[0])//第一个节点、也是前一个节点
+    let head = prevNode  // 第一个节点
+
+    for(let i = 1; i < array.length; i ++) {
+      let curNode = createListNode(array[i]) //由数组参数中的元素创建新的当前节点
+      prevNode.next = curNode //前一个节点的next指向当前节点
+      prevNode = curNode  // 指向完成后，当前节点成为前一个节点
+    }
+    return head  // 返回第一个节点，第一个节点的next属性指向下一个节点，下一个节点的next属性指向下下个节点，以此类推，直到next 指向 
+   }
+// first
+   function arrayToList1(array) { // 利用数组创建一个链表
+    let prevNode = createListNode(0) //该节点是一个废节点
+    let head = prevNode // head作为一个变量，指向初始节点的next属性所指向的节点，也就是将要返回的值
+
+    for(let i = 0; i < array.length; i ++) {  // 双指针 (prevNode, curNode)
+      let curNode = createListNode(array[i]) //由数组参数中的元素创建当前的节点
+      prevNode.next = curNode
+      prevNode = curNode
+    }
+    return head.next
+   }
+//second
+   function arrayToList2(array) {
+     if(array.length == 0) {
+       return null
+     }
+     var head = createListNode(array[0])
+     let prevNode = head
+     for(let i = 1; i < array.length; i ++) {
+       let curNode = createListNode(array[i])
+       prevNode.next = curNode
+       prevNode = curNode
+     }
+     return head
+   }
+   // third
+   function arrayToList3(array){ // 将数组的元素转成链表node，然后前一node的next指向后一个node
+     var nodes = [] // 创建一个新的链表
+     if(array.length == 0) return null
+
+     for(var i = 0; i < array.length ; i ++) {
+       nodes.push(createListNode(array[i])) 
+     }
+     for(var i = 1; i < array.length; i++) {
+       nodes[i -1].next = nodes[i]
+     }
+     return nodes[0]
+   }
+
+
+   // forth danymic
+   function arrayToList4(array) { // 返回剩下部分链表的头部节点 （把剩下部分当成一个部分）
+     if(array.length == 0) {
+       return null  // null 也可当成一个链表
+     }
+
+     let head = createListNode(array[0])
+     head.next = arrayToList4(array.slice(1)) // 除去第一项，剩下部分的节点的头部
+     return head
+   }
+
+   // list to array
+   function listToArray(head) { // 参数一般为链表的头部，初始节点，下一个节点head.next
+     let array = []
+     while(head.next){ // 条件，为head， 遍历列表， head = head。next
+       result.push(head.val)
+       head = head.next
+     }
+     return array
+   }
+   function listToArray2(head) { // 参数一般为链表的头部，初始节点，下一个节点head.next.   空链表，一个链表
+     let array = []
+     let p = head
+     while(p){
+       result.push(p.val)
+       p = p.next
+     }
+     return array
+   }
+
+   // dynamic  
+   function listToArray3(head) {
+      if(!head) {
+        return []
+      }
+      return [head.val].concat[listToArray(head.next)] // 节点与结点之后的剩余部分，拿链表，只要得到头部节点即可
+   }
+   function listToArray3(head) {
+      if(!head) {
+        return []
+      }
+      let tail = head.next  // 剩余部分链表的头部
+      var tailArray = listToArray3(tail)
+      tailArray.unshift(head.val)
+      return tailArray
+   }
+
+   function listToArray4(head,ary = [], pos = 0) {
+     if(!head) {
+       return ary
+     }
+     ary[pos] = head.val
+     listToArray4(head.next,ary,pos + 1)   // head = head.next
+     return ary
+   }
+   listToArray4(head)
+
+
+// prepend 在链表前增加一个新的节点,新节点的值为val
+   function prepend(val, head) {
+     let node = createListNode(val)
+     node.next = head
+     return node
+   }
+
+   //  在链表的后面增加一个节点 append
+   function append(val,head){
+     let node = createListNode(val)
+     
+     if(!head) return node
+      
+     while(head){
+       head = head.next
+       if(!head.next){
+         head.next = node
+         return head
+       }
+     }
+   }
+   
+   function append(val,head){
+     let node = createListNode(val)
+     
+     if(!head) return node
+      
+     let point = head
+     while(head.next){  // 由与循环遍历，此时的head 为最后一个节点的，而返回值为给节点的头部，故，需要有一个变量指针指向初始节点的头部
+       head = head.next
+     }
+     head.next = node
+     return point
+   }
+   var l = null
+   l = append(5, l)
+   // append 递归写法
+   function append(val, head) {
+     if(head && !head.next) {
+      head.next = createListNode(val)
+     } 
+     
+
+     head = head.next
+     return head
+   }
+
+</script>
+<script type="fasd">
+  function createListNode(val) {
+    return {
+      val: val,
+      next: null,
+    }
+  }
+  // 1
+  function arrayToList(array) {
+    let headPrev = createListNode(0)  //实践中headPrev = dummy
+    let prevNode = headPrev // prevnode = prev
+    for(let i = 1; i < array.length; i++){
+      var node = createListNode(array[i])
+      prevNOde.next = node
+      prevNode = node
+    }
+    return headPrev.next 
+  }
+
+
+
+// 2
+  function arrayToList(array) {
+  }
+
+  // 3
+  function arrayToList(array) {
+    if (array.length == 0) {
+      return null
+    }
+
+    var nodes = []
+    for(var i = 0; i < array.length; i++) {
+      nodes.push(createListNode(array[i]))
+    }
+    for(var i = 0; i< array.length - 1; i++) {
+      nodes[i].next = nodes[i + 1]
+    }
+    return nodes[0]
+  }
+
+  // 4 链表是一种递归结构 （几乎，所有的链表都可用递归写
+  function arrayToList(array) {
+    if(array.length == 0) return null // 基本情况
+
+    //arrayToList(array.length - 1) 
+    let head = createListNode(array[0])
+    arrayToList(array.slice(1))  // 趋近
+    return head
+  }
+
+  function arrayToList(array) {
+    let head = array[]
+    var array = []
+    while (head){}
+  }
+// as
+  function arrayToList(array) {
+    var l = null
+    for(var i = 0; i < array.length; i++) {
+      l = append2()
+    }
+    return l
+  }
+
+  function prepend(val, head) {
+    var node = createListNode(val)
+    node.next = head 
+    return node
+  }
+  function append(val, head) {
+    var node = createListNode(val)
+    if(!head) {
+      return node
+    }
+    while(head.next) {
+      head = head.next
+    }
+    head.next = node
+  
+  }
+  function append(val, head) {
+    var node = createListNode(val)
+    if(!head) {
+      return node
+    }
+    let p = head
+    while(p.next) {
+      p = p.next
+    }
+    p.next = node
+    return head
+  }
+
+  function append2 (val, head) {
+    if(!head) {
+      return createListNode(val)
+    }
+    head.next = append2(val,head.next)
+    return head
+  }
+//返回列表第n个节点上val属性值
+function nth(list, n) {
+     var p = head
+     var count = 0
+
+     if(n < 0) return 
+
+     while (p && count < n) {
+       p = p.next // 
+       count++
+     }
+     return p ? p.val : undefined
+   }
+   function nth2(list, n) {
+    if (!l || n < 0) {
+      return undefined
+    }
+    if( n == 0) {
+      return l.val
+    }
+    return nth2(l.next, n - 1)
+   }
+
+function nth(list, n) {
+     var p = head
+     var count = 0
+     while (p) {
+       p = p.next
+       count++
+       if( count== n) {
+         break
+       }
+     }
+   }
+
+   function nth(list, n) {
+     for(let i = 0; i < list.length; i++) {
+       for(let j = n; i >= 0; i--) {
+         if(j == n) return 
+       }
+     }
+   }
+
+
+
+
+  function createListNodex() {
+    return {
+      val : val, 
+      next: null,
+    }
+  }
+
+</script>

@@ -1,0 +1,491 @@
+<script>
+ //排序算法 ，数组排序，在原数组中排序，升序，降序，换位
+  function bubleSort1(array) { //冒泡排序
+    while(array) {
+      let trans = false  // 没换过位置
+      for(let i = 0; i < array.length - 1; i++) {
+          if(array[i] > array[i + 1]) {
+            trans = true
+            let mid = array[i]
+            array[i] = array[i + 1]
+            array[i + 1] = mid
+          }
+      }
+      if(!trans) break
+    }
+    return array
+  }
+  function bubleSort2(array) { //冒泡排序
+    for(let j = 0 ;i < array.length - 1; i ++) {
+      for(let i = 0; i < array.length - 1; i++) {
+          if(array[i] > array[i + 1]) {
+            trans = true
+            let mid = array[i]
+            array[i] = array[i + 1]
+            array[i + 1] = mid
+          }
+      }
+    }
+    return array
+  }
+  
+  
+  
+  // 师版
+  function bubleSort3(array) { //内存循环的循环次数逐步减少
+    for(let j = 0 ;j < array.length - 1; j ++) {
+      let t = false
+      for(let i = 0; i < array.length - 1 - j ; i++) {
+          if(array[i] > array[i + 1]) {
+            t = true
+            let mid = array[i]
+            array[i] = array[i + 1]
+            array[i + 1] = mid
+          }
+      }
+      if(!t) {
+        break
+      }
+    }
+    return array
+  }
+  /* 
+  算法最差情况的复杂度
+  时间复杂度 O(n * n)
+  空间复杂度 O(1) :没有创建新的数组，固定数量的变量
+  */
+  // 师版
+  function bubbleSort(array) {  // var 与let 作用域的问题
+      for(var j = 0; j < array.length - 1; j ++) {
+        var swapped = false 
+        for(let i = 0; i < array.length - 1 - j; i++) { // 内层循环的循环次数逐次递减
+          if(array[i] > array[i + 1]) {
+            swapped = true 
+            swap(array, i , i + 1)
+            // var t = array[i] 
+            // array[i] = array[i + 1]
+            // array[i + 1] = t
+          }
+        }
+        if(!swapped) {  // 判断某一次没有交换
+          break
+        } 
+      }
+      return array
+    }
+    let array = Array(100).fill(0).map( item => Math.random()*100 | 0)
+    bubbleSort(Array(100).fill(0).map( item => Math.random()*100 | 0))
+  
+    58.550 | 0  // 58
+  
+    // 选择排序
+    /*
+    时间复杂度 O(n * n)
+    空间复杂度 O(1)
+    */
+    function selectSort(array) {
+      for(let i = 0;i < array.length - 1; i ++) {
+        for(let j = i + 1; j < array.length; j++) {
+          if(array[i]> array[j]) {
+            swap(array, i, j)
+          }
+        }
+      }
+      return array
+    }
+    let array1 = selectSort(Array(100).fill(1).map( item => Math.random() * 100 | 0))
+    function selectSort(array) {
+      for(let i = 0;i < array.length - 1; i ++) {
+          let minIndex = i // 最小值的下标
+        for(let j = i + 1; j < array.length; j++) {
+          if(array[minIndex] > array[j]) {
+            minIndex = j
+          }
+        }
+        swap(array, i, minIndex)
+      }
+      return array
+    }
+  
+  
+    /*
+    插叙排序法:将无序部分的第一插入到有序部分的正确位置（正确位置后面的肯定都会向后移位）
+    时间复杂度： O(n * n)
+    空间复杂度：O(1)
+  
+    */ 
+  
+    function insertSort1(array) {
+      let sum = 0
+      for(var i = 1; i < array.length; i++) { 
+        //从第二item开始与之前的已经有序的数列对比，
+        for(var j = 0;j < i; j++) { // 
+          if(array[j] < array[i]) { // 从0号位开始，遍历已经排好序的数组
+            swap(array, j, i)
+          }
+        }
+        sum += j
+      }
+      console.log(sum)
+      return array
+    }
+    function  insertSort4(array) {
+      for(let i = 0; i < array.length; i ++) { // 排到第几个数
+        for(let j = i ; j > 0; j--) { // 排到的数 与之前的有序 数列对比
+          if( array[j] < array[j - 1] ) swap(array, j , j - 1)
+          else break
+        }
+      }
+      return array
+    }
+  
+    function insertSort(array) {
+      let sum = 0
+      for(var i = 1; i < array.length; i++) { //从第二item开始与之前的已经有序的数列对比，
+        let count = 0
+        for(var j = i - 1; j >= 0; j--) { 
+          count++
+          if(array[i] > array[j]) { // 从i - 1号位开始，，倒着遍历已经排好序的数组,如果当前的i项 比之前的j项大，就停止循环
+            break
+          }
+          swap(array, j, i) // 否则就交换，值的位置
+        }
+        sum += count
+      }
+      console.log(sum)
+      return array
+    }
+     // 师版
+     function insertSort(array) {
+      for(var i = 1; i < array.length; i++) {
+        let t = array[i]
+        for(var j = i - 1; j >= 0; j--) { 
+          if(array[j] < t) { 
+            break
+          }else{
+            array[j + 1] = array[j]
+          }
+        }
+        array[j + 1] = t
+      }
+      return array
+    }
+  
+  
+   /*
+   归并排序法： 将数组一分为二，分别排序，再将两个有序数组合并
+  时间复杂度：O(n * log(n))
+  空间复杂度： O(n) ---O(2n)
+   */
+  function mergeSort(array) {
+    if (array.length < 2) { // 结束条件
+      return array
+    }
+  
+    var midIdx = array.length >> 1
+    var leftArray = array.slice(0, midIdx)
+    var rightArray = array.slice(midIdx)
+  
+    leftArray = mergeSort(leftArray) // 假设mergSort可以用，将leftArray 排序号
+    rightArray = mergeSort(rightArray)
+  
+    // 如何将两个数组合并
+    var i = 0 
+    var j = 0
+    var k = 0
+    
+    while(i < leftArray.length && j < rightArray.length) {
+      if(leftArray[i] < rightArray[j]){
+        array[k++] = leftArray[i++]
+      }else{
+        array[k++] = rightArray[j++]
+      }
+    }
+   // 如果i < leftArray.length && j < rightArray.length 中一个条件不满足，则
+    while(i < leftArray.length) {
+      array[k++] = leftArray[i++]
+    }
+    while(j < rightArray.length) {
+      array[k++] = rightArray[j++]
+    }
+  
+    return array
+  }
+  
+  function mergeSort1(array) {
+    if(array.length < 2) { // 原子数组（基本情况）长度为1或0，返回原数组
+      return array
+    }
+  
+    let mid = array.length >> 1
+    let leftArray = array.slice(0, mid)
+    let rightArray = array.slice(mid, array.length)
+  
+    mergeSort1(leftArray) // 作用是什么排序，将左边子数组排序，返回基本情形，后，继续下一个语句，如果不返回，这个语句就永远无法完结
+    mergeSort1(rightArray)
+  
+    //let array = [] // 将两个已经排序好的子数组 归并到一个新数组 
+  
+    // 对比两个新数组未排序的最前面的 item ，将小的放到新数组中 . 需要变量 i(left),j(right),a(array)
+  
+    let i = 0, j = 0, a = 0
+  
+    while(i < leftArray.length || j < rightArray.length) { // 将排序好的子数组排序到原数组中
+      if(i == leftArray.length) array[a++] = rightArray[j++]
+      else if (j == rightArray.length)  array[a++] = leftArray[i++]
+      else if(leftArray[i] < rightArray[j]) array[a++] = leftArray[i++]
+      else array[a++] = rightArray[j++]
+    }
+    return array
+  }
+  
+    function swap(array, i, j) {
+      var t = array[i]
+      array[i] = array[j] 
+      array[j] = t
+      return array
+    }
+
+    /*
+    快速排序法
+    时间复杂度 O(n * log(n))
+    空间复杂度 O(n)
+    */ 
+  function quickSort1(array){  // 不能及格的写法 
+    if(array.length < 2) return array  //爆栈因为没有结束条件
+    // let randIndex = Math.floor(Math.random() * 100)
+
+    let randIndex = Math.floor(Math.random() * array.length)
+    let randItem = array[randIndex]
+
+    let a = [] // 小于randitem
+    let b = [] // 等于randitem
+    let c = [] // 大于randitem
+
+  //  quickSort(a) // 假设已经排序好了
+  //  quickSort(c)
+
+    for(let i = 0; i < array.length; i++) {
+      if(array[i] < randItem) a.push(array[i]) 
+      else if(array[i] == randItem) b.push(array[i])
+      else c.push(array[i])
+    }
+    a = quickSort(a) 
+    c = quickSort(c)
+    
+  //  quickSort(a) 不一样
+  //  quickSort(c)
+
+    return a.concat(b,c)
+  }
+
+  function quickSort2(array,start = 0, end = array.length) { // 双指针法 不创新建数组 (end = array.length - 1)
+    if(end - start < 2) return array // end - start - 1
+
+    var pivotIndex = Math.floor(Math.random() * (end - start)) + start
+    var pivotItem = array[pivotIndex]
+
+    let i = start - 1 // 小于等于 pivotItem 
+    let j = start // 大于等于 pivotItem 
+    swap(array, end - 1, pivotIndex)
+    for(var k = start ; k < end ; k++) {
+      if(array[k] <= pivotItem) {
+        i++
+        swap(array,i,j)
+        j++
+      }else {
+        j++
+      }
+    }
+    
+    quickSort2(array, start, i) //第i项是拍好的序 ，一次值排序一个 (i - 1)
+    quickSort2(array, i + 1, end)
+    return array
+    // let indexPrev= 0
+    // let indexNext= array.length  - 1
+    // for(let i = array.length - 1; i >= 0 ; i--) {
+    //   if(array[i] == pivotItem) {
+    //     indexPrev = i
+    //     break
+    //   }
+    // }
+    // for(let i = 0; i < array.length ; i++) {
+    //   if(array[i] == pivotItem) {
+    //     indexNext = i
+    //     break
+    //   }
+    // }
+
+    // quickSort2(array, start, indexPrev)
+    // quickSort2(array, indexNext, end)
+  }
+
+  // 将数组中start 位置到 end 位置的数进行快排
+  function quickSort3(array, start = 0, end = array.length - 1) {
+    //结束条件，结束case    数组中需要排列的长度 小于等于1 ，就无需排序
+    if(end - start + 1 < 2) return array
+
+    let randIndex = Math.floor(Math.random() * (end - start + 1) + start)
+    let randItem = array[randIndex]
+// 双指针计数 比randItem大（小）元素  ,与randItem比较的位置
+    let i = start  // 比较的指针位置
+    let j = start // 小于randitem 指针所指向的位置
+    
+    swap(array, randIndex, end) // 随机元素与排序数组最大下标元素位置互换,最重要的
+    // 将第randIndex 项元素定位，排序
+    for(let k = start; k <= end; k++) { //需要循环的次数为数组中需要排序的起始位置，终止位置
+      if(array[k] <= randItem) { // 如果当前的元素 小于等于 randItem 那么就调换i项与j项位置
+        swap(array, i,j)
+        i++ // 计数小于randItem 的数的位置，但这个i 比 小于的数多一
+      }
+      j++ // 每次循环都加1
+    }
+
+    // 此时 rangItem 已经定位到 i - 1 项位置（该位置确定） ，只需排列其他位置的数
+    quickSort3(array, start, i - 2)
+    quickSort3(array, i, end)
+    
+    return array
+  }
+  // 师版
+  function quickSort4(array, start = 0, end = array.length - 1) {
+    if(end - start  < 1) return array
+    let randIndex = Math.floor(Math.random() * (end - start + 1)) + start
+    let randItem = array[randIndex]
+
+    let i = start 
+    let j = start 
+    
+    swap(array, randIndex, end) 
+    for(; j < end; j++) { 
+      if(array[j] <= randItem) { 
+        swap(array, i++,j)
+      }
+    }
+    swap(array, i , end)
+
+    quickSort4(array, start, i - 1)
+    quickSort4(array, i + 1, end)
+    return array
+  }
+  // 第三种写法
+  function quickSort5(array, start = 0, end = array.length - 1) {  // 带默认参数
+    if(end - start  < 1) return array
+    let randIndex = Math.floor(Math.random() * (end - start + 1)) + start
+    let randItem = array[randIndex]
+
+    let i = start 
+    let j = end 
+    
+    while(i < j) {
+      while(array[i] <= randItem) {
+        i++ // 
+      }
+      while(array[j] > randItem) {
+        j--
+      }
+      if(i < j) swap(array, i , j)
+    }
+
+    quickSort5(array, start, i - 1)
+    quickSort5(array, i + 1, end)
+    return array
+  }
+    function isSorted(array) {
+      for(let i = 0; i < array.length - 1 ; i ++) {
+        if(array[i] > array[i + 1]) return false 
+      }
+      return true
+    }
+
+    // 从大到小排序
+    function insertSort1(array, f = it => it) { // 传第二个参数函数
+      for(var i = 1; i < array.length; i++) { 
+        //从第二item开始与之前的已经有序的数列对比，
+        for(var j = 0;j < i; j++) { // 
+          if(f(array[j]) < f(array[i])) { // 从0号位开始，遍历已经排好序的数组
+            swap(array, j, i)
+          }
+        }
+      }
+      return array
+    }
+    let a1 = [2,31,4,523,56]
+    let sortA1 = insertSort1(a1, i => -i)
+    let sortA2 = insertSort1(a1,)
+
+    var positionMap = {
+      老板: 0, 
+      主管: 1,
+      产品经理: 2,
+    }
+    var person = [
+      {
+        name: 'zhanyishan',
+        position: '产品经理'
+      },
+      {
+        name: 'wangliu',
+        position: '老板'
+      },
+      {
+        name: 'zhaosi',
+        position: '主管'
+      }
+    ]
+    function maps(array, f) {
+      let ary = []
+      for(let i = 0 ; i < array.length; i++) {
+        ary.push(f(array[i]))
+      }
+      return ary
+    }
+
+    insertSort1(person, it => it.name.length)
+    insertSort1(person, it => -mapForNumber(positionMap, it.position))
+    insertSort1(person, it => positionMap[it.position])
+
+    function mapForNumber(object, item) {
+      if(item in object) return  object[item]
+      return -1
+    }
+
+// 多级排序 
+function insertSort10(array, compare) { // 传第二个参数函数 第二参数进行对不大小条件，返回布尔值
+      for(var i = 1; i < array.length; i++) { 
+        //从第二item开始与之前的已经有序的数列对比，
+        for(var j = 0;j < i; j++) { // 
+          if (compare(array[j], array[i]) < 0 ) { // 从0号位开始，遍历已经排好序的数组
+            swap(array, j, i)
+          }
+        }
+      }
+      return array
+    }
+    // compare(array[j], array[i])  返回三种状态的值  -1(<) 0(=) 1(>)
+    insertSort10(person,  (a, b) => { return a.name.length - b.name.length   }) // a zai b hou , -1
+
+    //计数排序 （最快的） 全是数字 ，分布的范围比较窄 O(n)
+    function sort11(array) {
+      let max = 0
+      for(let i = 0 ; i < array.length; i++) {
+        if(max < array[i]) max = array[i]
+      }
+      let ary = Array(max + 1).fill(0)  // +1 
+      for(let i = 0; i < array.length; i++) {
+        ary[array[i]]++
+      }
+      let j = 0
+      for(let i = 0; i < ary.length; i ++) {
+        for(let k = 0 ;k < ary[i] ; k++) {
+          array[j++] = i
+        }
+      }
+      return array
+    }
+    //堆排序
+    //桶排序
+    //希尔排序（一般不会问道，过于复杂）
+    //招聘主要问以上讲过的
+
+  </script>

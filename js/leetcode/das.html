@@ -1,0 +1,21 @@
+<script>
+  function bubbleSort(array) {
+    
+    for(var j = 0; j < array.length - 1; j ++) {
+      var swapped = false
+      for(let i = 0; i < array.length - 1 - j; i++) {
+        if(array[i] > array[i + 1]) {
+          swapped = true 
+          var t = array[i] 
+          array[i] = array[i + 1]
+          array[i + 1] = t
+        }
+      }
+      if(!swapped) {
+        break
+      } 
+    }
+    console.log(j)
+    return array
+  }
+</script>

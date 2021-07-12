@@ -1,0 +1,37 @@
+<script>
+   // 将数组中start 位置到 end 位置的数进行快排
+   function quickSort3(array, start = 0, end = array.length - 1) {
+    //结束条件，结束case    数组中需要排列的长度 小于等于1 ，就无需排序
+    if(end - start + 1 < 2) return array
+
+    let randIndex = Math.floor(Math.random() * (end - start + 1) + start)
+    let randItem = array[randIndex]
+// 双指针计数 比randItem大（小）元素  ,与randItem比较的位置
+    let i = start  // 比较的指针位置
+    let j = start // 小于randitem 指针所指向的位置
+    
+    swap(array, randIndex, end) // 随机元素与排序数组最大下标元素位置互换,最重要的
+    // 将第randIndex 项元素定位，排序
+    for(let k = start; k <= end; k++) { //需要循环的次数为数组中需要排序的起始位置，终止位置
+      if(array[k] <= randItem) { // 如果当前的元素 小于等于 randItem 那么就调换i项与j项位置
+        swap(array, i,j)
+        i++ // 计数小于randItem 的数的位置，但这个i 比 小于的数多一
+      }
+      j++ // 每次循环都加1
+    }
+
+    // 此时 rangItem 已经定位到 i - 1 项位置（该位置确定） ，只需排列其他位置的数
+    quickSort3(array, start, i - 2)
+    quickSort3(array, i, end)
+    
+    return array
+  }
+
+  
+  function swap(array, i, j) {
+      var t = array[i]
+      array[i] = array[j] 
+      array[j] = t
+      return array
+    }
+</script>

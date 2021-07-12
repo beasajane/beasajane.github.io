@@ -1,0 +1,76 @@
+
+<script>
+/*
+  delete
+  in
+  for(let key in object) 遍历对象的属性
+
+  propertyName 与 propertyValue 具有映射关系
+
+
+
+
+  null , array, object  type of object 
+  同一对象，才相同
+  */  
+  a = []
+  if(a == []) {
+    console.log(true)
+  }else {
+    console.log(false) 
+  } 
+  // false
+
+  // 深度对比
+  // deepEqual({a: 1, b: 2}, {a: 1, b: 2})  // 对比对象的属性值是否相同
+
+  //object 应用
+
+  var twoSum = function(array, target) {
+    let obj = {}
+    for(let i = 0; i <array.length; i++) {
+      if(array[i] in obj) {
+        return [obj[array[i]], i]
+      }
+      let dif = target - array[i] // 差值
+      obj[dif] = i
+    }
+    return undefined
+  }
+  var twoSum1 = function(array, target) {
+    let obj = {}
+    for(let i = 0; i <array.length; i++) {
+      let dif = target - array[i] // 差值
+      if(dif in obj) {
+        return [obj[dif], i]
+      }
+      obj[array[i]] = i
+    }
+    return undefined  
+  }
+  var twoSum2 = function(array, target) {
+    let ary = []
+    for(let i = 0; i <array.length; i++) {
+      for(let j = i + 1 ; j < array.length; j ++) {
+        if(array[i] + array[j] == target) ary.push([i, j])
+      }
+    }
+    return ary
+  }
+
+  function firstUniqChar(s) { //嵌套循环的时间复杂度呈指数增长 暴力解法 循环搞起 
+    let obj = {}
+    for(let i = 0; i < s.length ; i++) {
+      let curChar = s[i] 
+      if(curChar in obj) {
+        obj[curChar]++
+        continue
+      }
+      obj[curChar] = 1
+    }
+    for(var key in obj) {
+      if(obj[key] == 1) return key
+    }
+    return -1
+  }
+</script>

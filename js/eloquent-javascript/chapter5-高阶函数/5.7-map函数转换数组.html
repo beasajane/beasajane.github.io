@@ -1,0 +1,28 @@
+<head>
+  <title>
+    5.7-map函数转换数组
+  </title>
+</head>
+<body>
+  <p>
+    相对于foreach 方法，map 方法多：一个数组变量，新数组的返回值
+    对参数数组的所有元素调用transform函数，利用返回值构建一个新的数组
+  </p>
+</body>
+<script title='map方法原理'>
+  function mAp(array, transform){
+    let mapped = []
+    for(let i = 0; i < array.length; i ++) {
+      mapped.push(transform(array[i]))
+    }
+    return mapped
+  }
+
+  function map(array, mapper) {  // 数组中的每一个函数都会通过该函数映射一个新数组对应的元素
+    let ary = []
+    for(let i = 0; i < array.length ; i ++) {
+      ary.concat( mapper(arrya[i], i) )
+    }
+    return ary
+  }
+</script>

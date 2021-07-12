@@ -1,0 +1,18 @@
+<script>
+  function f(a,b,c) {
+    return a,b,c
+  }
+  f(1,2,3) // 3 逗号表达式，输出最后一个值
+
+  function s(a,b,c) {
+    return a+b+c
+  }
+  console.log(s(1,2,3) ) // 6
+  let s1 = s.bind(null,1) 
+  console.log(s1(2,3)) // 6
+  let s2 = s1.bind(null, 2) 
+  console.log(s2(3)) // 6
+
+  s4 = s.bind(null, 1,2)
+  console.log(s4(3)) // 6
+</script>

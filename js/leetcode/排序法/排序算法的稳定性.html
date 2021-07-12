@@ -1,0 +1,52 @@
+<script>
+  /*
+排序算法的稳定性，相同元素的相对位置 又没哟发生变化
+ * 稳定的排序算法：
+    bubble 排序 冒泡排序
+    插入排序
+    归并排序
+ * 不稳定的排序法：
+    select 排序 
+    quick 排序 
+
+
+  * 排序算法的稳定性的作用
+      稳定性的一个重要应用就是多级排序（类似成绩单： 总分相同按照语文排，以此类推）
+  */
+ // 多级排序 
+ function insertSort10(array, compare) { // 传第二个参数函数 第二参数进行对不大小条件，返回布尔值
+      for(var i = 1; i < array.length; i++) { 
+        //从第二item开始与之前的已经有序的数列对比，
+        for(var j = 0;j < i; j++) { // 
+          if (compare(array[j], array[i]) < 0 ) { // 从0号位开始，遍历已经排好序的数组
+            swap(array, j, i)
+          }
+        }
+      }
+      return array
+    }
+    // compare(array[j], array[i])  返回三种状态的值  -1(<) 0(=) 1(>)
+    insertSort10(person,  (a, b) => { return a.name.length - b.name.length   }) // a zai b hou , -1
+    data.sort((a,b) => { // 多级排序 不是稳定的代码
+      var total1 = a.yuwen + a.shuxue + a.yingyu 
+      var total2 = b.yuwen + b.shuxue + b.yingyu
+      if(total1 == total2) {//总分相同
+        if(a.yuwen == b.yuwen) { //语文相同
+          if(a.shuxue == b.shuxue) {// 数学相同
+              return b.yingyu - a.yingyu //英语不同
+          }else{// 数学不同
+            return b.shuxue - a.shuxue 
+          }
+        }else{ // 语文不同
+          return b.yuwen - a.yuwen
+        }
+      }else { // 总分不同
+        return total2 - total1
+      }
+    })
+    // 稳定的代码
+    // Google 里不稳定排序 sort
+    data.sort((a,b) => b.yingyu - a.yingyu)
+        .sort((a,b) => b.shuxue - a.shuxue)
+        .sort((a,b) => b.yuwen - a.yuwen)
+</script>

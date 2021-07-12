@@ -1,0 +1,113 @@
+<script src="ancestry.js"></script>
+
+<script>
+  var ancestry = JSON.parse(ANCESTRY_FILE)
+</script>
+
+<script>
+  function foreach(array, action) {
+    for(let i = 0; i < array.length; i ++) {
+      action(array[i])
+    }
+  }
+  function filter(array, test){
+    let result = []
+    for(let i = 0; i < array.length; i++) {
+      if(test(array[i],i)) result.push(array[i])
+    }
+    return result
+  }
+  var bornAfer1900 = filter(ancestry, person => person.born >= 1900)
+  var men = filter(ancestry, person => person.sex == 'f')
+  var women = filter(ancestry, person => person.sex == 'm')
+
+  function map(array, mapper) {  // 数组中的每一个函数都会通过该函数映射一个新数组对应的元素
+    let ary = []
+    for(let i = 0; i < array.length ; i ++) {
+      //ary.concat( mapper(array[i], i) )
+      ary.push( mapper(array[i], i))
+    }
+    return ary
+  }
+  let personName = map(ancestry, person => person.name)
+
+//band 绑定函数  partially apply (部分调用)
+var theSet = ["Carel Haverbeke", "Maria van Brussel","Donald Duck"];
+function isInSet(set, person) {
+  return set.includes(person.name)
+}
+
+let b = ancestry.filter(p => {
+  if(isInSet(theSet, p)) {
+    return true
+  }
+  return false
+})
+let a = ancestry.filter(p => isInSet(theSet, p))
+
+let f = isInSet.bind(null, theSet)
+
+let c = ancestry.filter(p => f(p))
+function ff(p) {
+  return ff(p)
+}
+ 
+let d = ancestry.filter(f)
+let c1 = function(p) { // 该函数将作用仅仅是将参数传递给函数f  ，故可以直接写成 f 
+  return f(p)
+}
+// let f = function(p) {
+//   return xxx
+// }
+let e = ancestry.filter(isInSet.bind(null, theSet))
+
+
+
+
+//人名与人的信息关联起来
+let byName = {}
+ancestry.forEach(item => byName[item.name] = item)
+console.log(byName['Philibert Haverbeke'])
+
+
+var targetName = 'Pauwels van Haverbeke'
+function getSharedGene(name) {
+  if (name == targetName) {
+    return 1
+}
+  var p = byName[name]
+  if(!p) {
+    return 0
+  }
+  return (getSharedGene(p.father) + getSharedGene(p.mather)) / 2
+}
+
+ancestry.map(item => item.name).map(getSharedGene)
+ancestry.map(item => item.name).map(getSharedGene).map(Math.log2)
+
+
+
+function reduceAncestry(person, f, defaultValue) {  //f 函数的功能 想清楚，然后先放着，随后写代码 
+  // 编程语言可以无限抽象
+  function valueFor(person){
+    if(person == null) {
+      return defaultValue
+    }
+    return f(person, valueFor(byName[person.mather]), valueFor(byName[person.father]))
+  }
+  return valueFor(person)
+}
+
+function shareDNA(person, fromMather,fromFather){
+  if(person.name == 'Pauwels van Haverbeke'){
+    return 1
+  }else {
+    //shareDNA(person, byName[person.mather], byName[person.father])
+    return  (fromMather + fromFather) / 2
+  }
+}
+var ph = byName['Philibert Haverbeke']
+console.log(reduceAncestry(ph, shareDNA, 0))
+
+
+</script>

@@ -1,0 +1,20 @@
+<script>
+
+  //将两个有序数组合成一个
+  //每个数组的左边一定小于右边（隐藏条件），对比两个数组最小的，或者最大
+  var merge = function(nums1, m, nums2, n) {
+    let i = m - 1
+    let j = n - 1
+    let k = m + n - 1
+    while(i >= 0 && j >= 0) {
+      if(nums1[i] > nums2[j]) nums1[k--] = nums1[i--]
+      else {
+        nums1[k--] = nums2[j--]
+      }
+    }
+    while(j >= 0) {
+      nums1[k--] = nums2[j--]
+    }
+    return nums1
+  }
+</script>
