@@ -1,0 +1,71 @@
+<script>
+
+  // 棋盘格求出路径
+  function path( a, b, initialb = 0 ,initiala = 0, p = '') { // 求出（0，0） 到 （a, b） 的路径
+    if(initiala > a || initialb > b) return // 不满足条件就 返回 以空值 以终结该次调用
+    if(initiala == a && initialb == b) console.log(p) // 将所有满足条件的打印出来
+
+    path( a , b, initialb, initiala + 1,p + '^' )
+    path(a , b, initialb + 1, initiala, p + '>' )
+  }//只能向上或向右，切一次只能走一步
+  // 共有多少种走法 count 计数
+
+
+
+  // function path( a, b, initialb = 0 ,initiala = 0, count = 0) { // 求出（0，0） 到 （a, b） 的路径
+  //   if(initiala > a || initialb > b) return count// 不满足条件就 返回 以空值 以终结该次调用
+  //   if(initiala == a && initialb == b) return count++ // 将所有满足条件的打印出来
+  // ****  // 返回的count++ 是count值，而不是count 本身，而你需要的是count本身
+  //   path( a , b, initialb, initiala + 1,count )
+  //   path(a , b, initialb + 1, initiala,count )
+  //   return count
+  // }//只能向上或向右，切一次只能走一步
+  // // 棋盘格 从坐下角 -> 右上角
+  function path( a, b, initialb = 0 ,initiala = 0, count = 0) { // 求出（0，0） 到 （a, b） 的路径
+    if(initiala > a || initialb > b) return count// 不满足条件就 返回 以空值 以终结该次调用
+    if(initiala == a && initialb == b) {
+      count++ // 将所有满足条件的打印出来function path( a, b, initialb = 0 ,initiala = 0, count = 0) { // 求出（0，0） 到 （a, b） 的路径
+    if(initiala > a || initialb > b) return count// 不满足条件就 返回 以空值 以终结该次调用
+    if(initiala == a && initialb == b) {
+      count++ // 将所有满足条件的打印出来
+      return count 
+    }
+    // 返回的count++ 是count值，而不是count 本身，而你需要的是count本身
+    count = path( a , b, initialb, initiala + 1,count )
+    count = path(a , b, initialb + 1, initiala,count )
+    return count 
+  }
+      return count 
+    } // 不能写成return count++ 的形式， 该语句等价于  return count; count++
+    // 返回的count++ 是count值，而不是count 本身，而你需要的是count本身
+    count = path( a , b, initialb, initiala + 1,count )
+    count = path(a , b, initialb + 1, initiala,count )
+    return count 
+  }
+
+
+
+
+  function f(i,j) {
+    
+    let ary = Array(i) // 边缘处的节点只有一条可能性，因为只能 往右，或往上两个方向
+    ary[0] = Array(j).fill(1)
+    for(let m = 1; m < i; m++ )  { //为ary的其他项创建空数组
+      ary[m] = [1]
+    }
+    function g(i, j){  //
+      if(i == 0 || j == 0)  return 1
+      if(ary[i][j] != undefined) return ary[i][j]
+
+      ary[i][j] = g(i - 1, j) + g(i, j - 1)
+
+      return  ary[i][j] // g()的功能是什么， 获得该节点的路径的数量
+      //Cannot read property '3' of undefined  表示数组没有创建，没有属性  把3带入，查看，自己推算有没有创建数组
+    }
+    g(i - 1, j -1 )  // 七点为零
+    return ary // 到达某一结点的路只有两条（左节点，下节点），故，节点的可能的路径 
+    // Illegal return statement
+  }
+
+
+</script>

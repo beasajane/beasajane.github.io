@@ -1,0 +1,158 @@
+<script>
+ // 新建一个二叉树节点
+ function createTreeNode(value) {
+   return {
+     left: null,
+     right: null,
+     value: value,
+   }
+ }
+
+ // 将数组转成二叉树 
+  function arrayToTree(array, index = 0 ) {
+    if(!array[index]) return null
+
+    let tree = createTreeNode(array[index]) // 需要创建一个二叉树
+
+    tree.left = arrayToTree(array, index * 2 + 1) // 左（根）子节点
+    tree.right = arrayToTree(array, index * 2 + 2) // 右（根）子节点
+
+    return tree // 求得是二叉树
+  }
+
+  //将二叉树 传话为 数组
+  function treeToArray(root, index = 0, array = []) { //作用是将根节点的value值放到array中
+    if(root == null) return array
+
+    array[index] = root.value
+    treeToArray(root.left, index * 2 + 1)
+    treeToArray(root.right, index * 2 + 2)
+
+    return array
+  }
+
+  function treeToCondensedArray(root) { //作用是将根节点的value值放到array中
+    if(!root) return []
+
+    let array = []
+    let nodes = [root]  // 重中之重
+    
+    for(let i = 0; i < nodes.length; i ++) {
+      if(nodes[i]){
+        let node = nodes[i]
+        array.push(node.value)
+
+        nodes.push(nodes.left) // 只要nodes[i]成立，那么就一定存在node.left节点
+        nodes.push(nodes.right) // 同上
+      }else{
+        array.push(null)
+      }
+    }
+
+    return array
+  }
+
+  function treeToCondensedArray(root) { //作用是将根节点的value值放到array中
+    if(!root) return []
+
+    let array = []
+    let nodes = [root]  // 重中之重
+    
+    for(let i = 0; i < nodes.length; i ++) {
+      if(nodes[i]){
+        let node = nodes[i]
+        array.push(node.value)
+
+        node.push(node.left) // 只要nodes[i]成立，那么就一定存在node.left节点 ,将这个节点放到nodes数组中，数组就会增长
+        node.push(node.right) // 同上
+      }else{
+        array.push(null) // 根节点为null 时，nodes 的长度不增长
+      }
+    }
+
+    return array
+  }
+//循环解法，非递归法    用到了队列，后进前出（前进后出）
+  function ArrayToTree(arr) { // 输入的时数组
+    if(!arr) return null  // 数组为空的特殊情况，无法创建rootnode
+    let root = createTreeNode(arr[0])// 不是随便创立 object 而是创立 二叉树的节点
+
+    let nodes = [root]
+    for(let i = 1; i < arr.length; i++) {
+      let node = nodes.shift() // 取出第一项
+
+      //node.left = arr[i] // arr[i]是一个数, node.left 需要的是这个数值所代表的二叉树节点 节点也可以是null，所以需要判断，要不要创建字节点
+      if(arr[i] == null) {
+        node.left = null
+      }else{
+        node.left = createTreeNode(arr[i])
+        nodes.push(node.left)
+      }
+
+      i++
+
+      if(arr[i] == null) {
+        node.left = null
+      }else{
+        node.right = createTreeNode(arr[i])
+        nodes.push(node.right)
+      }
+    }
+
+
+    return root // 输出的是tree
+  }
+  function ArrayToTree(arr) {
+    if(!arr) return null 
+    let root = createTreeNode(arr[0])
+    let nodes = [root]
+    for(let i = 1; i < arr.length; i++) {
+      let node = nodes.shift() 
+      if(arr[i] == null || !arr[i] ) {
+        node.left = null
+      }else{
+        node.left = createTreeNode(arr[i])
+        nodes.push(node.left)
+      }
+      i++
+      if(arr[i] == null || !arr[i]) {
+        node.left = null
+      }else{
+        node.right = createTreeNode(arr[i])
+        nodes.push(node.right)
+      }
+    }
+    return root
+  }
+
+  function treeToKuohao(root){
+    if(root == null) return ''
+    if(!root.left && !root.right) return root.value
+    return root.value + '('+ root.left +')' +"("+ root.right +')'
+  }
+
+  function treeToHTML(root) {
+    let str = ''
+    if(root) {
+      str += '<div>'
+        str += '<header style="text-align: center;">'+ root.value +'</header>'
+        str += '<main style="display: flex;">'
+        str += '<aside style="flex-grow: 1;">' + treeToHTML(root.left) + '</aside>'
+        str += '<aside style="flex-grow: 1;">' + treeToHTML(root.right) + '</aside>'
+        str += '</main>'
+      str += '</div>'
+    }
+    return str
+  }
+</script>
+<body>
+  <div>
+    <header style="text-align: center;">
+      root.value 
+    </header>
+    <main style="display: flex;">
+      <aside style="flex-grow: 1;">root.left.value</aside>
+      <aside style="flex-grow: 1;">root.right.value</aside>
+    </main>
+  </div>
+</body>

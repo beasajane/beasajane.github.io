@@ -1,0 +1,95 @@
+<body>
+  <p>
+      new 关键字会进行如下的操作：
+
+      1.创建一个空的简单JavaScript对象（即{}）；
+      2.链接该对象（设置该对象的constructor）到另一个对象 ；
+      3.将步骤1新创建的对象作为this的上下文 ；
+      4.如果该函数没有返回对象，则返回this。
+
+
+      new 在执行时会做四件事情：
+
+      ① 在内存中创建一个新的空对象。
+    
+      ② 让 this 指向这个新的对象。
+    
+      ③ 执行构造函数里面的代码，给这个新对象添加属性和方法。
+    
+      ④ 返回这个新对象（所以构造函数里面不需要 return ）。
+  </p>
+  <p>
+    创建一个用户自定义的对象需要两步：
+
+      通过编写函数来定义对象类型。
+      通过 new 来创建对象实例。
+
+    创建一个对象类型，需要创建一个指定其名称和属性的函数；对象的属性可以指向其他对象
+  </p>
+</body>
+<script>
+  new Array //容错机制， 不传参数  Array就是一个对象类型
+  new Array()
+  new Function
+  //判断 构造函数有没有用new调用，没有，则给其加上new
+
+  // 不加new  f的调用方式为函数形式，则，this指向 window （注意：在浏览器中）
+  function f(name, age) {
+    this.name = name
+    this.age = age
+  }
+  var d = f(li, 3) // 返回undefined
+  window.age // 3
+
+  function g(name, age) {
+    if(this === window) {  // 如果没有用new调用g（）
+      return new g(name, age)
+    }
+    this.name = name
+    this.age = age
+  }
+
+  function g(name, age) {
+    if(this.__proto__ !== g.prototype) {  // 如果没有用new调用g（）
+      return new g(name, age)
+    }
+    this.name = name
+    this.age = age
+  }
+  // 写一个函数
+  size(array) //返回数组的长度
+  size(object) // 返回对象的属性名的数量
+
+  // es6 版本
+
+  function p(name, age) {
+    if(new.target == p) {  // 当且仅当p 被new 调用时，为真 （new的目标值为p为真）
+      this.name = name
+      this.age = age
+      return this
+    }
+    return new p(name,age)
+  }
+  function p(name, age) {
+    let value = new.target
+    if(value !== p) {  // 当且仅当p没有使用new调用时，为真 （new的目标值为p为真）
+      return new p(name,age)
+    }
+    this.name = name
+    this.age = age
+  }
+
+
+
+//new 的时候,new 对构造函数 做了什么  
+new Constructor(...args)
+NEW(Constructor, ...args)
+function NEW(constructor, ...args) {
+  var obj = Object.create(constructor.prototype)  // 以什么为原型创建一个对象
+  var result = Constructor.call(obj, ...args)  // 将属性加入到this指向的对象中
+  if(result && typeof result == 'object') { // 如果constructor函数返回的值是一个对象，就将此对象返回
+    return result // result == null （typeof null == 'object'
+  }
+  return obj // 否则，返回 obj
+}
+</script>

@@ -1,0 +1,88 @@
+<script> //recursion recursion
+// 不要把过多的注意力放在效率上面
+// 先能够做出来，实在太慢，就优化，导致变慢的那一部分
+/*
+  * 递归要点：
+      在一个函数中使用自己的时候，认为它已经被正确实现。（可以，将其认为是另一个已经被写好的函数，来调用）
+      要有结束条件（即某些分支，不需要调用自己来完成）
+      调用自己的代码，是将问题向着这个结束条件靠拢（推进）
+      不要有重复计算
+*/
+
+
+  function power(base, num) { // base的几次幂，就是base的几次乘积
+    if(num == 0) return 1
+    return base * power(base, num - 1)  // 返回余下次数的乘积
+    // power(base, num - 1) -> base * power(base, num - 1)
+  }
+
+  function fact(num) { // 某个数的阶乘4！ = 4 * 3！= 4 * （3 * 2！）= 4 * （3 * （2 * 1！）） 
+    if(num == 1) return 1
+    return num * jiecheng(num - 1)
+  }
+  // 等差数列 Sn = n + S(n - 1)
+  function s(n,k,a1){//求等差数列，前n项和,此函数代表求前n项和
+    if(n == 1) return a1
+    return a(n,k,a1) + s(n - 1, k, a1)
+  }
+  function a(n, k, a1) { // param n第n项，前后项只差为 k,a1第一项
+    if(n == 1) return a1
+    return k + a(n - 1, k, a1)
+  }
+// 师版
+  function a(n) {
+    return n
+  }
+  function s(n) {
+    if(n == 1) return a(1)
+    return a(n) + s(n - 1)
+  }
+
+  //斐波那契数列
+  function f(n) {
+    if(n <= 2) return 1
+    return f(n - 1) + f(n - 2) // 返回 f(n) 值 f()函数求的就是数列的第几项
+  }
+
+  function integerlist(n) { // 求前n项数列的数组
+    let obj = {}
+
+    function f(n) {
+      if(n in obj) return obj[n] // 数字不能作为   点（.）形式  读取数据 只能用[]形式
+      if(n <= 2) {
+        obj[n] = 1
+        return obj[n] //结束条件，没有会爆栈
+      }
+      obj[n] = f(n - 2) + f(n - 1)// 返回 f(n) 值 f()函数求的就是数列的第几项
+      return obj[n]
+    }
+    f(n)
+    let ary = []
+    for(let key in obj) {
+      ary.push(obj[key])
+    }
+    return ary
+  }
+  // 棋盘格 从坐下角 -> 右上角
+  function f(i,j) {
+    
+    let ary = Array(i) // 边缘处的节点只有一条可能性，因为只能 往右，或往上两个方向
+    ary[0] = Array(j).fill(1)
+    for(let m = 1; m < i; m++ )  { //为ary的其他项创建空数组
+      ary[m] = [1]
+    }
+    function g(i, j){  //
+      if(i == 0 || j == 0)  return 1
+      if(ary[i][j] != undefined) return ary[i][j]
+
+      ary[i][j] = g(i - 1, j) + g(i, j - 1)
+
+      return  ary[i][j] // g()的功能是什么， 获得该节点的路径的数量
+      //Cannot read property '3' of undefined  表示数组没有创建，没有属性  把3带入，查看，自己推算有没有创建数组
+    }
+    g(i - 1, j -1 )  // 七点为零
+    return ary // 到达某一结点的路只有两条（左节点，下节点），故，节点的可能的路径 
+    // Illegal return statement
+  }
+
+</script>

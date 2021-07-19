@@ -1,0 +1,83 @@
+<body>
+  <p>
+    Object.setPrototypeOf() 为对象设置原型
+  </p>
+ chrome的行为，，当一个对象被展示在浏览器的控制台时，在展开过以后，不会再随着对象的更新而更新，保持旧的状态
+</body>
+<script>
+
+  console.log(new Array === new Array())
+
+  function createOrder(goods, userName, totalPrice) { //属性变化，所执行的函数参数变
+    var order = {
+      goods: goods,
+      userName: userName,
+      totalPrice: totalPrice,
+      time: Date.now(), // 能拿到当前时间的毫秒级
+      payed: false,
+    }
+    order.pay = function() { // 封装 将 函数共享
+      openAlipay(this, totalPrice) 
+      this.payed = true
+    }
+    return order
+  }
+
+
+
+  var orderProto = {
+    function() { // 封装 将 函数共享
+      openAlipay(this, totalPrice) 
+      this.payed = true
+    }
+  }
+  function createOrder2(goods, userName, totalPrice) { //属性变化，所执行的函数参数变
+    var order = {
+      goods: goods,
+      userName: userName,
+      totalPrice: totalPrice,
+      time: Date.now(), // 能拿到当前时间的毫秒级
+      payed: false,
+    }
+    Object.setPrototypeOf(order, orderProto) // 为order 设置 原型 orderProto
+
+    return order
+  }
+
+
+
+  // constructor
+
+  //调用 函数时，前面加上new ，创建一个构造函数 
+
+
+
+// 当一个函数被当成一个构造函数被调用
+  function f() {
+    this.foo = 1
+    this.bar = 2
+  }
+  var x = new f()  //  {foo:1, bar: 2}
+  function f1() {
+    this.foo = 1
+    this.bar = 2
+    return {x: 1}
+  }
+  var x = new f1()  //  {x: 1}
+  this.__proto__ === f.prototype
+  x.__proto__ === f.prototype
+
+
+  function listNode(value) {
+    this.value = value
+    this.next = null
+  }
+  new listNode(2)
+
+  function treeNode(value) {
+    this.value = value
+    this.left = this.right = null
+  }
+
+  // 一般  构造函数以大写字母开头
+</script>

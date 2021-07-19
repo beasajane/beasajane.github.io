@@ -1,0 +1,58 @@
+<body>
+  函数的this<br>
+  函数的this指向什么 取决于函数的【调用形式】，与函数定义位置和调用位置无关
+  调用形式：<br>
+    * f() 以函数形式调用，this 指向全局作用域 对象， 在浏览器里是window<br>
+    * obj.f()  以对象方法的形式调用，f的this指向obj<br>
+    * f.call/apply(object) 直接使用call或apply调用，f的this指向object<br>
+    * new f() 以构造函数形式调用，f的this指向一个新的空对象， 且其原型为f.prototype<br>
+    
+    * 难点：将函数传给其他函数时，无法确定函数的this， 需要看那个函数以何种形式调用该函数<br>
+
+    * 将函数从对象里读出放入一个变量中，通过该变量调用该函数，this为window<br>
+    * 箭头函数的this相当于一个未在函数内声明的普通变量 ，箭头函数的this看其外面的的this， 如果外面是一个函数，得先确定这函数此时的this，如果外面的函数为箭头函数，看更外层
+</body>
+
+<script>
+    obj = {
+    val: 8, 
+    getValue: function () {
+      return this.val
+    }
+  }
+  obj.getValue() // 8
+
+  var a = [1,2,3,4]  // 将a中元素映射为8
+  a.map(obj.getValue)// 
+  var getValue = obj.getValue
+  a.map(getValue)
+
+
+  function map(ary, mapper) {
+    var result = []
+    for(let i = 0; i < ary.length; i++) {
+      result.push( mapper(ary[i]) )
+    }
+    return result
+  }
+  map([1,2,3,4], obj.getValue)// [undefined,undefined,undefined,undefined] 当作函数调用，this为window
+  map([1,2,3,4], obj.getValue.bind(obj)) // 绑定this为obj
+  a.map(  obj.getValue.bind(obj))
+
+  a.map(  obj.getValue, obj)
+
+  a = [1]
+  a.push(true, false, null, 3,3,2) // 7
+
+
+ // this问题
+  a = [1,2,3,4,5]
+  a.map2 = function (mapper) {
+    let result = []
+    for(let i = 0; i < this.length; i++) {
+      result.push( mapper(this[i]) )
+    }
+    return result 
+  }
+  a.map2(it => it * 2)
+</script>

@@ -1,0 +1,157 @@
+<script>
+  //
+// 栈 左进左出， 右进右出，
+  let list = {}
+// push 的给人的思想固化，是右边进，右边出，怎么也转不过来用左边进，左边出
+
+// 链表 头部进，头部出，    尾部进，尾部出
+  function listStackPush(head, val) { // 参数是链表的头部,和被push到里面的值
+    let node = ListNode(val)
+    node.next = head
+    head = node
+    return head
+  }
+  function listStackPop(head) { // 参数链表的头部，
+    let result = head
+    head = head.next
+    return result.val // 返回的是头部节点的值
+  }
+  list = listStackPush(list, 2)  // 
+
+  function ListNode(val) {
+    if(new.target !== ListNode){
+      return new ListNode(val)
+    } 
+    this.next = null
+    this.val = val
+  }
+
+
+  // 封装 到一个构造函数Stack中，Stack是一种自定义的对象类型
+  function Stack(head = null) { // 利用构造函数创建一个新的  空对象  ，然后为新对象添加属性
+    this.head = head // 需要什么信息，就给这个对象加什么信息，而不是先考虑信息，然后再写
+    this._size = 0  
+  }
+  Stack.prototype.push = function (val){
+    if(val){
+      let node = ListNode(val)
+      node.next = this.head  //node.next 指向 this.head 指向的东西，
+  
+      this.head = node  // this.head 放弃原有的东西，指向node
+      this._size++
+    }
+    return this._size // 长度
+  }
+
+  Stack.prototype.pop = function () { //head链表的头部 ，所以head信息要被存在 Stack构造函数中
+    if(this.head) {
+      let result = this.head
+      this.head = this.head.next
+      this._size--
+      return result.val 
+    }else {
+      return undefined 
+    }
+  }
+  Stack.prototype.peek = function() {
+    if(this.head) {
+      return this.head.val 
+    }
+  }
+  Stack.prototype.pushS = function (...val){
+    for(let i = 0 ; i < val.length; i ++) {
+      let node = ListNode(val[i])
+      node.next = this.head  //node.next 指向 this.head 指向的东西，
+  
+      this.head = node  // this.head 放弃原有的东西，指向node
+      this._size++
+    }
+    return this._size // 长度
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+//先对链表进行分析，既然是链表，那么它的特性就是，node.next 可以指向它的head，同时它也可以指向别的节点来增加新的节点，即尾部（tail）.next 指向node
+
+  let head = screen
+  function queuePushx(head, val,_size) {
+    let node = ListNode(val) 
+    node.next = head
+    _size++
+    return _size
+  }
+  function queuePopx(head,tail){
+    tail = tail.next 
+  }
+  function queuePushx(tail, _size,val){
+    let valNode = ListNode(val)
+    tail.next = valNode
+    _size++
+    return _size
+  }
+  function queuePopx(head,_size) {
+    let popNode = head
+    head = head.next
+    _size--
+    return popNode.val
+  }
+// 尾部出，头部进
+  function Queuex() {  //新建一个空对象
+    //可为什么Array(3)，新一个三个长度的空对象
+    // 考虑太多的东西，什么也做不成
+    this.head = node
+    this.tail = tail
+    this._size = _size 
+  } 
+  function Queue(head = null, tail = null, _size = 0) {  
+    let headNode = head
+    if(head && !tail){// 条件最后加，即细节部分，逻辑思路才是核心，不要在意那些细节，是这个意思
+      while(headNode.next) {
+        headNode = headNode.next
+        _size++
+      }
+      tail = headNode
+    }
+    this.head = head
+    this.tail = tail
+    this._size = _size 
+  }
+  Queue.prototype.push = function(val) {
+    let node = ListNode(val) 
+    if(this.head == null) {
+      this.head = this.tail = node
+    }else {
+      this.tail.next  = node
+      this.tail = node
+    }
+    this._size++
+    return this._size 
+  }
+  Queue.prototype.pop = function() { // 给this 增加方法，方法是什么，属性值为函数，这个函数值可以对其对应的当前的 （比如；Queue）自定义 对象类型的 （对象）值 进行操作
+    if(this.head){
+      let node = this.head
+      this.head = this.head.next
+      if(this.head == null) { // 条件添加
+        this.tail = null
+      }
+      this._size--
+      return node.val 
+    }
+  }
+  
+
+
+
+
+
+</script>

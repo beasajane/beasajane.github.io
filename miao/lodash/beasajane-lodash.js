@@ -18,6 +18,7 @@ var beasajane = function(){
       }
       return ary //return the new array of chunk
     }
+    
     return {
       chunk:chunk, 
     }

@@ -1,0 +1,16 @@
+<script>
+   var num = [
+        [1], // num[x][y]
+       [2,1], // num[x + 1][y]  num[x + 1][y + 1]  
+      [4,7,4], // num[x + 2][y] num[x + 2][y + 1] num[x + 2][y + 2] 写多了，可能还会更加让人迷惑
+     [8,3,6,4], // num[x + 3][y] num[x + 3][y + 1] num[x + 3][y + 2] num[x + 3][y + 3]
+    [5,0,3,9,7], //num[x + 4][y] num[x + 4][y + 1] num[x + 4][y + 2] num[x + 4][y + 3] num[x + 4][y + 4]
+  ]
+  function maxSum(x, y) { // 
+    if(x == num.length - 1) {
+      return num[x][y]
+    }
+    //return num[x][y] + Math.max(maxSum(x + 1, y), maxSum(x, y + 1))  // maximum call stack size
+    return num[x][y] + Math.max(maxSum(x + 1, y), maxSum(x + 1, y + 1))
+  }
+</script>

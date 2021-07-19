@@ -1,0 +1,312 @@
+<body>
+
+  <hr>
+  <hr>
+  <a href="https://leetcode.com/problems/binary-tree-inorder-traversal" target='_blank'>binary-tree-inorder-traversal</a>
+  <hr>
+  <a href="https://leetcode.com/problems/same-tree" target='_blank'>same-tree</a>
+  <hr>
+  <a href="https://leetcode.com/problems/binary-tree-level-order-traversal" target='_blank'>binary-tree-level-order-traversal</a>
+  <hr>
+  <a href="https://leetcode.com/problems/maximum-depth-of-binary-tree" target='_blank'>maximum-depth-of-binary-tree</a>
+  <hr>
+  <a href="https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal" target='_blank'>construct-binary-tree-from-preorder-and-inorder-traversal</a>
+  <hr>
+  <a href="https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal" target='_blank'>construct-binary-tree-from-inorder-and-postorder-traversal</a>
+  <hr>
+  <a href="https://leetcode.com/problems/minimum-depth-of-binary-tree" target='_blank'> <em style="color: rgb(238, 15, 238); font-size: 1.2rem; ">minimum-depth-of-binary-tree</em> 高阶函数</a> 
+  <hr>
+  <a href="https://leetcode.com/problems/binary-tree-preorder-traversal" target='_blank'>binary-tree-preorder-traversal</a>
+  <hr>
+  <a href="https://leetcode.com/problems/binary-tree-postorder-traversal" target='_blank'>binary-tree-postorder-traversal</a>
+  <hr>
+  <a href="https://leetcode.com/problems/invert-binary-tree" target='_blank'>invert-binary-tree</a>
+  <hr>
+  <a href="https://leetcode.com/problems/construct-binary-tree-from-preorder-and-postorder-traversal/" target='_blank'>construct-binary-tree-from-preorder-and-postorder-traversal</a>
+  
+
+</body>
+<script>
+
+
+  /* 
+  二叉树（binary tree） 根节点、分支节点、叶子节点
+  父节点、子节点
+
+  ** 特性：
+      * 第i层节点数最大为，2 *（i - 1） 
+      * 深度为k 的二叉树zhi
+      * 
+      * 
+      * 空的指针数量为 二叉树节点总数量 + 1
+  */
+
+
+// ** 二叉树的表示
+  //function binaryNode(leftval, rightval){
+    function creatTreeNode(value){
+    return {
+      left : null,
+      right: null,
+      value : value,
+    }
+  }
+  // 将存储在array中的根节点在rootIdx 位置的二叉树转换为二叉链表
+  function arrayToTree (array,rootIdx = 0) { // 数组，根节点是数组的第几项，
+    var rootValue = array[rootIdx] // 根节点 在 数组里的值
+    if(rootValue == null) return null // 根节点为 null 那就没有子节点，于是返回null
+
+    // 否则，有子节点 则以该节点的值，创建该根节点
+    var rootNode = creatTreeNode(rootValue)
+
+    rootNode.left = arrayToTree(array, rootIdx * 2 + 1)
+    rootNode.right = arrayToTree(array, rootIdx * 2 + 2)
+    
+    return rootNode // 链表形式，只要直到其头部即可
+  }
+
+  let greph = arrayToTree([1,2,3,null,null,4,null,5,6,7,null,null,8]) // 画出该图
+
+
+
+
+  // 将使用二叉链表表示的二叉树转换为数组表示
+
+  function treeToArray(tree, index = 0,array = []) { // 二叉树转化为数组 ，获取的参数是头部节点，同时可以查询到后面的节点
+    if(tree == null) {  // 根节点是null （tree.left = null）
+      return array  
+    }
+    array[index] = tree.value // 如果直接push，那么right节点的数值总是在后面被push，所以需要index，来定位获得的节点的值，故需要一个index变量
+
+    treeToArray(tree.left,index * 2 + 1,array)
+    treeToArray(tree.right,index * 2 + 2,array)
+
+    return array 
+  }
+  function treetoArray1(root) {
+    var array = []
+    return treeToArray(root)
+
+    function treeToArray(tree, index = 0) { // 二叉树转化为数组 ，获取的参数是头部节点，同时可以查询到后面的节点
+      if(tree == null) {  // 根节点是null （tree.left = null）
+        return array  
+      }
+      array[index] = tree.value // 如果直接push，那么right节点的数值总是在后面被push，所以需要index，来定位获得的节点的值，故需要一个index变量
+  
+      treeToArray(tree.left,index * 2 + 1,array)
+      treeToArray(tree.right,index * 2 + 2,array)
+  
+      return array 
+    }
+  }
+function treetoArray(root) {
+    var ary = []
+    return treeToArray1(root,0,ary)
+  }
+  function treeToArray1(tree, index = 0,array) { // 二叉树转化为数组 ，获取的参数是头部节点，同时可以查询到后面的节点
+      if(tree == null) {  // 根节点是null （tree.left = null）
+        return array  
+      }
+      array[index] = tree.value // 如果直接push，那么right节点的数值总是在后面被push，所以需要index，来定位获得的节点的值，故需要一个index变量
+  
+      treeToArray(tree.left,index * 2 + 1,array)
+      treeToArray(tree.right,index * 2 + 2,array)
+  
+      return array 
+    }
+// 如果 tree的value值为null/undefined ，该节点是 为空（null），即上一root（根）节点链接的是一个null，将null放入数组，并返回数组
+//（== 时候，null ==undefined，=== 时，null ！== undefined）
+
+function treeToCondensedArray0(tree, index, array = []) {
+
+}
+//树到稠密行的数组
+    function treeToCondensedArray(root) { // root typeof 
+      if(!root) {
+        return []
+      }
+      var nodes = [root] // 
+      var result = []
+      for(let i = 0; i < nodes.length ; i++) {
+        var node = nodes[i]
+        if(node) {
+          result.push(node.value)
+          nodes.push(node.left)
+          nodes.push(node.right)
+        }else {
+          result.push(null)
+        }
+      }
+      return result
+    }
+
+
+function cArrayToTree(arr){  // s输入的是二叉树
+  if(arr.length == 0) {
+    return null
+  }
+  
+  var root = creatTreeNode(arr[0])
+  
+  var nodes = [root]
+
+  for(var i = 1; i< arr.length; i++) {
+    var node = nodes.shift()
+
+    if(arr[i] == null) {
+      node.left = null
+    }else {
+      node.left = creatTreeNode(arr[i])
+      nodes.push(node.left)
+    }
+    
+    i ++
+  
+    if(arr[i] == null) {
+      node.right = null
+    }else {
+      node.right = creatTreeNode(arr[i])
+      nodes.push(node.right)
+    }
+  }
+  return root
+}
+
+    // 凑出来的代码，没人能背出来所有的代码
+
+
+
+    function treeToKuoHao(tree) {
+      if(tree == null) return ''
+      if(!(tree.left) && !(tree.right)) return tree.value
+      return tree.value + '(' + treeToKuoHao(tree.left) + ')'+ '(' + treeToKuoHao(tree.right) + ')'
+    }
+    //1(2(4(6()())(7()()))(5(8()())(9()())))(3()())
+    //1(2(4(6)(7))(5(8)(9)))(3)
+
+    function isSameTree(t1,t2) {
+
+    }
+
+    // 二叉树 其他表示方法  
+
+    function treeToHTML1(tree) {
+      var html = ''
+      if(tree) {
+        var html
+        html = '<div>'
+          html += '<header>' + tree.value + '</header>'
+          html += '<main>'
+            html += '<aside>' + treeToHTML(tree.left) + '</aside>'
+            html += '<aside>' + treeToHTML(tree.right) + '</aside>'
+          html += '</main>'
+        html += '</div>' 
+      }
+      return html
+    }
+
+    function treeToHTML(tree) {
+      var html = ''
+      if(tree) {
+        var html
+        html = '<div>'
+          html += '<header style="text-align:center;">' + tree.value + '</header>'
+          html += '<main style="display: flex;">'
+            html += '<aside style="flex-grow: 1;">' + treeToHTML(tree.left) + '</aside>'
+            html += '<aside style="flex-grow: 1;">' + treeToHTML(tree.right) + '</aside>'
+          html += '</main>'
+        html += '</div>' 
+      }
+      return html
+    }
+
+    let str = treeToHTML(cArrayToTree([1,2,3,4,5,6,7,8,9,01,2,3,4,5,6]))
+    console.log(str)
+
+
+    /* 二叉树的遍历
+
+    遍历方式，递归方式，上左右，左右上，左中上
+
+    先序遍历 先root节点
+    中序遍历 中root节点
+    后序遍历 后root节点
+先序：考察到一个节点后，即刻输出该节点的值，并继续遍历其左右子树。(根左右)
+
+中序：考察到一个节点后，将其暂存，遍历完左子树后，再输出该节点的值，然后遍历右子树。(左根右)
+
+后序：考察到一个节点后，将其暂存，遍历完左右子树后，再输出该节点的值。(左右根)
+
+// 
+
+    */ 
+
+function preOrderTraverse(root) {
+  if (root) {
+    console.log(root.val)
+    preOrderTraverse(root.left)
+    preOrderTraverse(root.right)
+  }
+}
+
+function preOrderTraverse(root, ary = []) {
+  if (root) {
+    ary.push(root.val)
+    preOrderTraverse(root.left,ary)
+    preOrderTraverse(root.right,ary)
+  }
+  return ary
+}
+
+
+
+//先序
+function preOrderTraverse(root, action) {
+  if (root) {
+    action(root.value)
+    preOrderTraverse(root.left,action)
+    preOrderTraverse(root.right,action)
+  }
+}
+
+
+//中序
+function inOrderTraverse() {
+  if (root) {
+    preOrderTraverse(root.left,action)
+    action(root.value)
+    preOrderTraverse(root.right,action)
+  }
+}
+
+
+// 后续
+function postOrderTraverse() {
+  if (root) {
+    preOrderTraverse(root.left,action)
+    preOrderTraverse(root.right,action)
+    action(root.value)
+  }
+}
+
+//二叉树按层遍历                                                                               （转成紧凑型的数组即可）
+
+//非递归先序遍历
+var levelOrder = function(root) { //param  binary tree object node
+    let ary = []
+    let i = 0
+    function order(root, ary) { // 函数的功能是什么，将该节点的 值输入到ary中对应的[]中
+        if(!root) return ary
+        if(!Array.isArray(ary[i])) ary[i] = []
+        ary[i].push(root.val)
+        i++
+        order(root.left, ary)
+        order(root.right,ary)
+        i--
+        return ary
+    }
+    
+    return ary 
+};
+
+</script>

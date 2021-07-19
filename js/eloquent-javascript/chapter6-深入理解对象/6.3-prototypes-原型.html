@@ -1,0 +1,82 @@
+<body>
+  <p>
+    Object.create(Constructor.prototype) //  以构造函数的prototype（属性，属性指向一个对象）对象为原型创建一个新的空对象
+
+    Object.getPrototypeOf() // 获取对象的原型 （一切皆为对象，即使是基本类型的值，也会被（Object（））强制转化为对象
+
+    .__proto__  // 所有值的原型
+
+    函数的prototype属性
+    Object.prototype.toString
+    Object.prototype.toString.call([1,2,3]) 
+  </p>
+  <h3>原型</h3>
+  <p>
+    \* 除了null和undefined，每个值都有原型，可以通过.__proto__属性得到，也可以通过Object.getPrototypeOf()访问到
+    原型的作用：做属性读取的后备（fallback）
+        即当在一个对象上的某个属性找不到时，会到它的原型对象上找，如果原型对象上找不到，会在该原型对象的原型对象上查找，以此类推
+        （面向对象，继承）
+    每个函数都自动有一个prototype属性，此属性根该函数的__proto__没有任何关系
+        它是作为被该函数构造出来的对象的原型
+
+        构造函数得名： 构造函数会申请必要的空间，并在空间内存储为了表示该对象所必要的信息
+  </p>
+  <p>
+    获取对象的原型
+    判断一个对象是不是数组
+  </p>
+</body>
+<script>
+  Function.prototype // (原型对象) // 所有函数都以此为原型 
+  Array.prototype // (原型对象) // Array数组的构造函数
+  Object.prototype // (原型对象)  一切对象的原型
+
+  // 获取对象的原型
+  Object.getPrototypeOf({}) // 获取 对象{} 的原型
+  Object.getPrototypeOf({}) == Object.prototype
+  Object.getPrototypeOf(Object.prototype) // null  最终的原型
+
+  // 原型链
+    // 对象 的原型 为对象提供 一些默认属性
+
+  Object.getPrototypeOf([]) === Object.getPrototypeOf([1,2,3])
+  [1].__proto__ === [1,2,3].__proto__
+  [1,2,3].__proto__.__proto__ === Object.prototype
+  Function.prototype.__proto__ === Object.prototype
+  // __proto__(是每一个对象原型所在的位置）即是任何一个对象都有的属性  prototype 属性并非所有的对象都有
+
+
+
+
+
+// prototype属性 函数自带的属性 （仅为一个名， 非等价 ——proto——）
+
+// 判断一个对象是不是数组
+Object.prototype.toString.call([1,2,3]) 
+Object.prototype.toString.apply([]) // 为toString函数的this赋值为[],to
+function isArray1(val) {
+  return Object.prototype.toString.call(val)  === "[object Array]"
+}
+Object.prototype.toString.call(null) //'[object Null]'
+Object.prototype.toString.call(undefined) // '[object Undefined]'
+['s','d'].toString()
+
+let tostring = Object.prototype.toString
+tostring.call([])
+
+console.dir( Function.prototype ) // 强行将 函数 展开
+
+
+
+let g = {
+  ab: 23,
+  cd: 45,
+}
+let h = Object.create(g) //以 对象g 为原型 ，创建一个新对象，赋值给 h
+
+
+h // {}
+h.ab // 23c 
+
+
+</script>

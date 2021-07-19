@@ -1,0 +1,24 @@
+<body>
+  <p>
+    Object.create(null) 
+    Object.setPrototypeOf(obj, null)
+    obj.__proto__ = null
+  </p>
+</body>
+
+<script>
+
+
+
+
+
+
+
+  // 创建没有原型的对象 古老的浏览器没有.__proto__方法
+  //（或许）可以使用下面的方法创建没有原型 的对象  
+
+  function Prototypeless() {}
+  Prototypeless.prototype = null
+  var obj = new Prototypeless()
+
+</script>

@@ -1,0 +1,132 @@
+<body><hr>
+  <a href="https://leetcode.com/problems/balanced-binary-tree">balanced-binary-tree</a>
+  <hr>
+  <a href="https://leetcode.com/problems/path-sum">path-sum</a>
+  <hr>
+  <a href="https://leetcode.com/problems/path-sum-ii">path-sum-ii</a>
+  <hr>
+  <a href="https://leetcode.com/problems/sum-root-to-leaf-numbers">sum-root-to-leaf-numbers</a>
+  <hr>
+  <a href="https://leetcode.com/problems/binary-tree-paths">binary-tree-paths</a>
+  <hr>
+  <a href="https://leetcode.com/problems/serialize-and-deserialize-binary-tree">serialize-and-deserialize-binary-tree</a>
+  <hr>
+  <a href="https://leetcode.com/problems/sum-of-left-leaves">sum-of-left-leaves</a>
+  <hr>
+  <a href="https://leetcode.com/problems/merge-two-binary-trees">merge-two-binary-trees</a>
+  <hr>
+  <a href="https://leetcode.com/problems/construct-string-from-binary-tree">
+</body>
+<script>
+  /*
+  BST search
+  任何一个节点所指数中，都比该节点小（或大）
+  
+  排序二叉树
+  中序遍历得到有序序列
+  反向中序遍历
+
+  在排序二叉树链表中，插入一个数（高效）
+N * log(n) 
+  平衡二叉树：
+  任何一棵树的两颗子树深度只差不超过一
+  */
+ /*bst算法  (二叉树形式的插入算法)
+    时间复杂度  最优 n * log(n) ,最差n * n
+    空间复杂度： n
+    */
+
+    function bstSort(array) {
+      var bst = null 
+      for(let i = 0; i< array.length; i++) {
+        bst = insertIntoBST(bst, array[i]) // 把当前项放（插入）到树中
+      }
+      var i = 0
+      inorderTraverse(bst, value => array[i++] = value)
+      return array
+    }
+    function bstSort(array) {
+      // var bst = array.reduce((bst, item) => insertIntoBST(bst, item), null)
+      var bst = array.reduce(insertIntoBST, null)
+      var i = 0
+      inorderTraverse(bst, value => array[i++] = value)
+      return array
+    }
+    function createTreeNode(value) {
+      return {
+        value: value,
+        left: null,
+        right: null,
+      }
+    }
+    function insertIntoBST(bst, value) {
+      if(!bst) {
+        return createTreeNode(value)
+      }else {
+        if(value < bst.value) {
+            bst.left = insertIntoBST(bst.left, value)
+        }
+        if(value >= bst.value) {
+            bst.right = insertIntoBST(bst.right, value)
+        }
+        return bst
+      }
+    }    
+    function insertIntoBST0(bst, value) {
+      // var node = createTreeNode(value)
+      if(bst) {  
+        while(true){
+          if(value >= bst.value){ //
+            if(!bst.right) {
+              bst.right = createTreeNode(value)
+              break
+            }else {
+              bst = bst.right
+            }
+          }else{ //if(value < bst.value)
+            if(!bst.left){
+              bst.left = createTreeNode(value)
+              break
+            }else {
+              bst = bst.left
+            }
+          }
+        }
+        return bst
+      }
+      return createTreeNode(value)
+    }
+    function insertIntoBST0(bst, value) {
+      var node = createTreeNode(value)
+
+      if(!bst) {
+        return node
+      }else {
+        if(value < bst.value) {
+          if(bst.left){
+            bst.left = insertIntoBST(bst.left, value)
+          }else {
+            bst.left = node
+            return  bst
+          }
+        }
+
+        if(value >= bst.value) {
+          if(bst.right) {
+            bst.right = insertIntoBST(bst.right, value)
+          }else {
+            bst.right = node
+            return bst
+          }
+        }
+      }
+    }
+    function inorderTraverse(root, action) {
+      if(root) {
+        inorderTraverse(root.left, action)
+        action(root.value)
+        inorderTraverse(root.right, action)
+      }
+    }
+
+</script>

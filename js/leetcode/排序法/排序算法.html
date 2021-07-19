@@ -270,8 +270,8 @@
       else if(array[i] == randItem) b.push(array[i])
       else c.push(array[i])
     }
-    a = quickSort(a) 
-    c = quickSort(c)
+    a = quickSort1(a) 
+    c = quickSort1(c)
     
   //  quickSort(a) 不一样
   //  quickSort(c)
@@ -487,5 +487,103 @@ function insertSort10(array, compare) { // 传第二个参数函数 第二参数
     //桶排序
     //希尔排序（一般不会问道，过于复杂）
     //招聘主要问以上讲过的
+
+    /*bst算法  (二叉树形式的插入算法)
+    时间复杂度  最优 n * log(n) ,最差n * n
+    空间复杂度： n
+    */
+
+    function bstSort(array) {
+      var bst = null 
+      for(let i = 0; i< array.length; i++) {
+        bst = insertIntoBST(bst, array[i]) // 把当前项放（插入）到树中
+      }
+      var i = 0
+      inorderTraverse(bst, value => array[i++] = value)
+      return array
+    }
+    function bstSort(array) {
+      // var bst = array.reduce((bst, item) => insertIntoBST(bst, item), null)
+      var bst = array.reduce(insertIntoBST, null)
+      var i = 0
+      inorderTraverse(bst, value => array[i++] = value)
+      return array
+    }
+    function createTreeNode(value) {
+      return {
+        value: value,
+        left: null,
+        right: null,
+      }
+    }
+    function insertIntoBST(bst, value) {
+      if(!bst) {
+        return createTreeNode(value)
+      }else {
+        if(value < bst.value) {
+            bst.left = insertIntoBST(bst.left, value)
+        }
+        if(value >= bst.value) {
+            bst.right = insertIntoBST(bst.right, value)
+        }
+        return bst
+      }
+    }    
+    function insertIntoBST0(bst, value) {
+      // var node = createTreeNode(value)
+      if(bst) {  
+        while(true){
+          if(value >= bst.value){ //
+            if(!bst.right) {
+              bst.right = createTreeNode(value)
+              break
+            }else {
+              bst = bst.right
+            }
+          }else{ //if(value < bst.value)
+            if(!bst.left){
+              bst.left = createTreeNode(value)
+              break
+            }else {
+              bst = bst.left
+            }
+          }
+        }
+        return bst
+      }
+      return createTreeNode(value)
+    }
+    function insertIntoBST0(bst, value) {
+      var node = createTreeNode(value)
+
+      if(!bst) {
+        return node
+      }else {
+        if(value < bst.value) {
+          if(bst.left){
+            bst.left = insertIntoBST(bst.left, value)
+          }else {
+            bst.left = node
+            return  bst
+          }
+        }
+
+        if(value >= bst.value) {
+          if(bst.right) {
+            bst.right = insertIntoBST(bst.right, value)
+          }else {
+            bst.right = node
+            return bst
+          }
+        }
+      }
+    }
+    function inorderTraverse(root, action) {
+      if(root) {
+        inorderTraverse(root.left, action)
+        action(root.value)
+        inorderTraverse(root.right, action)
+      }
+    }
 
   </script>

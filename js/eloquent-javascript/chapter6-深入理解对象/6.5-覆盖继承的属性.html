@@ -1,0 +1,74 @@
+<script>
+  function ListNode(val) {
+    this.val = val
+    this.next = null 
+  }
+
+    //用单向链表实现队列
+    function Queue(val) {//需要保存什么信息//用链表
+      val
+    }
+  //对栈的操作  push  pop
+
+  Stack.prototype.enqueue = function(val) { // 增加一个元素
+
+  }
+  Stack.prototype.dqueue = function() {  // 删除一个元素
+
+  }
+
+
+  //对栈的操作  push  pop
+  // 用单向链表实现栈
+  function Stack(list, val = 0) {//需要保存什么信息//用链表
+    this.val = val
+    this.next = list
+  }
+  Stack.prototype.push = function(val){
+     let node = new ListNode(val)
+     let head = this.next
+     if(!head) return head.next = node
+      
+     while(head){
+       head = head.next
+       if(!head.next){
+         head.next = node
+         return head
+       }
+     }
+   }
+   Stack.prototype.push1 = function(val) { // 往栈顶增加一个元素
+    let node = new ListNode(val)
+    let head = this.next  // root
+    if(!head) {
+      head = node
+      return head
+    }
+    while(head.next) {
+      head = head.next
+    }
+    head.next = node
+    return head
+
+    // while(head) {  //
+    //   head = head.next
+    //   if(!head.next) return head.next = new ListNode(val)
+    // }
+    // head = new ListNode(val)  //最后一个指针指向新建的node ，不返回，可以吗
+  }
+
+
+  Stack.prototype.pop = function() {  // 从栈顶删除，并返回一个元素
+
+  }
+  Stack.prototype.peek = function() { // 查看栈顶元素，不删除
+    
+  }
+  let a = {val: 1, next:{val: 2, next: null}}
+  let list = new Stack()
+
+
+  function isarray(val) {
+    return Object.prototype.toString(val) === '[object,Array]'
+  }
+</script>

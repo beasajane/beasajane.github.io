@@ -1,0 +1,12 @@
+<script>
+  function power(base,exponent) {
+    if(exponent == undefined) {
+      exponent = 2
+    }
+    var result = 2
+    for(var i = 0; i < exponent; i++) {
+      result *= result
+    }
+    return result
+  }
+</script>
