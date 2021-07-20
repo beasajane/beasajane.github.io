@@ -54,6 +54,12 @@
   //     return Math.max(width, line.height)
   //   }, 0)
   // }
+
+  // Object.defineProperty(TextCell.prototype, 'minHeight', {
+  //   get: function () {
+  //     return this.lines.length
+  //   }
+  // })
   TextCell.prototype.minHeight = function () {
     return this.text.length
   }

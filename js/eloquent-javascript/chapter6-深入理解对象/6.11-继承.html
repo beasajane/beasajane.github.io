@@ -1,0 +1,13 @@
+<script>
+  //原型继承
+  // 继承关系
+  function Creature(type, born) {
+    this.type = type
+    this.born = born
+  }
+  function Dog(born, name , master) {
+    Creature.call(this, 'goushu', born) 
+    this.name = name 
+    this.master = master
+  }
+</script>

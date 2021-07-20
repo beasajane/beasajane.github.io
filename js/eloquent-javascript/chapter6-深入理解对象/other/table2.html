@@ -1,0 +1,53 @@
+<script>
+function TextCell() {
+
+}
+TextCell.prototype.minHeight = function () {
+
+}
+TextCell.prototype.minWidth = function () {
+
+}
+
+
+
+
+
+function RightTextCell() { // 右对齐单元格  //子类class
+  //this.lines = text.split('\n')
+  TextCell.call(this, text)  //  **** 父类  在构造函数中直接调用父类的构造函数
+}
+//RightTextCell.prototype.__proto__ = TextCell.prototype
+Object.setPrototypeOf(RightTextCell.prototype, TextCell.prototype)
+
+RightTextCell.prototype.draw = function () {
+  var result = []
+  for(var i = 0; i< height; i++) {
+    var line = this.lines[i] || ''
+    result.push(' ',repeat(width - line.length) + line)
+  }
+  return result
+}
+
+</script>
+
+
+
+
+
+
+
+
+
+
+<script>
+  function Creature(type, born) {
+    this.type = type
+    this.born = born
+  }
+  function Dog(born, name , master) {
+    Creature.call(this, 'goushu', born) 
+    this.name = name 
+    this.master = master
+  }
+</script>

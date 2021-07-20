@@ -1,0 +1,132 @@
+<script type= 'daksjdl'>
+  
+  function Myset(...inits) {  //  为了表达集合，用什么存
+    this.element = []
+    for(var i = 0; i < inits.length; i++) {
+      this.add(inits[i])
+    }
+  }
+  Myset.prototype = {
+    constructor: Myset, // 指向自己， 重置
+    add(val) {
+      if(!this.has(val)) {
+        this.element.push(val)
+      }
+      return this
+    },
+    delete(val) {
+      if(val !== val) { 
+        var idx = this.element.findIndex(it => it !== it) 
+        if(idx >= 0){ // idx == -1
+          this.element.splice(idx, 1)
+          return true 
+        }
+        return false
+      }
+      var idx = this.element.indexOf(val)
+      if(idx >= 0) {
+        this.element.splice(idx, 1)  // 删除数组中的元素
+        return true 
+      }
+      return false
+    },
+    has(val) {
+      return this.element.includes(val)
+    },
+    clear() { 
+      this.element = []
+    },
+    get size() {
+        return Myset.element.length
+    }
+  }
+</script>
+<script >
+  // 属性，方法不可枚举了  写的代码短了一些     
+  class MySet { 
+    // 静态方法，一般卸载constructor前面
+    static fromArguments(...ary) {  // MySet.fromArray
+      return new MySet(ary)
+    }
+
+    constructor(inits = []) {  //构造函数本体
+      this.element = []
+      for(var i = 0; i < inits.length; i++) {
+        this.add(inits[i])
+      }
+    }
+
+    add(val) { //相当于挂在Myset原型上
+      if(!this.has(val)) {
+        this.element.push(val)
+      }
+      return this
+    }
+    delete(val) {
+      if(val !== val) { 
+        var idx = this.element.findIndex(it => it !== it) 
+        if(idx >= 0){ // idx == -1
+          this.element.splice(idx, 1)
+          return true 
+        }
+        return false
+      }
+      var idx = this.element.indexOf(val)
+      if(idx > 0) {
+        this.element.splice(idx, 1)  // 删除数组中的元素
+        return true 
+      }
+      return false
+    }
+    has(val) {
+      return this.element.includes(val)
+    }
+    clear() { 
+      this.element = []
+    }
+    get size() {
+        return Myset.element.length
+    }
+  }
+
+// 继承方式： 继承系统自带的类型，必须用class语法写
+// 原型方式
+// 原型链方式
+
+// extends
+// 细节 super() 之前 不能使用this，因为super之后this才会绑定到新的对象上
+// super 单独使用，如，父类的构造函数，如下
+  // MySet2.prototype.__proto__ === Array.prototype
+  class MySet2 extends Array {  // this => MySet2    父类 Array  继承数组
+    constructor(inits = []) {      // super 调用了父类的构造函数 ，并将该constructor的this传递 到父类构造函数里面，让父类构造函数为this挂属性
+      super() // Creatrue.call(this, a,b,c,d)     
+      for(var i = 0; i < inits.length; i++) {
+        this.add(inits[i])
+      }
+    }
+    add(val) {
+      if(!this.has(val)) {
+        this.push(val)
+      }
+    }
+    has(val) {
+      return this.includes(val)
+    }
+    delete(val) {
+      var idx = this.indexOf(val)
+      if(idx >= 0) {
+        this.splice(idx,1)
+        return true
+      }
+      return false
+    }
+    clear() {
+      // this = []
+      this.length = 0
+    }
+
+    get size() {
+      return this.length
+    }
+  }
+</script>

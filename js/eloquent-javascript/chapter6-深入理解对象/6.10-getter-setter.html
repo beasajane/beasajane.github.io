@@ -1,0 +1,102 @@
+<script>
+  obj = {
+    x: 1, 
+    get foo() {  // 把foo属性当方法，不能被调用  getter  
+      return this.x
+    },
+    set foo(a) { // setter 有且仅有一个参数
+      console.log(a)
+    },
+    get bar() {
+      return Math.random()
+    }
+  }
+  obj.foo // 1  读取 调用gette'r
+  obj.foo = 333 // 333  赋值 调用setter
+  obj.gre = 'dasd'
+
+  Object.defineProperty(obj, gar, {
+    get: function() {},
+    set: function(val) {}, // 参数随意
+    value: 2,  // 普通属性 与 get set 互斥
+    enumerable: true,
+    writable: ture,
+    configurable: true,
+  })
+  Object.getOwnPropertyDescriptor(obj, 'gar').get 
+
+  // 在原型上定义set 和 get
+  Object.defineProperty(Array.prototype, 'size', {
+    get: function () {
+      return this.length
+    }
+  })
+
+  console.dir($0)
+
+
+
+
+
+
+  let i = 1
+  Object.defineProperty(window, "a", {
+    get: function() {
+      return i++
+    }
+  })
+  if( a == 1 && a == 2) {
+    console.log('Yes!')
+  }
+
+
+
+  ovj = {
+    toString() { // 简写
+      return '555'
+    }
+  }
+  obj = '555' // true
+  obj = 1 //false
+
+  obj = {
+    toString() { // 简写
+      return '555'
+    },
+    valueOf() {
+      return 1
+    }
+  }
+  obj == 1 // true
+
+  a = {
+    val: 1, 
+    valueOf() {
+      return this.val++
+    }
+  }
+  if(a == 1 && a == 2) {
+    console.log('Yes!')
+  }// Yes!
+  a = {
+    val: 1,
+    toString() {
+      return this.val++
+    }
+  }
+  if(a == 1 && a == 2) {
+    console.log('Yes!')
+  }// Yes!
+
+// 先调用valueOf 后调用toString
+// 全局运行 
+  obj = {}
+  obj.valueOf() === obj
+  ary = []
+  ary.valueOf() === ary
+ 
+   
+
+
+
+</script>

@@ -1,0 +1,382 @@
+
+
+<script>
+
+  function TextCell(text) {
+    this.lines = text.split('\n')
+    // this.minHeight = this.lines.length
+    // this.minWidth = Math.max(...this.lines.map(it => it.length))
+  }
+  // Object.defineProperty(TextCell.prototype, 'minHeight', {
+  //   get: function() {
+  //     return this.lines.length
+  //   }
+  // })
+  TextCell.prototype.minHeight = function() {
+    return this.lines.length
+  }
+  TextCell.prototype.minWidth = function() {
+    return Math.max(...this.lines.map(it => it.length))
+  }
+  TextCell.prototype.draw = function(width, height) {
+    var result = []
+    for (var i = 0; i < height; i++) {
+      var line = this.lines[i] || ''
+      result.push(line + ' '.repeat(width - line.length))
+    }
+    return result
+  }
+
+
+  // function ObjectCell(obj) {
+  //   this.obj = obj
+  // }
+  Object.prototype.minHeight = function() {
+    return Object.keys(this).length + 2
+  }
+  Object.prototype.minWidth = function() {
+    var max = 1
+    for (var key in this) {
+      if (this.hasOwnProperty(key)) {
+        var val = this[key]
+        var w = 2 + key.length + 2 + String(val).length
+        max = Math.max(max, w)
+      }
+    }
+    return max
+  }
+  Object.prototype.draw = function(width, height) {
+    var lines = ['{']
+    for (var key in this) {
+      if (this.hasOwnProperty(key)) {
+        var val = this[key]
+        lines.push('  ' + key + ': ' + String(val))
+      }
+    }
+    lines.push('}')
+    for (var i = 0; i < height - lines.length; i++) {
+      lines.push('')
+    }
+    return lines.map(it => it.padEnd(width, ' '))
+  }
+
+  function ObjectCell(obj) {
+    this.obj = obj
+  }
+  ObjectCell.prototype.minHeight = function() {
+    return Object.keys(this.obj).length + 2
+  }
+  ObjectCell.prototype.minWidth = function() {
+    var max = 1
+    for (var key in this.obj) {
+      if (this.obj.hasOwnProperty(key)) {
+        var val = this.obj[key]
+        var w = 2 + key.length + 2 + String(val).length
+        max = Math.max(max, w)
+      }
+    }
+    return max
+  }
+  ObjectCell.prototype.draw = function(width, height) {
+    var lines = ['{']
+    for (var key in this.obj) {
+      if (this.obj.hasOwnProperty(key)) {
+        var val = this.obj[key]
+        lines.push('  ' + key + ': ' + String(val))
+      }
+    }
+    lines.push('}')
+    for (var i = 0; i < height - lines.length; i++) {
+      lines.push('')
+    }
+    return lines.map(it => it.padEnd(width, ' '))
+  }
+
+
+
+  function BorderedCell(inner) {
+    this.inner = inner
+  }
+  BorderedCell.prototype.minWidth = function() {
+    return this.inner.minWidth() + 2
+  }
+  BorderedCell.prototype.minHeight = function() {
+    return this.inner.minHeight() + 2
+  }
+  BorderedCell.prototype.draw = function(width, height) {
+    var result = this.inner.draw(width - 2, height - 2).map(it => '│' + it + '│')
+    result.unshift('┌' + '─'.repeat(width - 2) + '┐')
+    result.push('└' + '─'.repeat(width - 2) + '┘')
+    return result
+  }
+
+
+  function RightAlignedCell(text) {
+    this.lines = text.split('\n')
+  }
+  RightAlignedCell.prototype.minHeight = function() {
+    return this.lines.length
+  }
+  RightAlignedCell.prototype.minWidth = function() {
+    return Math.max(...this.lines.map(it => it.length))
+  }
+  RightAlignedCell.prototype.draw = function(width, height) {
+    var result = []
+    for (var i = 0; i < height; i++) {
+      var line = this.lines[i] || ''
+      result.push(' '.repeat(width - line.length) + line)
+    }
+    return result
+  }
+
+
+  function UnderlinedCell(inner) {
+    this.inner = inner
+  }
+  UnderlinedCell.prototype.minWidth = function() {
+    return this.inner.minWidth()
+  }
+  UnderlinedCell.prototype.minHeight = function() {
+    return this.inner.minHeight() + 1
+  }
+  UnderlinedCell.prototype.draw = function(width, height) {
+    return this.inner.draw(width, height - 1).concat('-'.repeat(width))
+  }
+
+
+  // TextCell 是用函数实现，故其方法可枚举，用class方法实现，则不可枚举
+  // UTextCell.__proto__ === TextCell // true    意味着 静态方法也可以被继承
+  // UTextCell.prototype.__proto__ === TextCell.prototype.__proto__ // true  原型继承
+  class UTextCell extends TextCell {
+    constructor(text) {
+      super(text)
+    }
+    // UTextCell.prototype.minHeight()
+    minHeight() {
+          // TextCell.prototype.minHeight.call(this) // this 为实例
+      return super.minHeight() + 1 // super调父类的方法  this.掉自己本身的方法
+    }
+    draw(width, height) {
+      return super.draw(width, height - 1).concat('-'.repeat(width))
+    }
+  }
+
+
+
+
+
+  function HeaderCell(text) {
+    this.lines = text.split('\n')
+  }
+  HeaderCell.prototype.minHeight = function() {
+    return this.lines.length + 1
+  }
+  HeaderCell.prototype.minWidth = function() {
+    return Math.max(...this.lines.map(it => it.length))
+  }
+  HeaderCell.prototype.draw = function(width, height) {
+    var result = []
+    for (var i = 0; i < height - 1; i++) {
+      var line = this.lines[i] || ''
+      result.push(line + ' '.repeat(width - line.length))
+    }
+    result.push('='.repeat(width))
+    return result
+  }
+
+
+
+  function rowHeights(rows) {
+    return rows.map(row => {//row是一行的单元格组成的数组
+      return row.reduce((max, cell) => {
+        return Math.max(max, cell.minHeight())
+      }, 0)
+    })
+  }
+
+  function colWidths(rows) {
+    return rows[0].map((_, colIdx) => {//由列标映射为列的宽度
+      return Math.max(
+        ...rows.map(row => row[colIdx]).map(cell => cell.minWidth())
+      )
+    })
+  }
+
+  function drawTable(rows) {
+    var heights = rowHeights(rows)
+    var widths = colWidths(rows)
+
+    function drawLine(blocks, lineNo) {
+      return blocks.map(block => {
+        return block[lineNo]
+      }).join(' ')
+    }
+
+    function drawRow(row, rowIdx) {
+      // blocks是一行的单元格的draw返回的数组组成的数组
+      var blocks = row.map((cell, colIdx) => {
+        return cell.draw(widths[colIdx], heights[rowIdx])
+      })
+
+      return blocks[0].map((_, i) => {
+        return drawLine(blocks, i)
+      }).join('\n')
+    }
+
+    return rows.map(drawRow).join('\n')
+  }
+  var MOUNTAINS = [{
+      name: "Kilimanjaro",
+      height: 5895,
+      country: "Tanzania"
+  }, {
+      name: "Everest",
+      height: 8848,
+      country: "China\nNepal"
+  }, {
+      name: "Mount Fuji",
+      height: 3776,
+      country: "Japan"
+  }, {
+      name: "Mont Blanc",
+      height: 4808,
+      country: "Italy\nFrance"
+  }, {
+      name: "Vaalserberg",
+      height: 323,
+      country: "Netherlands"
+  }, {
+      name: "Denali",
+      height: 6168,
+      country: "United States"
+  }, {
+      name: "Popocatepetl",
+      country: "Mexico",
+      height: 5465,
+  }];
+
+  var mounts = []
+
+  var headers = []
+  for (var key in MOUNTAINS[0]) {
+    headers.push(new BorderedCell(new TextCell(key)))
+  }
+  mounts.push(headers)
+  for (var mountain of MOUNTAINS) {
+    var row = []
+    for (var key in mountain) {
+      if (typeof mountain[key] == 'number') {
+        row.push(new BorderedCell(new BorderedCell(new RightAlignedCell('' + mountain[key]))))
+      } else {
+        row.push(new UnderlinedCell(new UnderlinedCell(new TextCell('' + mountain[key]))))
+      }
+    }
+    mounts.push(row)
+  }
+
+
+
+  var rows = [
+    [new TextCell('abc'),         new TextCell('foo\nbar'), new TextCell('abccccc')],
+    [new TextCell('abcccc\nfoo'), new TextCell('foobar'),   new TextCell('ab\ncc\ncc\nc')],
+    [new TextCell('##'), new TextCell('  '),   new TextCell('##')],
+    [new TextCell('  '), new TextCell('##'),   new TextCell('  ')],
+    [new TextCell('##'), new TextCell('  '),   new TextCell('##')],
+    [new BorderedCell({a:1,b:2,c:'foo'}), new BorderedCell({x:1,position:2}),   new TextCell('##')],
+  ]
+
+
+
+  function Vector(x, y) {
+    if (new.target !== Vector) {
+        return new Vector(x, y)
+    }
+    this.x = x
+    this.y = y
+  }
+
+  Vector.prototype.plus = function(v) {
+    return new Vector(this.x + v.x, this.y + v.y)
+  }
+
+  Vector.prototype.minus = function(v) {
+    return new Vector(this.x - v.x, this.y - v.y)
+  }
+
+  function Complex(real, imag) {
+    this.real = real
+    this.imag = imag
+  }
+  // static method 静态方法
+  Complex.fromString = function(str) {
+    str = str.trim()
+    var real = parseInt(str)
+    var idx = str.indexOf('+', 1)
+    if (idx == -1) {
+      idx = str.indexOf('-', 1)
+    }
+    var imag = parseInt(str.slice(idx))
+    return new Complex(real, imag)
+  }
+  Complex.prototype.plus = function(c) {
+    return new Complex(this.real + c.real, this.imag + c.imag)
+  }
+  Complex.prototype.minus = function(c) {
+    return new Complex(this.real - c.real, this.imag - c.imag)
+  }
+  Complex.prototype.multiple = function(c) {
+    var r = this.real * c.real - this.imag * c.imag
+    var i = this.real * c.imag + this.imag * c.real
+    return new Complex(r, i)
+  }
+  Complex.prototype.division = function(c) {
+    var d = new Complex(c.real, -c.imag)
+    var a = this.multiple(d)
+    var b = c.multiple(d)
+    return new Complex(a.real / b.real, a.imag / b.real)
+  }
+  Complex.prototype.toString = function() {
+    if (this.imag < 0) {
+      return this.real + '' + this.imag + 'i'
+    }
+    return this.real + '+' + this.imag + 'i'
+  }
+
+  function MySet() {
+    this.elements = []
+  }
+  MySet.prototype = {
+    constructor: MySet,
+    add: function(val) {
+      if (!this.has(val)) {
+        this.elements.push(val)
+      }
+      return this
+    },
+    delete: function(val) {
+      if (val !== val) {
+        var idx = this.elements.findIndex(it => it !== it)
+        if (idx >= 0) {
+          this.elements.splice(idx, 1)
+          return true
+        }
+        return false
+      }
+      var idx = this.elements.indexOf(val)
+      if (idx >= 0) {
+        this.elements.splice(idx, 1)
+        return true
+      }
+      return false
+    },
+    has: function(val) {
+      return this.elements.includes(val)
+    },
+    clear: function() {
+      this.elements = []
+    },
+    get size() {
+      return this.elements.length
+    }
+  }
+</script>

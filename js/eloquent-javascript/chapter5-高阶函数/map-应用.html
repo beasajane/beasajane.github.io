@@ -1,0 +1,39 @@
+<script>
+  // 一维数组映射二维数组
+  // 一维数组的 每一个元素映射为一数组
+
+var number = [1, 4, 9]
+var sqrt1 = number.map((it , index) => {
+  number.map(it => Math.sqrt(it))
+})
+var sqrt2 = number.map((it , index) => {
+  return number.map(it => {
+    let result = 0
+    for(let i = 0; i <= index; i++) {
+      result += Math.sqrt(it)
+    } 
+    return result
+  })
+})
+var sqrt3 = number.map((it , index) => {
+  return number.map(it => {
+    let result = 1
+    for(let i = 0; i < index; i++) {
+      result *= it
+    }
+    return result
+  })
+}
+)
+var sqrt4 = number.map((it , index) => {
+  return number.map(it => {
+    return loop(index, sum => sum *= it, 1 )
+  })
+})
+function loop(time, action, init = 0) {
+  for(let i = 0 ; i <= time ; i ++) {
+    init = action(init)
+  }
+  return init
+}
+</script>

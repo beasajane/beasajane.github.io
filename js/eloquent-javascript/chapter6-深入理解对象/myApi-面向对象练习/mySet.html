@@ -1,0 +1,48 @@
+<script>
+  // 模仿api
+  // set 集合，去重功能
+  function Myset() {  //  为了表达集合，用什么存
+    this.element = []
+  }
+  Object.prototype.add = function (val) {
+    if(!this.element.has(val)) {
+      this.element.push(val)
+    }
+    return this
+  }
+  Object.prototype.delete = function (val) {
+    if(val !== val) { //单独判断NaN
+      var idx = this.element.findIndex(it => it !== it) // 满足it元素的下标
+      if(idx >= 0){ // idx == -1
+        this.element.splice(idx, 1)
+        return true 
+      }
+      return false
+    }
+    let idx = this.element.indexOf(val)
+    if(idx > 0) {
+      this.element.splice(idx, 1)
+      return true 
+    }
+    return false
+  }
+  Object.prototype.has = function (val) {
+    return this.element.includes(val)
+  }
+  Object.prototype.clear = function () { // 如何删除
+    this.element = []
+  }
+  Object.defineProperty(Myset.prototype, 'size', {
+    get: function() {
+      return Myset.element.length
+    }
+  })
+  
+  // Object.prototype.clear = function () { // 如何删除
+  //   let len = this.element.length
+  //   for(let i = 0; i < len; i++){ //length 变化的
+  //     this.element.pop()
+  //   }
+  //   return this
+  // }
+</script>

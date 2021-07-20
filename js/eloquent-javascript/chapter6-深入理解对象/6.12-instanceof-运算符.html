@@ -1,0 +1,49 @@
+<script>
+  [3] instanceof Array
+
+  ({}) instanceof Ojbect //构造函数
+
+  function f() {
+
+  }
+  f instanceof Object
+  f instanceof Function 
+  Object instanceof Function 
+  Function instanceof Ojbect
+  // Object => Function.prototype => Object.prototype
+
+
+  //类型判断
+  typeof 2
+  2 instanceof Number
+  null instanceof Ojbect // false
+
+  Object.ptototype.toString.call('laskdjf') //'[object, String]'
+  Object.ptototype.toString.call(new String('laskdjf')) // '[object, String]'
+  // 不要写这种类型new String('laskdjf')
+
+
+// a标签的继承链
+  $0 instanceof HTMLAnchorElement // true
+  $0 instanceof HTMLElement // true
+  $0 instanceof Element // true
+  $0 instanceof Node // true
+  $0 instanceof EventTarget // true
+  $0 instanceof Object // true
+
+  Object.ptototype.toString.call($0) //  '[object, HTMLAnchorElement]'
+  $0.constructor //f HTMLAnchorElement
+
+
+  function InstanceOf( obj, Constructor) {
+    if(typeof obj !== 'object')  return false
+    if(!obj) return false
+    if( obj.__proto__ === Constructor.prototype) {
+      return true
+    }else {
+      return InstanceOf( obj.__proto__, Constructor)
+    }
+    return true
+  }
+
+</script>

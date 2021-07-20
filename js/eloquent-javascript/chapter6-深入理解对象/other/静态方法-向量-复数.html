@@ -1,0 +1,154 @@
+<script>
+  function Vector(x,y) {
+    this.x = x
+    this.y = y
+  }
+  // Vector.prototype.minus = function(vector){
+  //   let v = new Vector
+  //   v.x = this.x - vector.x
+  //   v.y = this.y - vector.y
+  //   return v
+  // }
+  Vector.prototype.minus = function(v) {
+    return new Vector (this.x - vector.x , this.y - vector.y)
+  }
+  Vector.prototype.plus = function(vector){
+    let v = new Vector
+    v.x = this.x + vector.x
+    v.y = this.y + vector.y
+    return v
+  }
+  Object.defineProperty(Vector.prototype, 'toString', {
+    get: function() {
+      console.log('('+ this.x + ',' + this.y + ')')
+    }
+  })
+
+// indexOf     parseInt    trim   slice
+  function Complex(real,imaginary) {  // ' 2+3i'   '-2+3i' '+2-3i'
+    if (arguments.length == 1 && typeof real == 'string') {
+       var c = real.trim()
+       real =parseInt(c) 
+       var idx = c.indexOf("+", 1) 
+       if(index == -1) {
+         idx = c.indexOf('-', 1)
+       }
+       imaginary = parseINt(c.slice(idx))
+    }
+    this.real = real
+    this.imaginary = imaginary
+  }
+
+
+// indexOf     parseInt    trim   slice
+  function Complex(real,imaginary) {  // ' 2+3i'   '-2+3i' '+2-3i'
+    this.real = real
+    this.imaginary = imaginary
+  }
+
+  
+  // 关键字可以做属性名
+  // 静态方法  静态属性
+  //一普通的函数   作为构造函数的方法 从实例上访问不到该方法
+  Complex.fromString = function(str) { 
+    str = str.trim()
+    var real = parseInt(str)
+    var idx = str.indexOf('+', 1)
+    if (idx == -1) {
+      idx = str.indexOf('-', 1)
+    }
+    var imaginary = parseInt(str.slice(idx))
+    return new Complex(real, imaginary)
+  }
+  var ag = Complex.fromString('+23+3i')
+
+  // z1=(real, imaginary)，z2=(c, d)
+  //z1 + z2=(real+c, imaginary+d)
+  // z1 × z2=(ac-bd, bc+ad)
+  // 实例方法 
+  Complex.prototype.plus = function (z) {
+    let z3 = new Complex
+    z3.real = this.real - z.real
+    z3.imaginary = this.imaginary - z.imaginary
+    return z3
+  }
+  Complex.prototype.minus = function(z) {
+    let z3 = new Complex
+    z3.real = this.real - z.real
+    z3.imaginary = this.imaginary - z.imaginary
+    return z3
+  }
+  Complex.prototype.multiple = function(z) {
+    let z3 = new Complex
+    z3.real = this.real * z.real - this.imaginary * z.imaginary
+    z3.imaginary = this.imaginary * z.real + this.real * z.imaginary
+    return z3
+  }
+
+  // Complex.prototype.toString = function () {
+  //   console.log(this.real +'+'+ this.imaginary + 'imaginary')
+  // }
+
+  Complex.prototype.division = function(z) {
+    let z3 = new Complex
+    z3.real = (this.real * z.real + this.imaginary + z.imaginary) / (z.real * z.real + z.imaginary * z.imaginary)
+    z3.imaginary = (this.imaginary * z.real - this.real * z.imaginary) / (z.real * z.real + z.imaginary * z.imaginary)
+    return z3
+  }
+  Complex.prototype.toString = function() {
+    if(this.real == 0) {
+        if(this.imaginary == 0) {
+          console.log(this.imaginary)
+        }else if(this.imaginary == 1) {
+          console.log('i')
+        }else if(this.imaginary == -1) {
+          console.log('-i')
+        }else {
+          console.log(this.imaginary + 'i')
+        }
+      }else {
+        if(this.imaginary == 0) {
+            console.log('' + this.real)
+        }else if(this.imaginary == 1) {
+          console.log('' + this.real + '+i')
+        }else if(this.imaginary == -1) {
+          console.log('' + this.real + '-i')
+        }else if(this.imaginary > 0) {
+           console.log( '' + this.real + '+' + this.imaginary + 'i')
+        }else if(this.imaginary < 0) {
+           console.log('' + this.real + this.imaginary + 'i')
+        }
+      }
+  }
+  
+  Object.defineProperty(Complex.prototype, 'toStrings', {
+    get: function() {
+      if(this.real == 0) {
+        if(this.imaginary == 0) {
+          console.log(this.imaginary)
+        }else if(this.imaginary == 1) {
+          console.log('i')
+        }else if(this.imaginary == -1) {
+          console.log('-i')
+        }else {
+          console.log(this.imaginary + 'i')
+        }
+      }else {
+        if(this.imaginary == 0) {
+            console.log('' + this.real)
+        }else if(this.imaginary == 1) {
+          console.log('' + this.real + '+i')
+        }else if(this.imaginary == -1) {
+          console.log('' + this.real + '-i')
+        }else if(this.imaginary > 0) {
+           console.log( '' + this.real + '+' + this.imaginary + 'i')
+        }else if(this.imaginary < 0) {
+           console.log('' + this.real + this.imaginary + 'i')
+        }
+      }
+    }
+  })
+
+
+
+</script>

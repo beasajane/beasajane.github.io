@@ -1,0 +1,43 @@
+<script>
+  // set 集合，去重功能
+  function Myset(inits) {  //  为了表达集合，用什么存
+    this.element = []
+    for(var i = 0; i < inits.length; i++) {
+      this.add(inits[i])
+    }
+  }
+  Myset.prototype = {
+    constructor: Myset, // 指向自己， 重置
+    add : function (val) {
+      if(!this.element.has(val)) {
+        this.element.push(val)
+      }
+      return this
+    },
+    delete : function (val) {
+      if(val !== val) { 
+        var idx = this.element.findIndex(it => it !== it) 
+        if(idx >= 0){ // idx == -1
+          this.element.splice(idx, 1)
+          return true 
+        }
+        return false
+      }
+      let idx = this.element.indexOf(val)
+      if(idx > 0) {
+        this.element.splice(idx, 1)  // 删除数组中的元素
+        return true 
+      }
+      return false
+    },
+    has : function (val) {
+      return this.element.includes(val)
+    },
+    clear : function () { 
+      this.element = []
+    },
+    get size() {
+        return Myset.element.length
+    }
+  }
+</script>

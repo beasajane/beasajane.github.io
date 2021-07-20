@@ -1,0 +1,21 @@
+<script>
+  // 类型组合
+  function Node(val, key) {
+    this.val = val
+    this.key = key
+  }
+  function listNode() {
+    this.node = new Node() // 此为类型组合 不同类组合调用线程的类
+  }
+
+  // 继承关系
+  function Creature(type, born) {
+    this.type = type
+    this.born = born
+  }
+  function Dog(born, name , master) {
+    Creature.call(this, 'goushu', born) //继承， 子类 继承 父类
+    this.name = name 
+    this.master = master
+  }
+</script>

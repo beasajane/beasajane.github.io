@@ -1,0 +1,8 @@
+<script>
+  function loop(time, action, init = 0) {
+    for(let i = 0 ; i <= time ; i ++) {
+      init = action(init)
+    }
+    return init
+  }
+</script>

@@ -1,0 +1,19 @@
+<script>
+  // TextCell 是用函数实现，故其方法可枚举，用class方法实现，则不可枚举
+  // UTextCell.__proto__ === TextCell // true    意味着 静态方法也可以被继承
+  // UTextCell.prototype.__proto__ === TextCell.prototype.__proto__ // true  原型继承
+  class UTextCell extends TextCell {
+    constructor(text) {
+      super(text)
+    }
+    // UTextCell.prototype.minHeight()
+    minHeight() {
+          // TextCell.prototype.minHeight.call(this) // this 为实例
+      return super.minHeight() + 1 // super调父类的方法  this.掉自己本身的方法
+    }
+    draw(width, height) {
+      return super.draw(width, height - 1).concat('-'.repeat(width))
+    }
+  }
+
+</script>
