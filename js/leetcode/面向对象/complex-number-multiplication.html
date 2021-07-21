@@ -1,0 +1,21 @@
+<script>
+  var complexNumberMultiply = function(num1, num2) {
+      var a = Complex.fromString(num1)
+      var b = Complex.fromString(num2)
+      return a.add(b)
+  };
+  class Complex {
+      static fromString(str) {
+          var real = parseInt(str)
+          var idx = str.indexOf('+',1)
+          var imag = parseInt(str.slice(idx + 1))
+          return new Complex(real, imag)
+      }
+      constructor(real, imag){
+          this.real = real
+          this.imag = imag
+      }
+      add(val) {
+          return (val.real + this.real) + '+' + (this.imag + val.imag) + 'i'
+      }
+  }</script>

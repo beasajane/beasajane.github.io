@@ -48,14 +48,12 @@
     static fromArguments(...ary) {  // MySet.fromArray
       return new MySet(ary)
     }
-
     constructor(inits = []) {  //构造函数本体
       this.element = []
       for(var i = 0; i < inits.length; i++) {
         this.add(inits[i])
       }
     }
-
     add(val) { //相当于挂在Myset原型上
       if(!this.has(val)) {
         this.element.push(val)
@@ -124,8 +122,8 @@
       // this = []
       this.length = 0
     }
-
     get size() {
+
       return this.length
     }
   }

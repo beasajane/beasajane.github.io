@@ -1,0 +1,95 @@
+<script>
+  // 此为Api   定义良好的接口  只需了解，接口接收哪些参数，输出什么结果，功能是什么即可，不需要了解其内部构造(不了解内部构造如何灵活应用)
+  function TextCell(text) { //接收文本，拆成单元格内行形式，形成文本单元格
+    this.text = text.split('\n')
+  }
+  TextCell.prototype.minHeight = function () { // 单元格内line（hang）的高度 （即有多少行）
+    return this.text.length
+  }// 返回至少高度
+  TextCell.prototype.minWidth = function () { // 单元格的宽度，即（文本单元格内的各行最大宽度）
+    return this.text.reduce((width, line) => Math.max(width, line.length), 0)
+  }//返回至少宽度
+  TextCell.prototype.draw = function (width,height) { // 将文本单元格 各行line文本 收入到数组中，数组为单元格，数组元素表示单元格内的行
+    let ary = []
+
+    for(let i = 0; i < height; i++){
+      let line = this.text[i] || ''
+      ary.push( line + ' '.repeat(width - line.length) )
+    }
+
+    return ary 
+  }//返回一个数组（该数组表示单元格）[cellLine, cellLine, cellLine, ....] 长度为height
+  
+
+  function repeat2(string, times) {
+    var result = ''
+    for(var i = 0; i < times; i++) {
+      result += string
+    }
+    return result
+  }
+//以上为用局部推算整体，table 的最小的基础单位为 cell
+
+
+
+  // 文本转化为单元格，  单元格的宽高，
+  // 需要定位单元格，才能画出单元格      某个单元格的位置表示为 （n行，m列）
+  // 文本行内容是以行的形式存在数组中， 即数组中的下标对应的元素为下标（数字）行，  而行存储这该行内按顺序对应的列（数组）即 
+  // rows = [[row1], [row2], [row3]]        
+  // row1 =  [col1, col2, col3, col4]
+  // col1 = textcell = [line1, line2, line3]  该点不考虑，因为已经被Api实现，只需知道上面两层
+
+  function widthArray(rows) { // 参数  rows   //返回每一列的最大的宽度数组 ，最大宽度按顺序排列
+    return rows[0].map((_, index) => { // 拿到每一列的下标，（当前只判断，每一行的列数相同，于是第一行的列下标就代表 所有行的列下标
+      return rows.reduce((maxwidth, row) => Math.max(maxwidth, row[index].minWidth()), 0)  // 返回的是一个值，最大值。reduce的参数函数，对比每一行中 该下标下的单元格的row[index].minWidth()   initial == 0
+    })
+  }
+  // function heightArray(rows) {//参数 rows  // 返回每一行最大的高度的数组， 最大高度按顺序排列
+  //   return rows.map(row => {
+  //     return Math.max(...row.map(cell => cell.minHeight()))
+  //   })
+  // }
+  function heightArray(rows) {//参数 rows  // 返回每一行最大的高度的数组， 最大高度按顺序排列
+    return rows.map(row => {
+      return row.reduce((maxheight, cell) => Math.max(maxheight, cell.minHeight), 0)
+    })
+  }
+
+
+  function drawTable(rows) {  // 要干什么，用文本画表格，对齐
+    var heights = heightArray(rows); // 行height 组成的数组
+    var widths = widthArray(rows); // 列width 组成的数组
+    // height，width 为draw的参数
+    
+    //返回结果是什么  每一行字符 串用 \n 拼接的 文本字符串
+    return rows.map(drawRow).join('\n') // map 的返回值为每一行的字符串 .//一切的第一步，在能明白单元格之后
+
+    function drawRow(row, rowNum) { // 接的参数为行 row ，row 为一个数组，包含一个个的单元格， 有多少单元格（即列的数量，此时只按照各行的列的数量相等来构建），且该单元格的大小如何确定，就需要位置（当前的行rowNum，当前的列colNum ) 以及 该行的最大高度（数组），该列的最大宽度（数组） 于是参数当前行为必须参数之一
+      // 怎么得到colNum
+      var blocks = row.map((cell, colNum) => { // [[cellLine1, cellLine2, cellLine3],[cellLine1, cellLine2, cellLine3],[cellLine1, cellLine2, cellLine3]] 返回的是单元格组成的数组
+        return cell.draw(widths[colNum], heights[rowNum])//返回的是什么 将单元格的每一行存在一个列中 [cellLine1, cellLine2, cellLine3] cellline为单元格各行的字符串
+      })
+
+      return blocks[0].map((_, lineNo) => { // lineNo 行下标 当前行 block[0] == [cellLine1, cellLine2, cellLine3]
+        return drawLine(blocks, lineNo)
+      }).join('\n') // 将各行拼接号的字符串数组，用\n 分隔
+    // 过程需要 将每个单元格的内的line拼接成字符串，然后组成 一行（row），返回
+       // row的字符串
+    }
+
+    // function drawLine(blocks, lineNo) {// 功能 将行（row）中的 各个单元格内的第lineNo行（line）拼接起来
+    //   return blocks.reduce((str, block) => {
+    //     str += block[lineNo] // 
+    //   }, '')
+    // }
+    
+    function drawLine(blocks, lineNo) {// 功能 将行（row）中的 各个单元格内的第lineNo行（line）拼接起来
+      return blocks.map(block => block[lineNo]).join(' ')
+    }
+  }
+
+
+
+
+
+</script>
