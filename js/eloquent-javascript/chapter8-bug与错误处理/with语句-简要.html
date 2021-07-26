@@ -1,0 +1,14 @@
+<body>
+  ** with 相当于给作用域链上增加一个作用域
+</body>
+<script>
+  var obj = {x: 1, y: 2, foo: [1,2,3]}
+  with(obj) {  // 优先在with语句块中寻找变量，如果找不到，就到obj中寻找
+    let  y = 3
+    let z = 5 
+    console.log(y)
+    console.log(foo)
+    console.log(y++)
+  }
+  console.log(obj)
+</script>

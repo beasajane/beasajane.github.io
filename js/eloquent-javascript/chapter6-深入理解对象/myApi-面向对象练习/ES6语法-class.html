@@ -1,0 +1,355 @@
+<script type= 'daksjdl'>
+  
+  function Myset(...inits) {  //  为了表达集合，用什么存
+    this.element = []
+    for(var i = 0; i < inits.length; i++) {
+      this.add(inits[i])
+    }
+  }
+  Myset.prototype = {
+    constructor: Myset, // 指向自己， 重置
+    add(val) {
+      if(!this.has(val)) {
+        this.element.push(val)
+      }
+      return this
+    },
+    delete(val) {
+      if(val !== val) { 
+        var idx = this.element.findIndex(it => it !== it) 
+        if(idx >= 0){ // idx == -1
+          this.element.splice(idx, 1)
+          return true 
+        }
+        return false
+      }
+      var idx = this.element.indexOf(val)
+      if(idx >= 0) {
+        this.element.splice(idx, 1)  // 删除数组中的元素
+        return true 
+      }
+      return false
+    },
+    has(val) {
+      return this.element.includes(val)
+    },
+    clear() { 
+      this.element = []
+    },
+    get size() {
+        return Myset.element.length
+    }
+  }
+</script>
+<script type='d' >
+  // 属性，方法不可枚举了  写的代码短了一些     
+  class MySet { 
+    // 静态方法，一般卸载constructor前面
+    static fromArguments(...ary) {  // MySet.fromArray
+      return new MySet(ary)
+    }
+    constructor(inits = []) {  //构造函数本体
+      this.element = []
+      for(var i = 0; i < inits.length; i++) {
+        this.add(inits[i])
+      }
+    }
+    add(val) { //相当于挂在Myset原型上
+      if(!this.has(val)) {
+        this.element.push(val)
+      }
+      return this
+    }
+    delete(val) {
+      if(val !== val) { 
+        var idx = this.element.findIndex(it => it !== it) 
+        if(idx >= 0){ // idx == -1
+          this.element.splice(idx, 1)
+          return true 
+        }
+        return false
+      }
+      var idx = this.element.indexOf(val)
+      if(idx > 0) {
+        this.element.splice(idx, 1)  // 删除数组中的元素
+        return true 
+      }
+      return false
+    }
+    has(val) {
+      return this.element.includes(val)
+    }
+    clear() { 
+      this.element = []
+    }
+    get size() {
+        return Myset.element.length
+    }
+  }
+
+// 继承方式： 继承系统自带的类型，必须用class语法写
+// 原型方式
+// 原型链方式
+
+// extends
+// 细节 super() 之前 不能使用this，因为super之后this才会绑定到新的对象上
+// super 单独使用，如，父类的构造函数，如下
+  // MySet2.prototype.__proto__ === Array.prototype
+  class MySet2 extends Array {  // this => MySet2    父类 Array  继承数组
+    constructor(inits = []) {      // super 调用了父类的构造函数 ，并将该constructor的this传递 到父类构造函数里面，让父类构造函数为this挂属性
+      super() // Creatrue.call(this, a,b,c,d)     
+      for(var i = 0; i < inits.length; i++) {
+        this.add(inits[i])
+      }
+    }
+    add(val) {
+      if(!this.has(val)) {
+        this.push(val)
+      }
+    }
+    has(val) {
+      return this.includes(val)
+    }
+    delete(val) {
+      var idx = this.indexOf(val)
+      if(idx >= 0) {
+        this.splice(idx,1)
+        return true
+      }
+      return false
+    }
+    clear() {
+      // this = []
+      this.length = 0
+    }
+    get size() {
+
+      return this.length
+    }
+  }
+</script>
+<script>
+class MySet2 extends Array {
+  constructor(inits) {
+    // super调用之前不能使用this，因为super之后this才绑定到新的对象上
+    super()// Creature.call(this, a,b,c,d)
+    for (var i = 0; i < inits.length; i++) {
+      this.add(inits[i])
+    }
+  }
+  add(val) {
+    if (!this.has(val)) {
+      super.push(val) //如果，myset2 有push方法，会覆盖数组的push方法，此时需要的是数组的push方法，故不应用this 而应用super
+    }
+  }
+  has(val) {
+    return super.includes(val)
+  }
+  delete(val) {
+    var idx = super.indexOf(val)
+    if (idx >= 0) {
+      super.splice(idx, 1)
+      return true
+    }
+    return false
+  }
+  clear() {
+    this.length = 0
+  }
+  get size() {
+    return this.length
+  }
+}
+//内存，超大数组
+
+
+  function MyMap() {//一一映射
+    this._keys = []
+    this._values = []
+  } // 当new一个构造函数的时候，该构造函数的prototype已经被设置完毕
+
+  MyMap.prototype.forEach = function (iterator) { // iterator 迭代器 函数
+    for(var i = 0; i < this._keys.length; i++) {
+      var key = this._keys[i]
+      var val = this._values[i]
+      iterator(val, key) 
+    }
+  }
+
+  //获取key 在 _keys 中的下标，能够正确处理NaN
+  MyMap.prototype._keyIndex = function (key) {
+    if(key !== key) { // 当key 为NaN
+      // for(let i = 0; i < this._keys.length; i++) {
+      //   if(this._keys[i] !== this._keys[i]) 
+      //   return i
+      // }
+      return this._keys.findIndex(it => it !== it) 
+    }else {
+      return this._keys.indexOf(key)
+    }
+  }
+  MyMap.prototype.set = function(key, value) { //设置一个值的映射,如果有该映射，就重新设置key的映射值value值
+    if(this.has(key)) { //如果key存在，替换其值
+      // this._values[this._keys.indexOf(key)] = value
+      var idx = this._keyIndex(key)
+      this._values[idx] = value
+    }else {
+      this._keys.push(key)
+      this._values.push(value)
+    }
+    return this
+  }
+  MyMap.prototype.get = function(key) { //得到一值的映射
+    var idx = this._keyIndex(key)
+    if(idx >= 0) {
+      return this._values[idx]
+    }
+    // else {
+    //   return undefined
+    // }
+  }
+  MyMap.prototype.has = function(key) { //查看一个值有没有映射
+    return this._keys.includes(key)
+  }
+  MyMap.prototype.delete = function(key) { //删除一个值及其映射
+    var idx = this._keyIndex(key)
+    if(idx >= 0) {
+       this._values.splice(idx,1)
+       this._keys.splice(idx,1)
+       return true
+    }
+    return false
+  }
+  MyMap.prototype.clear = function() { //清空映射数组
+    this._keys.length = 0
+    this._values.length = 0
+  }
+  Object.defineProperty(MyMap.prototype, 'size', {
+    get : function () {
+      return this._keys.length
+    }
+  })
+  class MySet4 extends MyMap {
+    constructor() {
+      super()
+    }
+    add(val) {
+      return super.set(val, val)
+    }
+    // delete( 
+    // has(val) {
+    //   return super.has(val)
+    // }
+    // clear() {
+    //   return super.clear()
+    // }
+    // get size() {
+    //   return super.size()
+    // }
+  }
+
+
+  class MySet5 extends Map { // 子类完全覆盖父类，用继承 ，但set 不能完全使用map所有（功能）方法等
+    constructor() {
+      super()
+    }
+    add(val) {
+      return super.set(val, NaN)
+    }
+  }
+
+
+  class MySet3 {  //类型组合的方式，实现 set     set基于map实现，而非set完全覆盖map，用该方式————类型组合的方式
+    constructor() {
+      this._map = new MyMap()
+    }
+    add(val) {
+       this._map.set(val,val)
+       return this
+    }
+    delete(val) {
+      this._map.delete(val)
+      return this
+    }
+    has(val) {
+      return this._map.has(val)
+    }
+    clear() {
+      return this._map.clear()
+    }
+    get size() {
+      return this._map.size
+    }
+  }
+
+</script>
+
+<script>
+  
+  function MyMap() {//一一映射
+    this._keys = []
+    this._values = []
+  } // 当new一个构造函数的时候，该构造函数的prototype已经被设置完毕
+
+  MyMap.prototype.forEach = function (iterator) { // iterator 迭代器 函数
+    for(var i = 0; i < this._keys.length; i++) {
+      var key = this._keys[i]
+      var val = this._values[i]
+      iterator(val, key) 
+    }
+  }
+
+  //获取key 在 _keys 中的下标，能够正确处理NaN
+  MyMap.prototype._keyIndex = function (key) {
+    if(key !== key) { // 当key 为NaN
+      // for(let i = 0; i < this._keys.length; i++) {
+      //   if(this._keys[i] !== this._keys[i]) 
+      //   return i
+      // }
+      return this._keys.findIndex(it => it !== it) 
+    }else {
+      return this._keys.indexOf(key)
+    }
+  }
+  MyMap.prototype.set = function(key, value) { //设置一个值的映射,如果有该映射，就重新设置key的映射值value值
+    if(this.has(key)) { //如果key存在，替换其值
+      // this._values[this._keys.indexOf(key)] = value
+      var idx = this._keyIndex(key)
+      this._values[idx] = value
+    }else {
+      this._keys.push(key)
+      this._values.push(value)
+    }
+    return this
+  }
+  MyMap.prototype.get = function(key) { //得到一值的映射
+    var idx = this._keyIndex(key)
+    if(idx >= 0) {
+      return this._values[idx]
+    }
+    // else {
+    //   return undefined
+    // }
+  }
+  MyMap.prototype.has = function(key) { //查看一个值有没有映射
+    return this._keys.includes(key)
+  }
+  MyMap.prototype.delete = function(key) { //删除一个值及其映射
+    var idx = this._keyIndex(key)
+    if(idx >= 0) {
+       this._values.splice(idx,1)
+       this._keys.splice(idx,1)
+       return true
+    }
+    return false
+  }
+  MyMap.prototype.clear = function() { //清空映射数组
+    this._keys.length = 0
+    this._values.length = 0
+  }
+  Object.defineProperty(MyMap.prototype, 'size', {
+    get : function () {
+      return this._keys.length
+    }
+  })
+</script>

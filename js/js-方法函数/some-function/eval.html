@@ -1,0 +1,40 @@
+<script>
+  eval('console.log(5); var a = 4; var b = 3; console.log(a * b)')  // 将字符串当代码执行
+
+  // 非严格模式，eval在上层作用域中创建变量
+  // 严格模式中，eval创建一个自己的作用域，可以访问外部的作用域的变量，但外部不可访问eval作用域中的变量
+
+
+  eval可以访问自己调用位置周围的变量// 故eval 不是一个函数，是一个运算符  例如 new.target 原语
+  函数无法访问自己调用位置周围的变量除非传参
+  function f() {
+    var a = 3
+    console.log(eval('a')) // 或   eval('console.log(a)')  该函数可以拿到字符串中的代码
+  }
+
+  function f() {
+    var a = 3
+    console.log(g('a'))
+  }
+  function f(code) {
+    return code
+  }
+
+
+
+  //***  细节
+  var a = 5
+  function f() {
+    var a = 3
+    console.log(eval('a'))
+  }
+  f() // 3
+
+  var a = 5
+  var EVAL = eval
+  function f() {
+    var a = 3
+    console.log(EVAL('a'))  // 不想让自己的代码指向自己的作用域里的同名变量
+  }
+  f() // 5
+</script>

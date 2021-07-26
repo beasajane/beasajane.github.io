@@ -1,0 +1,10 @@
+<script>
+  
+  //类型判断  ***  面试题
+  typeof 2  // 只能区分基本类型
+  2 instanceof Number  // 能够判断对象类型或 祖先类型，不能判断基本类型 // 能判断父类（超类）
+  null instanceof Ojbect // false
+
+  Object.ptototype.toString.call('laskdjf') //'[object, String]'  //  能够返回系统自带类型的构造函数的名字，自定义类型不行
+  Object.ptototype.toString.call(new String('laskdjf')) // '[object, String]'
+</script>

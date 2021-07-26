@@ -1,0 +1,82 @@
+<body>
+  arguments.callee  表示函数本身
+  arguments[0] === param1
+  匿名函数的递归
+  数的_表示形式
+
+  this不会被强制转换成对象
+
+</body>
+<script>
+严格模式取决于函数在什么位置定义而不取决于在什么位置调用
+
+  'use strict'
+
+  // 静默错误，有错误没有报出，同时也运行成功了
+
+
+  'use strict'
+  // 禁止八进制直接量
+  0o23//(过去写法023)
+  0xff0067
+  0b1010101
+
+
+
+  let shuliang = 23323_234234_23435  //等价于 2332323423423435
+
+
+    function h() {
+      console.log(arguments.callee === h)
+    } 
+    h()// true
+
+  function f(a,b) {
+    a = 8
+    b = 9
+    console.log(a === arguments[0])
+    console.log(b === arguments[1])
+  } 
+  f(1,2) // true true
+
+
+  function g(a, b) {
+    'use strict'
+    a = 8
+    b = 9 
+    console.log(a === arguments[0])
+    console.log(b === arguments[1])
+  } 
+  g(1,2)// false  false
+
+
+
+  // 匿名函数的递归  callee
+  var f = function () {return arguments.callee }
+
+// this 
+  function t(a) {
+    'use strict'
+    return a + this
+  }
+  t.apply(3,[4]) // 此时的3为数字3，而不是对象3
+
+
+// 函数可以通过caller知道自己正在被谁调用  // 严格模式下被禁用
+  function y() {
+    r()
+    w()
+  }
+  function r() {
+    w()
+  }
+  function w() {
+    console.log(h.caller)
+  }
+
+
+  function q() {  // 严格模式下被禁用
+    console.log(q.arguments)
+  }
+  h(12,3,4,5)// log自己调用时的所接的参
+</script>

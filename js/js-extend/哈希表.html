@@ -1,0 +1,280 @@
+<body> 
+  给一个值，算出不一样的值 
+  算一个md5 哈希算法的一种（保证原始数据即使发生一bit变化，算出来的数据也会发生很大的变化）
+  算一个文件（文件为二进制数据）
+  
+  *  哈希表可以通过理论O（1）的时间进行映射的增删改查
+   *  <em> 其关键的原理即 </em>为 通过映射的的key直接计算出该组映射对应存放在存储空间（数组）的哪个位置
+     *  当重新用同一个key查找是，程序会计算出与其存入时相同的下标，能够将过滤范围很快缩减到个位数
+     *  因为计算存储位置希望尽量分布，就必然会放发生不同的key算出相同的位置，称为哈希冲突
+     *  一般有三种方法解决冲突
+     *  开放地址法： 用计算出的下标按照特定的顺序进行偏移，知道找到空闲的存储位置  很麻烦
+     *  重新哈希法： 换用另一个新的哈希函数计算出新的存储位置，以此类推  麻烦
+     *  链式存储法： 在数组的下标位置存储一根链表，为这个链表上存储所有hashkey 为这个下标的key 不需要判断太多的问题
+  *  可以预见，当哈希表存储空间确定，其其中存储的元素越来越多的时候，发生冲突的可能性也越来越高
+  *  当存储空间占用比例（装在因子，load factor）到一定程度时，需进行扩容。相应的，曾经容易扩大到过很大的哈希表，在内容被删除时，需要将空间缩小。
+
+  *  哈希表是一种典型的用空间换时间的数据结构
+
+</body>
+<script>
+  // 哈希效率比较高 set效率O（1）
+  // 根据  自己（key）的内容 计算出在什么地方存放
+  // f(key) --> n % 数组的下标，得到index  问题两个不同的字符串，算出来同一个值
+
+// 用链表（树）存取  有冲突的即hash值一样的映射
+
+
+/* 
+js 中 对向可以用来做映射    就是一个hashKey（哈希表） 
+在其他语言中，对象是固定属性集合，不能随意增删  （此处，利用的是其他语言的对象特点：ListNode   功能）
+ 面向对象的对象  */
+
+/* 可以优化的点：
+   * 搬运的时候直接移动链表节点，而不是创建新的
+   * 扩容的时候慢慢搬运
+   * 使用平衡树而不是链表来存hashkey 相同元素，以防止所有的元素hashkey 相同而导致性能退化为O（n）
+*/
+  class ListNode{
+    constructor(key,val) {
+      this.key = key
+      this.val = val
+      this.next = null
+    }
+  }
+  class HashMap {
+    constructor() {
+      this._capacity = 16  // 空间大小
+      this._elements = new Array(this._capacity).fill(null)
+      this._size = 0
+    }
+    rehash() { // 扩容 // 缩容
+      var elements = this._elements
+      let l = elements.length
+
+      var loadFactor = this._size / this._capacity
+      if(loadFactor > 0.75) {
+        this._capacity = this._capacity * 2
+      } else {
+        this._capacity = Math.max(this._capacity / 2, 16)
+      }
+
+      this._elements = new Array(this._capacity).fill(null)
+      this._size = 0
+
+      for(var i = 0; i < l; i++ ) {
+        var head = elements[i]
+        while (head) {
+          this.set (head.key, head.val)
+          head = head.next
+        }
+      }
+    }
+    hashKey(str) {
+      var hash = 13131133
+      var seed = 11313
+      for (var i = 0; i < str.length; i++) {
+        hash = (hash * seed >>> 0) + str .charCodeAt(i)
+      }
+      // return hash % this.elements.length
+      return hash & (this._elements.length - 1)
+    }
+    set(key,val) {
+      let idx = this.hashKey(key)
+      let head = this._elements[idx]
+
+      while(head) {  // 查找有无此key对应的节点
+        if(head.key == key) { // 如果找到直接替换节点的val
+          head.val = val
+          return this
+        }
+        head = head.next
+      }
+      let node = new ListNode(key, val)
+      node.next = this._elements[idx] // 放入这个链表的头部
+      this._elements[idx] = node
+
+      this._size++
+      if(this._size / this._capacity > 0.75) { // 装载因子大于0.75
+        this.rehash()//扩容
+      }
+
+      return this
+    }
+    get(key) {
+      let idx = this.hashKey(key)
+      let head = this._elements[idx]
+      while(head) {
+        if(head.key == key) {
+          return head.val
+        }
+        head = head.next
+      }
+    }
+    has(key) {
+      let idx = this.hashKey(key)
+      let head = this._elements[idx]
+      while(head) {
+        if(head.key == key) {
+          return true
+        }
+        head = head.next
+      }
+      return fasle 
+    }
+    delete(key) {
+      let idx = this.hashKey(key)
+      let head = this._elements[idx]
+      if(!head) {
+        return false 
+      }
+      if(head.key == key) {
+        this._elements[idx] = head.next
+        this._size--
+        if(this._size / this._capacity < 0.275 ) {
+          this.rehash()
+        }
+        return true
+      }
+      while (head.next) {
+        if(head.next.key == key) {
+          head.next = head.next.next
+          this._size--
+          if(this._size / this._capacity < 0.275 ) {
+            this.rehash()
+          }
+          return true
+        }
+      }
+      return false
+    } 
+    get size() {
+      return this._size
+    }
+    performace() { // 计算效率
+      let  nonZero = this._elements.map(it => listLenth(it)).filter(it => it)
+      return nonZero.reduce((a, b) => a + b) / nonZero.length
+    }
+  } 
+  function listLenth(head) {
+    var c = 0
+    while(head) {
+      head = head.next
+      c++
+    }
+    return c
+  }
+
+  var t = new HashMap()
+  t.hashKey('bar')
+
+
+  // 在c，Java中， hash，seed，是四字节整数
+  // >>> js都会把数当成32为整数理解  无符号整数，
+
+
+  // 链表用多少空间，就申请多少空间
+
+  
+</script>
+<script type='基础'>
+  class HashMap2 {
+    static objectIdPrefix = 'oyuhsdfgkexd'
+    static objectId = 1
+    constructor() {
+      this.map = {}
+    }
+
+    set (key, val) {
+      var k
+      if(typeof key == 'string') {
+        k = 'S-' + key
+      }else if(typeof key == 'number') {
+        k = 'N-' + key
+      }else if(typeof key == 'boolean') {
+        k = 'B-' + key
+      }else if(key == null) {
+        k = 'NIL-' + key
+      }else if(typeof key == 'object'){
+         k = key.objectId 
+         if(!k) {
+           k = key.objectId = HashMap2.objectIdPrefix + HashMap2.objectId++
+         }
+      }
+      this.map[k] = val
+    }
+    
+    get (key, val) {
+      var k
+      if(typeof key == 'string') {
+        k = 'S-' + key
+      }else if(typeof key == 'number') {
+        k = 'N-' + key
+      }else if(typeof key == 'boolean') {
+        k = 'B-' + key
+      }else if(key == null) {
+        k = 'NIL-' + key
+      }else if(typeof key == 'object'){
+         k = key.objectId 
+         if(!k) {
+           k = key.objectId = HashMap2.objectIdPrefix + HashMap2.objectId
+         }
+      }
+      return this.map[k]
+    }
+  }
+</script>
+
+<script> // 不考虑对象被freeze
+  class HashMap2 {
+    static objectIdPrefix = 'oyuhsdfgkexd'
+    static objectId = 1
+
+    constructor() {
+      this.map = {}
+      this.list = null //用来存储无法增加objectId属性的对象
+    }
+
+    set (key, val) {
+      var k
+      if(typeof key == 'string') {
+        k = 'S-' + key
+      }else if(typeof key == 'number') {
+        k = 'N-' + key
+      }else if(typeof key == 'boolean') {
+        k = 'B-' + key
+      }else if(key == null) {
+        k = 'NIL-' + key
+      }else if(typeof key == 'object'){
+         k = key.objectId 
+         if(!k) {
+           k = key.objectId = HashMap2.objectIdPrefix + HashMap2.objectId++
+         }
+      }
+      this.map[k] = val
+    }
+    
+    get (key, val) {
+      var k
+      if(typeof key == 'string') {
+        k = 'S-' + key
+      }else if(typeof key == 'number') {
+        k = 'N-' + key
+      }else if(typeof key == 'boolean') {
+        k = 'B-' + key
+      }else if(key == null) {
+        k = 'NIL-' + key
+      }else if(typeof key == 'object'){
+         k = key.objectId 
+         if(!k) {
+           k = key.objectId = HashMap2.objectIdPrefix + HashMap2.objectId
+         }
+      }
+      return this.map[k]
+    }
+  }
+
+
+
+  let 用对象做映射的题目//利用哈希表  做题   对象，map
+</script>

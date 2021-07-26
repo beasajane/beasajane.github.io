@@ -1,0 +1,30 @@
+<script>
+  var box = {
+    locked : true ,
+    unlock : function () { this.locked = false ; },
+    lock : function () { this.locked = true ; },
+    _content : [],
+    get content () {
+      if ( this.locked ) throw new Error (" Locked !");
+        return this._content ;
+    }
+  };
+  function withBoxUnlocked(f) {
+    try {
+      f(box)
+      return box.content
+    }catch(e){
+      return e
+    }finally{
+      box.lock()
+    }
+  }
+  function withBoxUnlocked1(f) {
+    box.unlock()
+    try {
+      return f()
+    }finally{
+      box.lock()
+    }
+  }
+</script>

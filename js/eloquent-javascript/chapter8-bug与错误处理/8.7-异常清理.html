@@ -1,0 +1,25 @@
+<script>
+  let 代码在运行的时候会进行语法分析
+
+  try {
+    eval(`
+      console.log(1); 
+      try {
+        console.log(2
+      } catch(e) {
+       console.log(233)
+      }
+       `)
+  } catch(w) {
+    console.log(555)
+  }
+
+  console.log(`
+      console.log(1); 
+      try {
+        console.log(2
+      } catch(e) {
+       console.log(233)
+      }
+       `)
+</script>

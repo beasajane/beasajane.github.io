@@ -1,0 +1,306 @@
+<script>
+      // 此为多态   this.inner.minWidth() + 2
+  function TextCell(text) { 
+    this.text = text.split('\n')
+  }
+  TextCell.prototype.minHeight = function () { 
+    return this.text.length
+  }
+  TextCell.prototype.minWidth = function () { 
+    return this.text.reduce((width, line) => Math.max(width, line.length), 0)
+  }
+  TextCell.prototype.draw = function (width,height) {
+    let ary = []
+    for(let i = 0; i < height; i++){
+      let line = this.text[i] || ''
+      ary.push( line + ' '.repeat(width - line.length) )
+    }
+    return ary 
+  }
+
+
+  function widthArray(rows) { 
+    return rows[0].map((_, index) => { 
+      return rows.reduce((maxwidth, row) => Math.max(maxwidth, row[index].minWidth()), 0)  
+    })
+  }
+  function heightArray(rows) {
+    return rows.map(row => {
+      return row.reduce((maxheight, cell) => Math.max(maxheight, cell.minHeight()), 0)
+    })
+  }
+  function drawTable(rows) {  
+  var heights = heightArray(rows)
+  var widths = widthArray(rows)
+  return rows.map(drawRow).join('\n') 
+  
+  function drawRow(row, rowNum) { 
+    var blocks = row.map((cell, colNum) => { 
+      return cell.draw(widths[colNum], heights[rowNum])
+      })
+
+      return blocks[0].map((_, lineNo) => { 
+        return drawLine(blocks, lineNo)
+      }).join('\n') 
+    }
+
+    function drawLine(blocks, lineNo) {
+      return blocks.map(block => block[lineNo]).join(' ') //joiin(' ')  单元格之间用一个空格隔开
+    }
+  }
+  
+  function BorderedCell (inner) {
+    this.inner = inner
+  }
+  BorderedCell.prototype.minWidth = function () {
+    return this.inner.minWidth() + 2
+
+  }
+  BorderedCell.prototype.minHeight = function() {
+    return this.inner.minHeight() + 2
+  }
+  BorderedCell.prototype.draw  = function(width, height) {
+    let result = this.inner.draw(width - 2, height - 2).map(it => '│' + it + '│')
+    result.unshift('┌' + '─'.repeat(width - 2) + '┐')
+    result.push('└' +'─'.repeat(width -2)+ '┘')
+    return result
+  }
+  
+  // BorderedCell.prototype.draw = function(width, height) {
+  //   var result = this.inner.draw(width - 2, height - 2).map(it => '│' + it + '│')
+  //   result.unshift('┌' + '─'.repeat(width - 2) + '┐')
+  //   result.push('└' + '─'.repeat(width - 2) + '┘')
+  //   return result
+  // }
+
+
+  // // 该方式，内容中的inner，必须是TextCell创建的对象 是基础单元格，即在inner外边加下划线
+  function UnderLineCell(inner) { // inner 是用 innerCell 格式化的文本，即这个文本也有 innerCell属性
+    this.inner = inner
+  }
+  UnderLineCell.prototype.minHeight = function () {
+    // return this.inner.minHeight + 1
+    return this.inner.minHeight() + 1
+  }
+  UnderLineCell.prototype.minWidth = function () {
+    return this.inner.minWidth()
+  }
+  UnderLineCell.prototype.draw = function (width, height) {
+    return this.inner.draw(width, height - 1).concat(['-'.repeat(width)])
+  }
+  
+  function dateTable(MOUNTAINS) { // 将数据转化为drawTable 的参数形式
+    var keys = Object.keys(MOUNTAINS[1])// 要从MOUNTAINS 中得到标题行，即数组中的对象属性的属性名，Ojbect.keys() 返回对象自身可枚举的属性 组成的  ** 数组 ** 
+    let header = keys.map(key => new BorderedCell( new TextCell(key)))
+
+    //按照keys的顺序遍历
+// 构造一个普通单元格，再由普通单元格构造 下划线单元格
+    let body = MOUNTAINS.map(row => { // 用TextCell转化格式，可以用TextCell的方法
+      return  keys.map(key =>new BorderedCell(  new TextCell( String( row[key] )))) // String(...)
+    })
+    // return header.concat(body)
+    return [header].concat(body)
+  }
+  
+
+  function headerCell(text) { // text 是用 textCell 格式化的文本，即这个文本也有 textCell属性
+    this.text = text.split('\n')
+  }
+  headerCell.prototype.minHeight = function () { 
+    return this.text.length + 1
+  }
+  headerCell.prototype.minWidth = function () { 
+    //return this.text.reduce((width, line) => Math.max(width, line.length), 0)
+    return Math.max(...this.text.map(line => line.length))
+  }
+  headerCell.prototype.draw = function (width,height) {
+    let ary = []
+    for(let i = 0; i < height - 1; i++){
+      let line = this.text[i] || ''
+      ary.push( line + ' '.repeat(width - line.length) )
+    }
+    ary.push('-'.repeat(width))
+    return ary 
+  }
+
+  function underline(MOUNTAINS) {
+  let moutains = []
+  let headTable = toArray(MOUNTAINS[0], key => new headerCell(String(key) ))
+  let bodyTable = MOUNTAINS.map((obj => toArray(obj, key => new TextCell(String(obj[key])))))
+  moutains.push(headTable)
+  return moutains.concat(bodyTable)
+  
+  function toArray(obj , f) {
+    let ary = []
+    for(let key in obj) {
+      ary.push(f(key))
+    }
+    return ary
+  }
+  function toTextCell(arrays) {
+    let ary = []
+    for(let i = 0; i < arrays.length ; i ++ ) {
+      ary[i] = [] 
+      for(let j = 0; j < arrays[i].length; j++) {
+        ary[i].push(new TextCell(String(arrays[i][j])))
+      }
+    }
+    return ary
+  }
+}
+
+
+  var MOUNTAINS = [
+    {name: "Kilimanjaro", height: 5895, country: "Tanzania"},
+    {name: "Everest", height: 8848, country: "Nepal\nchina"},
+    {name: "Mount Fuji", height: 3776, country: "Japan"},
+    {name: "Mont Blanc", height: 4808, country: "Italy\nFrance"},
+    {name: "Vaalserberg", height: 323, country: "Netherlands"},
+    {name: "Denali", height: 6168, country: "United States"},
+    {name: "Popocatepetl", height: "Mexico", country: 5465}
+  ];
+
+function v2() {
+  var rows = [];
+  for (var i = 0; i < 5; i++) {
+    var row = [];
+    for (var j = 0; j < 5; j++) {
+      if ((j + i) % 2 == 0)
+      row.push (new TextCell ("##") );
+      else
+      row.push (new TextCell (" "));
+    }
+    rows.push (row);
+  }
+  return console.log( drawTable(rows))
+}
+
+function v(MOUNTAINS) {
+  let moutains = []
+  let headTable = toArray(MOUNTAINS[0], key => key)
+  moutains.push(headTable)
+  let m = MOUNTAINS.map((obj => toArray(obj, key => obj[key])))
+  moutains = moutains.concat(m)
+  return console.log(drawTable(toTextCell(moutains))) // 整体放到mountains中
+  
+
+  function toArray(obj , f) {
+    let ary = []
+    for(let key in obj) {
+      ary.push(f(key))
+    }
+    return ary
+  }
+  function toTextCell(arrays) {
+    let ary = []
+    for(let i = 0; i < arrays.length ; i ++ ) {
+      ary[i] = [] 
+      for(let j = 0; j < arrays[i].length; j++) {
+        ary[i].push(new TextCell(String(arrays[i][j])))
+      }
+    }
+    return ary
+  }
+}
+
+
+//右对齐单元格
+function RTextCell(text) {
+    TextCell.call(this, text)
+  }
+  RTextCell.prototype = Object.create(TextCell.prototype)
+  RTextCell.prototype.draw = function (width, height) {
+    var ary = []
+    for(let i = 0; i < height; i ++) {
+      let line = this.text[i] || ''
+      ary.push(' '.repeat(width - line.length) + line)
+    }
+    return ary
+  }
+
+  function ObjectCell(object) {
+    this.object = object
+  }
+  ObjectCell.prototype.minHeight = function () {
+    return Object.keys(this.object).length + 2 // 获取obj属性的数量
+  }
+  ObjectCell.prototype.minWidth = function () {
+    var max = 0
+    for(var key in this.object) {
+      if(this.object.hasOwnProperty(key)) {
+        var val = this.object[key]
+        var w = 2 + key.length + 2 + String(val).length + 1
+        max = Math.max(max, w)
+      }
+    }
+    return max 
+  }
+  ObjectCell.prototype.draw = function (width, height) {
+    var lines = ['{']
+    for(var key in this.object) {
+      if(this.object[key]) {
+        var val = this.object[key]
+        lines.push('  ' + key + ': ' + String(val) +  ',') 
+      }
+    }
+    lines.push('}')
+    for(var i = 0; i < height - lines.length ; i++) {
+      lines.push('')
+    }
+    return lines.map(it => it.padEnd(width, ' '))
+  }
+  function dateTableObject(MOUNTAINS) { 
+    var keys = Object.keys(MOUNTAINS[1])
+    let header = keys.map(key => new ObjectCell(key))
+    let body = MOUNTAINS.map(row => { 
+      return  keys.map(key =>new ObjectCell( String( row[key] )))
+    })
+    return [header].concat(body)
+  }
+
+  // MOUNTAINS => data
+  function dateTableRx(MOUNTAINS) { // 将数据转化为drawTable 的参数形式
+    var keys = Object.keys(MOUNTAINS[1])// 要从MOUNTAINS 中得到标题行，即数组中的对象属性的属性名，Ojbect.keys() 返回对象自身可枚举的属性 组成的  ** 数组 ** 
+    let header = keys.map(key => new underLineCell( new TextCell(key)))
+
+    let body = MOUNTAINS.map(row => { // 用TextCell转化格式，可以用TextCell的方法
+      return  keys.map(key => {
+        if(key == 'height') { // mountains中属性名为height的，， 此为个例
+          return new RTextCell( String( row[key] ))
+        }else {
+          return new TextCell( String( row[key] ))
+        }
+      }) // String(...)
+    })
+    // return header.concat(body)
+    return [header].concat(body)
+  }
+  function dateTableR(MOUNTAINS) { // 将数据转化为drawTable 的参数形式
+    var keys = Object.keys(MOUNTAINS[1])// 要从MOUNTAINS 中得到标题行，即数组中的对象属性的属性名，Ojbect.keys() 返回对象自身可枚举的属性 组成的  ** 数组 ** 
+    let header = keys.map(key => new UnderLineCell( new TextCell(key)))
+
+    let body = MOUNTAINS.map(row => { // 用TextCell转化格式，可以用TextCell的方法
+      return  keys.map(key => {
+        let value = row[key]
+        if(typeof value == 'number') { //数字类型的右对齐，其他数据也可以写入，使用该函数
+          return new BorderedCell(new BorderedCell( new RTextCell( String( row[key] ))))
+        }else {
+          return new BorderedCell( new UnderLineCell( new TextCell( String( row[key] ))))
+        }
+      }) // String(...)
+    })
+    // return header.concat(body)
+    return [header].concat(body)
+  }
+
+
+  var rows = [
+    [new TextCell('abc'),         new TextCell('foo\nbar'), new TextCell('abccccc')],
+    [new TextCell('abcccc\nfoo'), new TextCell('foobar'),   new TextCell('ab\ncc\ncc\nc')],
+    [new TextCell('##'), new TextCell('  '),   new TextCell('##')],
+    [new TextCell('  '), new TextCell('##'),   new TextCell('  ')],
+    [new TextCell('##'), new TextCell('  '),   new TextCell('##')],
+    [new BorderedCell(new ObjectCell({a:1,b:2,c:'foo'})), new BorderedCell(new ObjectCell({x:1,position:2})),   new TextCell('##')],
+  ]
+
+</script>

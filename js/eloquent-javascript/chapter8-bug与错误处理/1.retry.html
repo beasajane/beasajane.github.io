@@ -1,0 +1,46 @@
+<script>
+  class MultiplicatorUnitFailure extends Error {}
+
+  function primitiveMultiply(a, b) {
+    if(Math.random() < 0.5) {
+      return a * b
+    }else {
+      throw new MultiplicatorUnitFailure('failure')
+    }
+  }
+  function multiply(x,y) {
+    try{
+      return primitiveMultiply(x,y)
+    }catch(e) {
+      if(e instanceof MultiplicatorUnitFailure){
+        return multiply(x,y)
+      }else {
+        throw e
+      }
+    }
+  }
+  function multiply1(x,y) {
+    for(;;) {
+      try{
+        return primitiveMultiply(x,y)
+      }catch(e) {
+        if(e instanceof MultiplicatorUnitFailure){
+          continue
+        }else {
+          throw e
+        }
+      }
+    }
+  }
+  function multiply2(x,y) {
+    for(;;) {
+      try{
+        return primitiveMultiply(x,y)
+      }catch(e) {
+        if(!(e instanceof MultiplicatorUnitFailure)) {
+          throw e
+        }
+      }
+    }
+  }
+</script>

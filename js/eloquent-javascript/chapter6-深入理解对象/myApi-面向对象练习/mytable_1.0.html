@@ -76,7 +76,7 @@ let m = MOUNTAINS.map((obj => toArray(obj, key => obj[key])))
 moutains = moutains.concat(m)
 console.log(drawTable(toTextCell(moutains)))
 
-function toArray(obj , f) {
+function toArray(obj , f) { //将obj转化为Array
   let ary = []
   for(let key in obj) {
     ary.push(f(key))
@@ -94,7 +94,7 @@ function toArray(obj , f) {
 //    ["Popocatepetl",  5465, "Mexico"]
 // ]
 
-function toTextCell(arrays) {
+function toTextCell(arrays) { // 将二维数组中的文本，转化为 new TextCell 形式
   let ary = []
   for(let i = 0; i < arrays.length ; i ++ ) {
     ary[i] = [] 

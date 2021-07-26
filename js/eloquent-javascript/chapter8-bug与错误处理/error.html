@@ -1,0 +1,18 @@
+<script>
+  let e = new Error('shazi')
+
+  e.message
+  e.stack
+  e.name
+console.dir(e)
+let er = new SyntaxError('ad')
+er.name
+console.dir(er)
+
+class InputError extends Error {
+  // constructor(message) {
+  //   super(massage)
+  // }
+  get name(){return 'InputError'}
+}
+</script>

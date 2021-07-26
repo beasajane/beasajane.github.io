@@ -79,6 +79,14 @@
     this.age = age
   }
 
+  function A() {
+    if(!(this instanceof A)) {
+      return new A()
+    }
+    if(new.target !== A) {
+      return new A()
+    }
+  }
 
 
 //new 的时候,new 对构造函数 做了什么  

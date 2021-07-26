@@ -55,4 +55,13 @@
     return result 
   }
   a.map2(it => it * 2)
+
+
+
+  在严格模式下this传递给函数的值不会被强制转换为对象
+  function f(a) {
+    return a + this
+  }
+  f.call(3, 2) // 5     此时的3是对象3
+  
 </script>

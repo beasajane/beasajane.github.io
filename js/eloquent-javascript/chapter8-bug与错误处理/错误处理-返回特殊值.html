@@ -1,0 +1,38 @@
+<script>
+  var SPECIAL = {} // 表示错误
+  function foo() {
+    if(err) {
+      return SPECIAL
+    }
+  }
+
+  var ret = foo()
+
+  if(ret == SPECIAL) {
+    // err occurs
+    return barSPECIAL
+  } else {
+    // foo success
+  }
+
+
+  var barSPECIAL = {}
+  function bar(params) {
+    var ret = foo()
+    if(ret == SPECIAL) {
+      // err occurs
+      return barSPECIAL
+    } else {
+      // foo success
+    }
+  }
+  
+  function bas(params) {
+    var ret = bar()
+    if(ret == barSPECIAL){
+
+    }
+  }
+
+  var special = Symbol //
+</script>

@@ -1,0 +1,33 @@
+<script type= 'd'>
+  var a = 3, b = 4
+  var g = function f() {
+    var a = 1
+    var b = 2
+    return function g(){
+      var c = 3
+      return a + b * name + c
+    }
+  }()   
+
+
+  scope
+    local当前作用域
+    closure闭包作用域
+    script脚本作用域
+    global全局作用域
+</script>
+<script>
+  var a = 3, b = 4, c = 2
+  var g = function f() {
+    var a = 1
+    var b = 2
+    with({c:3,d:5}){ //with 相当于给作用域链上增加一个作用域
+      return function g(){
+        var c = 3
+        return a + b * name + c
+      }
+    }
+  }()  
+ console.dir(g)  //找作用域对象上的属性
+
+</script>

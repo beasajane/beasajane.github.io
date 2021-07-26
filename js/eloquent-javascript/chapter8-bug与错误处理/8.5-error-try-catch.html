@@ -1,0 +1,110 @@
+<script>
+  throw 3
+
+  try {
+    尝试运行代码
+  }catch(error) {
+    处理错误
+  }
+  function fou() {
+    console.log(1)
+    try{
+      tar()
+      console.log(2)
+    }catch(e){
+      console.log('error',e)
+    }
+    console.log(3)
+  }
+
+  function tar() {
+    console.log(4) 
+    bzz() 
+    console.log(5)
+  }
+
+  function bzz() {
+    console.log(6) 
+    3()
+    console.log(7)
+  }
+
+
+
+
+  function ufo() {
+    console.log(1)
+    try{
+      rat()
+      console.log(2)
+    }catch(e){
+      console.log('error',e)
+    }
+    console.log(3)
+  }
+
+  function rat() {
+    console.log(4) 
+    try{
+      zzb() 
+    }catch(e) {
+
+    }
+    console.log(5)
+  }
+
+  function zzb() {
+    console.log(6) 
+    3()
+    console.log(7)
+  }
+
+</script>
+<script>
+  function foo() {
+    try {
+      尝试运行代码
+    }catch(处理错误) {
+       throw console.info(处理错误)
+    }finally{ // catch 与 finally 必须有一个以上
+  
+    }// finally 语句块一定会运行
+  }
+
+
+  function f() {
+    try{
+      return 1
+    }catch(e) {
+      return 2
+    }finally{
+      return 3
+    }
+    return 4
+  } // 3
+
+
+  function ff() {
+    try{
+      return 1
+    }catch(e) {
+      return 2
+    }finally{
+      console.log(3)
+    }
+    return 4
+  }
+
+  function fff() {
+    return 0
+    try{
+      return 1
+    }catch(e) {
+      return 2
+    }finally{
+      console.log(3)
+    }
+    return 4
+  }
+
+</script>

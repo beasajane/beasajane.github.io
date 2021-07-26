@@ -1,4 +1,209 @@
+
+<body>
+  * js 语言有原型继承   减少空间占用     都放在构造函数上，会增加内存空间的占用（两者内存占用不大）
+
+  其他语言与js还有面向对象继承
+
+  此处继承为面向对象的继承  inheritance （借助原型继承，语法自带，其他语言少有原型继承）
+</body>
 <script>
+  //基础单元格
+  function TextCell(text) { 
+    this.text = text.split('\n')
+  }
+  TextCell.prototype.minHeight = function () { 
+    return this.text.length
+  }
+  TextCell.prototype.minWidth = function () { 
+    return this.text.reduce((width, line) => Math.max(width, line.length), 0)
+  }
+  TextCell.prototype.draw = function (width,height) {
+    let ary = []
+    for(let i = 0; i < height; i++){
+      let line = this.text[i] || ''
+      ary.push( line + ' '.repeat(width - line.length) )
+    }
+    return ary 
+  }
+
+
+  function widthArray(rows) { 
+    return rows[0].map((_, index) => { 
+      return rows.reduce((maxwidth, row) => Math.max(maxwidth, row[index].minWidth()), 0)  
+    })
+  }
+  function heightArray(rows) {
+    return rows.map(row => {
+      return row.reduce((maxheight, cell) => Math.max(maxheight, cell.minHeight()), 0)
+    })
+  }
+  function drawTable(rows) {  
+  var heights = heightArray(rows)
+  var widths = widthArray(rows)
+  return rows.map(drawRow).join('\n') 
+  
+  function drawRow(row, rowNum) { 
+    var blocks = row.map((cell, colNum) => { 
+      return cell.draw(widths[colNum], heights[rowNum])
+      })
+
+      return blocks[0].map((_, lineNo) => { 
+        return drawLine(blocks, lineNo)
+      }).join('\n') 
+    }
+
+    function drawLine(blocks, lineNo) {
+      return blocks.map(block => block[lineNo]).join(' | ') //joiin(' ')  单元格之间用一个空格隔开
+    }
+  }
+// 下划线单元格
+  function underLineCell(inner) { // inner 是用 TextCell 格式化的文本，即这个文本也有 TextCell属性
+    this.inner = inner
+  }
+  underLineCell.prototype.minHeight = function () {
+    // return this.inner.minHeight + 1
+    return this.inner.minHeight() + 1
+  }
+  underLineCell.prototype.minWidth = function () {
+    return this.inner.minWidth()
+  }
+  underLineCell.prototype.draw = function (width, height) {
+    return this.inner.draw(width, height - 1).concat(['-'.repeat(width)])
+  }
+
+  
+  function dateTable(MOUNTAINS) { // 将数据转化为drawTable 的参数形式
+    var keys = Object.keys(MOUNTAINS[1])// 要从MOUNTAINS 中得到标题行，即数组中的对象属性的属性名，Ojbect.keys() 返回对象自身可枚举的属性 组成的  ** 数组 ** 
+    let header = keys.map(key => new underLineCell( new TextCell(key)))
+
+    let body = MOUNTAINS.map(row => { // 用TextCell转化格式，可以用TextCell的方法
+      return  keys.map(key => new TextCell( String( row[key] ))) // String(...)
+    })
+    // return header.concat(body)
+    return [header].concat(body)
+  }
+
+  var MOUNTAINS = [
+    {name: "Kilimanjaro", height: 5895, country: "Tanzania"},
+    {name: "Everest", height: 8848, country: "Nepal"},
+    {name: "Mount Fuji", height: 3776, country: "Japan"},
+    {name: "Mont Blanc", height: 4808, country: "Italy/France"},
+    {name: "Vaalserberg", height: 323, country: "Netherlands"},
+    {name: "Denali", height: 6168, country: "United States"},
+    {name: "Popocatepetl", height: 5465, country: "Mexico"}
+  ];
+
+
+//右对齐单元格
+  function RTextCell(text) { // 该（子类）构造函数直接调用父类的构造函数
+    // this.text = text.split('\n')
+    TextCell.call(this, text) // 不用 new   、、 构造函数行为被继承
+  }
+  //RTextCell.prototype = Object.create(TextCell.prototype) 
+  //RTextCell.prototype.__proto__ = TextCell.prototype
+  Object.setPrototypeOf(RTextCell.prototype, TextCell.prototype)// 原型继承  (三者书写方式等价  全由ES5提供)  此方式为标准方式
+
+  // 第四种方式  RTextCell.prototype = new RTextCell()   // Es5之前的方式  构造函数的属性被覆盖
+// ES6 写法 class A extends B {}
+
+  RTextCell.prototype.draw = function (width, height) {  // 覆盖父类原型的draw方法
+    let ary = []
+    for(let i = 0; i < height; i ++) {
+      let line = this.text[i] || ''
+      ary.push(' '.repeat(width - line.length) + line)
+    }
+    return ary
+  }
+
+  // MOUNTAINS => data
+  function dateTableRx(MOUNTAINS) { // 将数据转化为drawTable 的参数形式
+    var keys = Object.keys(MOUNTAINS[1])// 要从MOUNTAINS 中得到标题行，即数组中的对象属性的属性名，Ojbect.keys() 返回对象自身可枚举的属性 组成的  ** 数组 ** 
+    let header = keys.map(key => new underLineCell( new TextCell(key)))
+
+    let body = MOUNTAINS.map(row => { // 用TextCell转化格式，可以用TextCell的方法
+      return  keys.map(key => {
+        if(key == 'height') { // mountains中属性名为height的，， 此为个例
+          return new RTextCell( String( row[key] ))
+        }else {
+          return new TextCell( String( row[key] ))
+        }
+      }) // String(...)
+    })
+    // return header.concat(body)
+    return [header].concat(body)
+  }
+  function dateTableR(MOUNTAINS) { // 将数据转化为drawTable 的参数形式
+    var keys = Object.keys(MOUNTAINS[1])// 要从MOUNTAINS 中得到标题行，即数组中的对象属性的属性名，Ojbect.keys() 返回对象自身可枚举的属性 组成的  ** 数组 ** 
+    let header = keys.map(key => new underLineCell( new TextCell(key)))
+
+    let body = MOUNTAINS.map(row => { // 用TextCell转化格式，可以用TextCell的方法
+      return  keys.map(key => {
+        let value = row[key]
+        if(typeof value == 'number') { //数字类型的右对齐，其他数据也可以写入，使用该函数
+          return new RTextCell( String( row[key] ))
+        }else {
+          return new TextCell( String( row[key] ))
+        }
+      }) // String(...)
+    })
+    // return header.concat(body)
+    return [header].concat(body)
+  }
+   var a = drawTable( dateTableR(MOUNTAINS))
+
+  // stretchCell 拉伸单元格
+  function StretchCell1(inner, width, height) { 
+    this.inner = inner
+    this.width = width
+    this.height = height
+  }
+  StretchCell.prototype.minHeight = function () {
+    return this.inner.minHeight() + this.height
+  }
+  StretchCell.prototype.minWidth = function () {
+    return this.inner.minWidth() + this.width
+  }
+  StretchCell.prototype.draw = function(wid, heig) {
+    let w = this.inner.minWidth()
+    let h = this.inner.minHeight()
+    let lines = this.inner.draw(w, h)
+    let result = []
+    for(let i = 0; i < heig; i ++) {
+      if(i < h) {
+        result.push(lines[i] + ' '.repeat(this.width))
+      }else {
+        result.push(' '.repeat(wid))
+      }
+    }
+    return result
+  }
+  function StretchCell(inner, width, height) {
+    this.inner = inner
+    this.width = width
+    this.height = height
+  }
+  StretchCell.prototype.minHeight = function () {
+    return Math.max(this.inner.minHeight(), this.height)
+  }
+  StretchCell.prototype.minWidth = function () {
+    return Math.max(this.inner.minWidth(), this.width)
+  }
+  StretchCell.prototype.draw = function(wid, heig) {
+    return this.inner.draw(wid, heig)
+  }
+</script>
+<script>  // 几桶基本值（自带的）
+  typeof Array.prototype  //  'array'
+  typeof Function.prototype // 'function'  
+  typeof Object.prototype // 'object'
+
+  typeof Number.prototype // 'number'
+  typeof String.prototype // 'string'
+  typeof Boolean.prototype // 'boolean'
+  typeof BigInt.prototype // 'bigint'
+</script>
+
+<script> // 右对齐单元格
   //原型继承
   // 继承关系
   function Creature(type, born) {
@@ -10,4 +215,39 @@
     this.name = name 
     this.master = master
   }
+</script>
+<script>
+  class Creature {
+    constructor(type, born) {
+      this.type = type
+      this.born = born
+    }
+  }
+  class A extends B {
+    static adopt() { // 挂在函数上  、、 静态方法
+      return new Dog()
+    }
+
+    //foo = 8  // 实例属性  相当于再构造函数中 this.foo = 8
+    constructor(name, master) {  // 不写，自动生成
+      super('goushu', born)  // 把this构造为一个B,    之前不能用this
+      // super.xx()  直接调用父类方法
+      this.name = name 
+      this.master = master
+      this.foo = 8
+    }
+
+    eat() {  // 挂在原型上prototype // 实例方法
+
+    }
+    drink() {
+
+    }
+    get age() {
+
+    }
+    set age() {
+
+    }
+  } // A 继承B  A.prototype 继承 B.prototype
 </script>

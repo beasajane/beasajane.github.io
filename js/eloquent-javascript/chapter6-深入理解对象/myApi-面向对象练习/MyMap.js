@@ -1,4 +1,4 @@
-<script>
+
   function MyMap() {//一一映射
     this._keys = []
     this._values = []
@@ -65,5 +65,3 @@
       return this._keys.length
     }
   })
-
-</script>

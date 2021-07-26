@@ -1,0 +1,133 @@
+<script>
+  //js 
+  class ListNode{
+    constructor(key,val) {
+      this.key = key
+      this.val = val
+      this.next = null
+    }
+  }
+  class HashKey {
+    constructor() {
+      this._capacity = 16  // 空间大小
+      this._elements = new Array(this._capacity).fill(null)
+      this._size = 0
+    }
+    rehash() { // 扩容 // 缩容
+      var elements = this._elements
+      let l = elements.length
+
+      var loadFactor = this._size / this._capacity
+      if(loadFactor > 0.75) {
+        this._capacity = this._capacity * 2
+      } else {
+        this._capacity = Math.max(this._capacity / 2, 16)
+      }
+
+      this._elements = new Array(this._capacity).fill(null)
+      this._size = 0
+
+      for(var i = 0; i < l; i++ ) {
+        var head = elements[i]
+        while (head) {
+          this.set (head.key, head.val)
+          head = head.next
+        }
+      }
+    }
+    hashKey(str) {
+      var hash = 13131133
+      var seed = 11313
+      for (var i = 0; i < str.length; i++) {
+        hash = (hash * seed >>> 0) + str .charCodeAt(i)
+      }
+      // return hash % this.elements.length
+      return hash & (this._elements.length - 1)
+    }
+    set(key,val) {
+      let idx = this.hashKey(key)
+      let head = this._elements[idx]
+
+      while(head) {  // 查找有无此key对应的节点
+        if(head.key == key) { // 如果找到直接替换节点的val
+          head.val = val
+          return this
+        }
+        head = head.next
+      }
+      let node = new ListNode(key, val)
+      node.next = this._elements[idx] // 放入这个链表的头部
+      this._elements[idx] = node
+
+      this._size++
+      if(this._size / this._capacity > 0.75) { // 装载因子大于0.75
+        this.rehash()//扩容
+      }
+
+      return this
+    }
+    get(key) {
+      let idx = this.hashKey(key)
+      let head = this._elements[idx]
+      while(head) {
+        if(head.key == key) {
+          return head.val
+        }
+        head = head.next
+      }
+    }
+    has(key) {
+      let idx = this.hashKey(key)
+      let head = this._elements[idx]
+      while(head) {
+        if(head.key == key) {
+          return true
+        }
+        head = head.next
+      }
+      return fasle 
+    }
+    delete(key) {
+      let idx = this.hashKey(key)
+      let head = this._elements[idx]
+      if(!head) {
+        return false 
+      }
+      if(head.key == key) {
+        this._elements[idx] = head.next
+        this._size--
+        if(this._size / this._capacity < 0.3 ) {
+          this.rehash()
+        }
+        return true
+      }
+      while (head.next) {
+        if(head.next.key == key) {
+          head.next = head.next.next
+          this._size--
+          if(this._size / this._capacity < 0.3 ) {
+            this.rehash()
+          }
+          return true
+        }
+      }
+      return false
+    } 
+    get size() {
+      return this._size
+    }
+    performace() { // 计算效率
+      let  nonZero = this._elements.map(it => listLenth(it)).filter(it => it)
+      return nonZero.reduce((a, b) => a + b) / nonZero.length
+    }
+  } 
+  function listLenth(head) {
+    var c = 0
+    while(head) {
+      head = head.next
+      c++
+    }
+    return c
+  }
+
+</script>

@@ -1,0 +1,10 @@
+<script>  //自带的功能没有深层次操作
+  var h = Object.preventExtensions({x: 1, y: 2})// 阻止(属性)扩展
+  var i = Object.seal({x:1, y: 2})// 封装
+  var j = Object.freeze({x: 1, y: 2, z: {a: 1, b: 2}}) //冻结          z没有被冻结
+
+
+  Object.isExtensible()
+  Object.isSealed()
+  Object.isFrozen()
+</script>
