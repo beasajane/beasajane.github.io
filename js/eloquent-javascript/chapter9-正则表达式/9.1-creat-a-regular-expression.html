@@ -7,10 +7,56 @@
   abc
   abc+
   abc\c
-<script>
-new RegExp('ab\n')
-
+<script title="创建正则表达式">
+var re1 = new RegExp('ab\n')
+var re2 = /abd/
+//特殊含义的字符，要表达自己本身，需在前面加 \
+var rePlus = /eighteen\+/
+</script>
+<script title="匹配测试">
 a = /asdkj/
-console.log(/asdn/.test('dk'))
+console.log(1,a.test('dasdasdkjdasd')) // 只要被测试的字符串中存在 正则表达式a中的连续字符串，返回true
+console.log(/an/.test('dandk'))  
+</script>
+<script title="匹配字符集"> // 插入连字符 -
+console.log(2,/[0-9]/.test('kdjf 1234')) // 被测试的字符串中的是否存在[]中的某一个字符
+console.log(3,/[a-g]/.test('akjek'))
+// 通用字符组  
+//   /\d/ 等价于 /[0-9]/   /\D/ => /[^0-9]/
+// /\w/ 等价于  /[0-9a-zA-Z]/   /\W/ =>  /[^0-9a-zA-Z]/ 
+// \s 为任意空白符                /\S/ => /^\s/
+// . 除换行符以外的任意符号        /[^]/ 包括换行符的所有符号
+
+
+// [^xxxx]
+// /a;sdk+/  +符号
+// /a;sdk*/  *符号
+
+// /a;sdk?s/ ?符号
+// /a;sdk{min, max}/  {num, num}符号
+
+// /a;s(dk+)+/   (fasd+或*) 符号
+// /a;s(dk+)*/i    i 符号  不区分大小写
+</script>
+<script title="子表达式分组">
+  var  的 =  /do+(ho*)+/i
+  console.log(3.1,的.test('Doohoohoo'))
+
+</script>
+<script title="匹配和分组">
+console.log(4, /\d+/.exec('faksdj kasdjf 123'))
+console.log(5,'faksdj kasdjf 123'.match(/\d+/))
+
+console.log(6,/(\d{4})-((\d{1,2})-(\d{1,2})) ((\d{1,2})(:)(\d{1,2}))/.exec('faksdjfk askdj 2008-9-03 10:25'))
+console.log(7,/(\d{4})-(\d{1,2})-(\d{1,2}) (\d{1,2})(:)(\d{1,2})/.exec('faksdjfk askdj 2008-9-03 10:25'))
+// (?:)  非捕获分组
+console.log(8,/(\d{4})-(\d{1,2})-(\d{1,2}) (\d{1,2})(?::)(\d{1,2})/.exec('faksdjfk askdj 2008-9-03 10:25'))
+
+// 具名分组
+console.log(9,/(?<year>\d{4})-(?<month>\d{1,2})-(?<day>\d{1,2}) (?<time>(\d{1,2})(?::)(\d{1,2}))/.exec('faksdjfk askdj 2008-9-03 10:25'))
+
+console.log(/(fo.)+/.exec('foafovfoefoasdaos foooo afasfodd'))
+
+console.log(/colo(u)?(r)/.exec('asd,color fas'))
 
 </script>

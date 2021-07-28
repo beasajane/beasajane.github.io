@@ -90,13 +90,26 @@ var beasajane = function(){
       }
       return array
     }
-    function reverse(array) { //modify
-      let l = array.length - 1
-      for(let i = 0; i < l >> 1; i++) {
-        swap(array, i , l - i)
-      }
-      return array
+    // function reverse(array) { //modify
+    //   let l = array.length - 1
+    //   for(let i = 0; i < l >> 1; i++) {
+    //     swap(array, i , l - i)
+    //   }
+    //   return array
+    // }
+    
+  function reverse(ary) {
+    let i = 0
+    let j = ary.length - 1
+    while (i < j) {
+      let t = ary[i]
+      ary[i] = ary[j]
+      ary[j] = t
+      i++
+      j--
     }
+    return ary
+  }
     function swap(array, i, j) {
       let m = array[i]
       array[i] = array[j]
@@ -181,6 +194,5 @@ var beasajane = function(){
       iteratee: iteratee,
       filter: filter,
       map: map,
-
     }
 }()
