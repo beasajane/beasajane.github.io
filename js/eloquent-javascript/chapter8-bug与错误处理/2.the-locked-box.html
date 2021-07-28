@@ -27,4 +27,33 @@
       box.lock()
     }
   }
+
+  withBoxUnlocked(function(params) {
+    box.content.push(1)
+  })
+  //python  自动将文件、网页关闭
+  // with open('a.text') as a, connect('www.baidu.com') as b{  
+  //   a.xxx()
+  //   a.read()
+  //   b.write('wfwef')
+  //   a.read()
+  //   // a.__close__()
+  //   // b.__close__()
+  // }
+
+  //js版本
+  function WITH(...args) {
+    var f = args.pop()
+    try {
+      f(...args)
+    }finally {
+      args.forEach(it => it.close())
+    }
+  }
+  WITH(open('a.txt'), connect('www.baidu.com'), (a,b) => {
+
+  })
+
+
+  
 </script>

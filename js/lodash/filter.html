@@ -1,0 +1,48 @@
+<script>
+  function matches1(obj) {
+    return function (src) {
+      for(let i in obj){
+        if(obj.hasOwnProperty(i)) {
+          if(obj[i] != src[i]) return false
+        }
+      }
+      return true
+    }
+  }
+  function matches(obj) {
+    return function (src) {
+      for(let i in obj){
+          if(obj[i] != src[i]) return false
+      }
+      return true
+    }
+  }
+
+  // instance   
+  let isMaleAndActive = matches({gender: 'm', active: true})
+  isMaleAndActive({name: 'idsj', age : 23, gender: 'm', active: true})
+
+
+  function matchesProperty1(ary) {
+    return function(obj) {
+      if(obj[ary[0]] == ary[1]) return true
+      return false
+    }
+  }
+  function matchesProperties(ary) {
+    return function(obj) {
+      for(let i = 0; i < ary.length; i += 2) {
+        if(obj[ary[i]] !== ary[i+1]) return false
+      }
+      return false
+    }
+  }
+  function matchesProperty(ary) {
+    let key = array[0]
+    let val = array[1]
+    return function(obj) {
+      return obj[key] == ary[val]
+    }
+  }
+
+</script>

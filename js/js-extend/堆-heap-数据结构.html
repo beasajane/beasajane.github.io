@@ -1,8 +1,8 @@
-<script>
+<script type= '1'>
   堆，Heap， 又叫优先队列， Priority Queue， 是一种数据结构
     区别于堆内存于栈内存的‘堆’，此堆非比堆
       堆内存的‘堆’含义杂乱无章，意为数据在内存区域是随机分布的
-      数据结构这个‘堆’值一系列数据像麦子、稻子那样堆
+      数据结构这个‘堆’值一系列数据像麦子、稻谷那样堆
         即堆是一种有序的数据结构
 
   堆，是一颗完全二叉树，所以更合适用数组来存储，即下标在n的节点的两个子节点在2n+1和2n+2的位置
@@ -12,4 +12,539 @@
   双向node
 
   (最后一个节点的下标-1)/2
+</script>
+<script type= '2'>
+  class PriorityQueue{
+    constructor() {
+      this.elements = []
+    }
+    _swap( i , j) {
+      let mid = this.elements[i]
+      this.elements[i] = this.elements[j]
+      this.elements[j] = mid
+    }
+    // 从idx位置开始向上调整
+    heapUp(idx) {
+      //var idx = this.elements.length -1 
+      while (idx > 0) {
+        var pIdx = (idx - 1) >> 1
+        if(this.elements[pIdx] < this.elements[idx]) {
+          this._swap(idx, pIdx)
+          idx = pIdx
+        }else {
+          return 
+        }
+      }
+    }
+    
+    heapDown(idx) {
+      var l = this.elements.length
+      while(idx < l) {
+        var maxIdx = idx
+        var lIdx = maxIdx * 2 + 1
+        var rIdx = maxIdx * 2 + 2
+        if( lIdx < l && this.elements[lIdx] > this.elements[maxIdx]) {
+          maxIdx = lIdx
+          if( rIdx < l && this.elements[rIdx] > this.elements[maxIdx]) {
+            maxIdx = rIdx
+          }
+        }
+
+        if(maxIdx !== idx) {
+          this._swap(maxIdx, idx)
+          idx = maxIdx
+        }else {
+          return 
+        }
+      }
+    }
+    // 堆里增加一个元素
+    push(val) {
+      this.elements.push(val)
+      this.heapUp(this.elements.length - 1)
+      return this
+    }
+    // 将堆顶元素删除并返回
+    pop() {
+      var resutl = this.elements[0]
+      this.elements[0] = this.elements.pop()
+      this.heapDown(0)
+      return result
+    }
+    //查看堆顶元素
+    peek() {
+      return this.elements[0]
+    }
+    stort() {
+      let result = []
+      for(let i = 0; i < this.elements.length - 1; i ++) {
+        result.push(this.pop())
+      }
+      return result 
+    }
+  }
+</script>
+<script type='3'>
+  class PriorityQueue{
+    constructor() {
+      this.elements = []
+      this.predicate = predicate
+      if(inits.length) { 
+        this.elements = inits.slice()
+        this.heapify(this.elements)
+      }
+    }
+    heapify(inits.length) { //就地调整成堆函数
+    }
+    _swap( i , j) {
+      let mid = this.elements[i]
+      this.elements[i] = this.elements[j]
+      this.elements[j] = mid
+    }
+    // 从idx位置开始向上调整
+    heapUp(idx) {
+      //var idx = this.elements.length -1 
+      while (idx > 0) {
+        var pIdx = (idx - 1) >> 1
+        if(this.elements[pIdx] < this.elements[idx]) {
+          this._swap(idx, pIdx)
+          idx = pIdx
+        }else {
+          return 
+        }
+      }
+    }
+    heapUp2(idx) { // 递归
+      if(idx > 0) {
+        var pIdx = (idx - 1) >> 1
+        if(this.elements[pIdx] < this.elements[idx]) {
+          this._swap(idx, pIdx)
+          this.heapUp2(pIdx)
+        }else {
+          return 
+        }
+      }
+    }
+    heapDown(idx) {
+      var l = this.elements.length
+      while(idx < l) {
+        var maxIdx = idx
+        var lIdx = maxIdx * 2 + 1
+        var rIdx = maxIdx * 2 + 2
+        if( lIdx < l && this.elements[lIdx] > this.elements[maxIdx]) {
+          maxIdx = lIdx
+        }
+        if( rIdx < l && this.elements[rIdx] > this.elements[maxIdx]) {
+          maxIdx = rIdx
+        }
+
+        if(maxIdx !== idx) {
+          this._swap(maxIdx, idx)
+          idx = maxIdx
+        }else {
+          return 
+        }
+      }
+    }
+    // 堆里增加一个元素
+    push(val) {
+      this.elements.push(val)
+      this.heapUp(this.elements.length - 1)
+      return this
+    }
+    // 将堆顶元素删除并返回
+    pop() {
+      var resutl = this.elements[0]
+      this.elements[0] = this.elements.pop()
+      this.heapDown(0)
+      return result
+    }
+    //查看堆顶元素
+    peek() {
+      return this.elements[0]
+    }
+    stort() {
+      let result = []
+      for(let i = 0; i < this.elements.length - 1; i ++) {
+        result.push(this.pop())
+      }
+      return result 
+    }
+  }
+</script>
+<script type='4' title="堆">
+  class PriorityQueue{  
+    constructor(inits = [], predicate = it => it) { // 基于
+      this.elements = []
+      this.predicate = predicate
+      if(inits.length) {
+        this.elements.push(...inits) // = inits.slice() // 复制一份  不要直接指向传参的数组
+        this.heapify(this.elements) // 就地调整函数
+      }
+      // for(var val of inits) {
+      //   this.push(val)
+      // }
+    }
+    heapify() {
+      for(var i = 0; i < this.elements.length; i++) {
+        this.heapUp(i)
+      }
+      // for(var i = (this.elements.length - 1) >> 1; i >= 0; i--) {
+      //   this.heapDown(i)
+      // }
+    }
+    _swap( i , j) {
+      let mid = this.elements[i]
+      this.elements[i] = this.elements[j]
+      this.elements[j] = mid
+    }
+    // 从idx位置开始向上调整
+    heapUp(idx) {
+      //var idx = this.elements.length -1 
+      while (idx > 0) {
+        var pIdx = (idx - 1) >> 1
+        if(this.predicate(this.elements[pIdx]) < this.predicate(this.elements[idx]) ){
+          this._swap(idx, pIdx)
+          idx = pIdx
+        }else {
+          return 
+        }
+      }
+    }
+    // 从idx位置开始向xia调整
+    heapDown(idx) {
+      var l = this.elements.length
+      while(idx < l) {
+        var maxIdx = idx
+        var lIdx = maxIdx * 2 + 1
+        var rIdx = maxIdx * 2 + 2
+        if( lIdx < l && this.predicate(this.elements[lIdx]) > this.predicate(this.elements[maxIdx])) {
+          maxIdx = lIdx
+        }
+        if( rIdx < l && this.predicate(this.elements[rIdx]) > this.predicate(this.elements[maxIdx])) {
+          maxIdx = rIdx
+        }
+
+        if(maxIdx !== idx) {
+          this._swap(maxIdx, idx)
+          idx = maxIdx
+        }else {
+          return 
+        }
+      }
+    }
+    // 堆里增加一个元素
+    push(val) {
+      this.elements.push(val)
+      this.heapUp(this.elements.length - 1)
+      return this
+    }
+    // 将堆顶元素删除并返回
+    pop() {
+      var resutl = this.elements[0]
+      this.elements[0] = this.elements.pop()
+      this.heapDown(0)
+      return result
+    }
+    //查看堆顶元素
+    peek() {
+      return this.elements[0]
+    }
+    stort() {
+      let result = []
+      for(let i = 0; i < this.elements.length - 1; i ++) {
+        result.push(this.pop())
+      }
+      return result 
+    }
+  }
+  // pq = new PriorityQueue(item => item)
+  function hwapSort(ary) {
+    var pq = new PriorityQueue()
+    for(var i = 0; i < 0;){}
+  }
+</script>
+<script type='5' title="堆 排序">
+  class PriorityQueue{  
+    constructor(inits = [], predicate = it => it) { // 基于
+      this.elements = []
+      this.predicate = predicate
+      if(inits.length) {
+        this.elements.push(...inits) // = inits.slice() // 复制一份  不要直接指向传参的数组
+        this.heapify(this.elements) // 就地调整函数
+      }
+      // for(var val of inits) {
+      //   this.push(val)
+      // }
+    }
+    heapify() {
+      for(var i = 0; i < this.elements.length; i++) {
+        this.heapUp(i)
+      }
+      // for(var i = (this.elements.length - 1) >> 1; i >= 0; i--) {
+      //   this.heapDown(i)
+      // }
+    }
+    _swap( i , j) {
+      let mid = this.elements[i]
+      this.elements[i] = this.elements[j]
+      this.elements[j] = mid
+    }
+    // 从idx位置开始向上调整
+    heapUp(idx) {
+      //var idx = this.elements.length -1 
+      while (idx > 0) {
+        var pIdx = (idx - 1) >> 1
+        if(this.predicate(this.elements[pIdx]) < this.predicate(this.elements[idx]) ){
+          this._swap(idx, pIdx)
+          idx = pIdx
+        }else {
+          return 
+        }
+      }
+    }
+    // 从idx位置开始向xia调整
+    heapDown(idx) {
+      var l = this.elements.length
+      while(idx < l) {
+        var maxIdx = idx
+        var lIdx = maxIdx * 2 + 1
+        var rIdx = maxIdx * 2 + 2
+        if( lIdx < l && this.predicate(this.elements[lIdx]) > this.predicate(this.elements[maxIdx])) {
+          maxIdx = lIdx
+        }
+        if( rIdx < l && this.predicate(this.elements[rIdx]) > this.predicate(this.elements[maxIdx])) {
+          maxIdx = rIdx
+        }
+
+        if(maxIdx !== idx) {
+          this._swap(maxIdx, idx)
+          idx = maxIdx
+        }else {
+          return 
+        }
+      }
+    }
+    // 堆里增加一个元素
+    push(val) {
+      this.elements.push(val)
+      this.heapUp(this.elements.length - 1)
+      return this
+    }
+    // 将堆顶元素删除并返回
+    pop() {
+      var result = this.elements[0]
+      this.elements[0] = this.elements.pop()
+      this.heapDown(0)
+      return result
+    }
+    //查看堆顶元素
+    peek() {
+      return this.elements[0]
+    }
+    stort() {
+      let result = []
+      for(let i = 0; i < this.elements.length - 1; i ++) {
+        result.push(this.pop())
+      }
+      return result 
+    }
+  }
+
+  function heapSort1(array) {
+    // var p = new PriorityQueue(array,it => -it)
+    var p = new PriorityQueue(array)
+    var ary = []
+    for(let i = 0; i < array.length; i++) {
+      ary.push(p.pop())
+    }
+    return ary
+  }
+  function heapSort(ary) {
+    // var p = new PriorityQueue(array,it => -it)
+    var p = new PriorityQueue()
+    for(let i = 0; i > ary.length; i++) {
+      pq.push(ary[i])
+    }
+    
+    for(let i = 0; i < ary.length; i++) {
+      ary[i] = p.pop()
+    }
+    return ary
+  }
+  //  heapSort(Array(10000).fill(0).map(it => Math.floor(Math.random() * 10000)))
+  var g = heapSort(Array(10000).fill(0).map(it => Math.random() * 10000 | 0)) // | 0 将浮点数转化为整数
+
+  function isSorted(array) {// 升序排列  。reverse
+    for(let i = 0; i < array.length - 1; i++) {
+      if(array[i] > array[i + 1]) {
+        return false
+      }
+    }
+    return true
+  }
+</script>
+<script title="堆排序 自行排序，不创建新数组">
+  class PriorityQueue{  
+    constructor(inits = [], predicate = it => it) { // 基于
+      this.elements = []
+      this.predicate = predicate
+      if(inits.length) {
+        this.elements.push(...inits) // = inits.slice() // 复制一份  不要直接指向传参的数组
+        this.heapify(this.elements) // 就地调整函数
+      }
+      // for(var val of inits) {
+      //   this.push(val)
+      // }
+    }
+    heapify() {
+      for(var i = 0; i < this.elements.length; i++) {
+        this.heapUp(i)
+      }
+      // for(var i = (this.elements.length - 1) >> 1; i >= 0; i--) {
+      //   this.heapDown(i)
+      // }
+    }
+    _swap( i , j) {
+      let mid = this.elements[i]
+      this.elements[i] = this.elements[j]
+      this.elements[j] = mid
+    }
+    // 从idx位置开始向上调整
+    heapUp(idx) {
+      //var idx = this.elements.length -1 
+      while (idx > 0) {
+        var pIdx = (idx - 1) >> 1
+        if(this.predicate(this.elements[pIdx]) < this.predicate(this.elements[idx]) ){
+          this._swap(idx, pIdx)
+          idx = pIdx
+        }else {
+          return 
+        }
+      }
+    }
+    // 从idx位置开始向xia调整
+    heapDown(idx) {
+      var l = this.elements.length
+      while(idx < l) {
+        var maxIdx = idx
+        var lIdx = maxIdx * 2 + 1
+        var rIdx = maxIdx * 2 + 2
+        if( lIdx < l && this.predicate(this.elements[lIdx]) > this.predicate(this.elements[maxIdx])) {
+          maxIdx = lIdx
+        }
+        if( rIdx < l && this.predicate(this.elements[rIdx]) > this.predicate(this.elements[maxIdx])) {
+          maxIdx = rIdx
+        }
+
+        if(maxIdx !== idx) {
+          this._swap(maxIdx, idx)
+          idx = maxIdx
+        }else {
+          return 
+        }
+      }
+    }
+    // 堆里增加一个元素
+    push(val) {
+      this.elements.push(val)
+      this.heapUp(this.elements.length - 1)
+      return this
+    }
+    // 将堆顶元素删除并返回
+    pop() {
+      var result = this.elements[0]
+      this.elements[0] = this.elements.pop()
+      this.heapDown(0)
+      return result
+    }
+    //查看堆顶元素
+    peek() {
+      return this.elements[0]
+    }
+    stort() {
+      let result = []
+      for(let i = 0; i < this.elements.length - 1; i ++) {
+        result.push(this.pop())
+      }
+      return result 
+    }
+  }
+
+  function heapSort1(array) { // 此方式，排序的多了会爆栈，不知什么原由
+    // var p = new PriorityQueue(array,it => -it)
+    var p = new PriorityQueue(array)  
+    var ary = []
+    for(let i = 0; i < array.length; i++) {
+      ary.push(p.pop())
+    }
+    return ary
+  }
+  function heapSort(ary) {
+    // var p = new PriorityQueue(array,it => -it)
+    var p = new PriorityQueue()
+    for(let i = 0; i > ary.length; i++) {
+      pq.push(ary[i])
+    }
+    
+    for(let i = 0; i < ary.length; i++) {
+      ary[i] = p.pop()
+    }
+    return ary
+  }
+  //  heapSort(Array(10000).fill(0).map(it => Math.floor(Math.random() * 10000)))
+  var g = heapSort(Array(10000).fill(0).map(it => Math.random() * 10000 | 0)) // | 0 将浮点数转化为整数
+  function isSorted(array) {// 升序排列  。reverse
+    for(let i = 0; i < array.length - 1; i++) {
+      if(array[i] > array[i + 1]) {
+        return false
+      }
+    }
+    return true
+  }
+
+
+  function  heapSort2(ary) {
+    heapify(ary)
+    for(var i = ary.length - 1; i > 0; i--) { // 将堆顶与堆底换位置
+      swap(ary, 0, i)
+      heapDown(ary, 0, i) //从根元素开始调整，只调整i以内的元素，  i堆底 ，不包含i
+    }
+    return ary
+  }
+  function heapify(ary) {
+      // for(var i = 0; i < ary.length; i++) {
+      //   this.heapUp(i)
+      // }
+      for(var i = (ary.length - 1) >> 1; i >= 0; i--) {
+        heapDown(ary, i)
+      }
+    }
+    function swap(array, i , j) {
+      let mid = array[i]
+      array[i] = array[j]
+      array[j] = mid
+      return array
+    }
+    function heapDown(ary, idx, rangeEnd = ary.length) {
+      var l = rangeEnd
+      while(idx < l) {
+        var maxIdx = idx
+        var lIdx = maxIdx * 2 + 1
+        var rIdx = maxIdx * 2 + 2
+        if( lIdx < l && ary[lIdx] > ary[maxIdx]) {
+          maxIdx = lIdx
+        }
+        if( rIdx < l && ary[rIdx] > ary[maxIdx]) {
+          maxIdx = rIdx
+        }
+
+        if(maxIdx !== idx) {
+          swap(ary, maxIdx, idx)
+          idx = maxIdx
+        }else {
+          return 
+        }
+      }
+    }
 </script>

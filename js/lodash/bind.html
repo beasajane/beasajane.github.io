@@ -1,0 +1,41 @@
+<script>
+  
+  function bind1(f, thisArg, ...fixedArgs) {
+    return function (...args) {
+      var ary = fixedArgs.slice()
+      var j = 0
+      for(var i = 0; i < ary.length; i++) {
+        if( ary[i] == bind.placeholder) {
+          ary[i] = args[j++]
+        }
+      }
+      while (j < args.length) {
+        arg.push(args[j++])
+      }
+      return f.apply(thisArg, ary)
+    }
+  }
+
+  bind.placeholder = NaN
+
+
+  function bind(f, thisArg, ...fixedArgs) {
+    return function (...args) {
+      var ary = fixedArgs.slice()
+      var j = 0
+      for(var i = 0; i < ary.length; i++) {
+        if( Object.is(ary[i], bind.placeholder)) { //ary[i] === bind.placeholder
+          if (j < args.length) {
+            ary[i] = args[j++]
+          }else {
+            ary[i] = undefined
+          }
+        }
+      }
+      while (j < args.length) {
+        args.push(args[j++])
+      }
+      return f.apply(thisArg, ary)
+    }
+  }
+</script>

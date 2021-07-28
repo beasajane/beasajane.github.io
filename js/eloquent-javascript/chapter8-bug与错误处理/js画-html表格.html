@@ -1,0 +1,118 @@
+<script type= 1>
+  function drawTable1(array) { //拼接html字符串
+    var html = ''
+    html += '<table border = 1>'
+    html += '<tr>'
+    for(var key in array[0]) {
+      html += '<th>' + key + '</th>'
+    }
+    html += '</tr>'
+    for(var item of array) {
+      html += '<tr>'
+      for(var key in item) {
+        var val = item[key]
+        html +='<td>' + val + '</td>'
+      }
+      html += '</tr>'
+    }
+    html += '</talbe>'
+    return html
+  }
+  document.write( drawTable1([{a:1, b: 2}, {a: 3, b: 4}]))
+</script>
+<script type=2>
+  function drawTable1(array) { //拼接html字符串
+    var keys = Array.from(new Set( array.reduce((result, item) => { //keys 为表头数组，Array.from 转回数组，new Set去重，array.reduce获得属性名数组，Object.keys(item)获得array中每个对象元素中的属性数组
+      // return result.concat(Object.keys(item))
+      result.push(...Object.keys(item))
+      return result
+    }, [])  )  ) //获取所有的表头
+    var html = ''
+    html += '<table border = 1>'
+    html += '<tr><th>(index)</th>'
+    // for(var key in keys) { // for in  与  for of  区别  keys是一个Array  故遍历属性需要for  of
+    for(var key of keys) {
+      html += '<th>' + key + '</th>'
+    }
+    // for(let i = 0; i < keys.length; i++){
+    //   html += '<th>' + keys[i] + '</th>'
+    // }
+    html += '</tr>'
+
+    for(var i = 0; i < array.length; i++) {
+      var item = array[i]
+      html += '<tr><td>' + i + '</td>'
+      // for(var key in item) {// for in 按照对象自身的顺序遍历
+        for (var key of keys) {
+          if (item.hasOwnProperty(key)) { 
+            var val = item[key]
+
+            html +='<td>' + val + '</td>'
+          }else {
+            html += '<td>' + '' + '</td>'
+          }
+        // var val = item[key]
+        // if(!val) {
+        //   html += '<td>' + '' + '</td>'
+        // }else {
+        //   html +='<td>' + val + '</td>'
+        // }
+      }
+      html += '</tr>'
+    }
+    html += '</talbe>'
+    return html
+  }
+  
+  document.write( drawTable1([{a:1, b: 2}, {a: 3, b: 4,c: 5}]))
+</script>
+<script>  // drawTable 转换，是一种行为，动作 没必要写成面向对向（有时也可以写成面向对象） ，而 单元格是一个具体的事物，携程面向对象较好
+  function drawTable1(array) { //拼接html字符串
+    var keys = Array.from(new Set( array.reduce((result, item) => { 
+      result.push(...Object.keys(item))
+      return result
+    }, [])  )  )
+
+    var html = ''
+    html += '<table border = 1>'
+
+    html += '<tr><th>(index)</th>' // 表头
+    for(var key of keys) {
+      html += '<th>' + key + '</th>'
+    }
+    html += '</tr>'
+
+    for(var i = 0; i < array.length; i++) {
+      var item = array[i]
+      html += '<tr><td>' + i + '</td>' //序号
+        
+      for (var key of keys) {
+        if (item.hasOwnProperty(key)) { 
+          var val = item[key]
+          if(typeof val == 'string') {
+            html +='<td class="string">"' + val + '"</td>'
+          }else if(typeof val == 'number') {
+            html +='<td class="number">' + val + '</td>'
+          }else if(typeof val == 'boolean') {
+            html +='<td class="boolean">' + val + '</td>'
+          }else if(typeof val == 'undefined') {
+            html +='<td class="nil">' + val + '</td>'
+          }else if( val == 'null') {
+            html +='<td class="nil">' + val + '</td>'
+          }else if( typeof val == 'object') {
+            html +='<td class="object">' + val + '</td>'
+          }
+        }else {
+          html += '<td>' + '' + '</td>'
+        }
+      }
+
+      html += '</tr>'
+    }
+    html += '</talbe>'
+    return html
+  }
+
+  
+  document.write( drawTable1([{a:1, b: 2}, {a: 3, b: 4,c: 5}]))
+</script>

@@ -1,0 +1,34 @@
+<script>
+
+  function isMatch (object, source) {
+    for(var key in source) {  
+      if(source[key] && typeof source[key] !== 'object') {
+        if( object[key] !== source[key])
+        return false
+      }else {
+        if(!isMatch(object[key], source[key])) {
+          return false
+        }
+      }
+    }
+    return true
+  }
+  function matches1(src) {
+    //  return  bind(isMatch, null, window, src)
+    return function (obj) {
+      return isMatch(obj, src)
+    }
+  }
+
+
+  function matches1(src) {
+    return function (obj) {
+      for(var key in src) {
+        if(src[key] !== obj[key]) {
+          return false
+        }
+      }
+      return true
+    }
+  }
+</script>

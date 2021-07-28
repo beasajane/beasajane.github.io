@@ -348,7 +348,7 @@
     return array
   }
   // 师版
-  function quickSort4(array, start = 0, end = array.length - 1) {
+  function quickSort(array, start = 0, end = array.length - 1) {
     if(end - start  < 1) return array
     let randIndex = Math.floor(Math.random() * (end - start + 1)) + start
     let randItem = array[randIndex]
@@ -364,8 +364,8 @@
     }
     swap(array, i , end)
 
-    quickSort4(array, start, i - 1)
-    quickSort4(array, i + 1, end)
+    quickSort(array, start, i - 1)
+    quickSort(array, i + 1, end)
     return array
   }
   // 第三种写法
@@ -585,5 +585,51 @@ function insertSort10(array, compare) { // 传第二个参数函数 第二参数
         inorderTraverse(root.right, action)
       }
     }
+  // 堆排序
+  // 稳定性 不稳定
+  // 复杂度 空间O(1) 时间n * log(n)
+  
+  function  heapSort(ary) {
+    heapify(ary)
+    for(var i = ary.length - 1; i > 0; i--) { // 将堆顶与堆底换位置
+      swap(ary, 0, i)
+      heapDown(ary, 0, i) //从根元素开始调整，只调整i以内的元素，  i堆底 ，不包含i
+    }
+    return ary
+  }
+  function heapify(ary) {
+      // for(var i = 0; i < ary.length; i++) {
+      //   this.heapUp(i)
+      // }
+      for(var i = (ary.length - 1) >> 1; i >= 0; i--) {
+        heapDown(ary, i)
+      }
+    }
+    function swap(array, i , j) {
+      let mid = array[i]
+      array[i] = array[j]
+      array[j] = mid
+      return array
+    }
+    function heapDown(ary, idx, rangeEnd = ary.length) {
+      var l = rangeEnd
+      while(idx < l) {
+        var maxIdx = idx
+        var lIdx = maxIdx * 2 + 1
+        var rIdx = maxIdx * 2 + 2
+        if( lIdx < l && ary[lIdx] > ary[maxIdx]) {
+          maxIdx = lIdx
+        }
+        if( rIdx < l && ary[rIdx] > ary[maxIdx]) {
+          maxIdx = rIdx
+        }
 
+        if(maxIdx !== idx) {
+          swap(ary, maxIdx, idx)
+          idx = maxIdx
+        }else {
+          return 
+        }
+      }
+    }
   </script>

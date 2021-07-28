@@ -1,0 +1,214 @@
+<script>
+// 传入一个属性名， 返回的函数用来获取对象的该属性名
+  function property1(prop) {
+    return function(obj) {
+      return obj[prop]
+    }
+  }
+  function property(prop) {
+    return get.bind(null, window, prop)
+    // return function(obj) {
+    //   return get(obj, prop)
+    // }
+  }
+  function bind1(f, thisArg, ...fixedArgs) {
+    return function (...args) {
+      var ary = fixedArgs.slice()
+      var j = 0
+      for(var i = 0; i < ary.length; i++) {
+        if( ary[i] == bind.placeholder) {
+          ary[i] = args[j++]
+        }
+      }
+      while (j < args.length) {
+        arg.push(args[j++])
+      }
+      return f.apply(thisArg, ary)
+    }
+  }
+
+  bind.placeholder = NaN
+
+
+  function bind(f, thisArg, ...fixedArgs) {
+    return function (...args) {
+      var ary = fixedArgs.slice()
+      var j = 0
+      for(var i = 0; i < ary.length; i++) {
+        if( Object.is(ary[i], bind.placeholder)) { //ary[i] === bind.placeholder
+          if (j < args.length) {
+            ary[i] = args[j++]
+          }else {
+            ary[i] = undefined
+          }
+        }
+      }
+      while (j < args.length) {
+        args.push(args[j++])
+      }
+      return f.apply(thisArg, ary)
+    }
+  }
+  function f(a, b) {
+    return Math.max(10, a, b) 
+  }
+  var f = Math.max.bind(null, 10)  // 二者等价
+  // ({a: {
+  //   b: 3,
+  //   c: 4,
+  // }}).a.b
+
+  function get1(object, path) { // 
+    if(Array.isArray(path)) {
+      let l = path.length - 1
+      let str = ''
+      for(let i = 0; i < l; i ++) {
+        str += '[' + path[0] + ']' 
+      }
+      str = object + `$(str)`
+      return str
+    }
+  }
+  function get(object, path, dafaultVal = undefined) { //基础框架
+    path = toPath(path)
+    for(let i = 0; i < path.length; i++) {
+      if(object == undefined) {
+        return defaultVal
+      }else {
+        object = result[i]
+      }
+    }
+    return result 
+  }
+  function get2(object, path, dafaultVal = undefined) { //递归写法
+      if (object == undefined) {
+        return defaultVal
+      } else if( path.length == 0) {
+        return object
+      } else {
+        return get(object[path[0]], path.slice(1))
+      }
+  }
+
+  function toPath(val) {
+    if(Array.isArray(val)) {
+      return val
+    } else {
+      return val.split('][')
+      .reduce((ary, it) => ary.concat(it.split('].')), [])
+      .reduce((ary, it) => ary.concat(it.split('[')), [])
+      .reduce((ary, it) => ary.concat(it.split('.')), [])
+    }
+  }
+  // property('a.b')
+  function matches(obj) {
+    return function (src) {
+      for(let i in obj){
+          if(obj[i] != src[i]) return false
+      }
+      return true
+    }
+  }
+  function matchesProperty(ary) {
+    let key = array[0]
+    let val = array[1]
+    return function(obj) {
+      return obj[key] == ary[val]
+    }
+  }
+  function map1(ary, mapper) {
+    if(typeof mapper == 'string') {
+      mapper = property(mapper)
+    }
+    if(Array.isArray(mapper)) {
+      mapper = matchesProperty(...mapper)
+    }
+    if(typeof mapper == 'object') {
+      mapper = matches(...mapper)
+    }
+
+    var result = []
+    for(let i = 0; i < ary.length; i++) {
+      result.push(mapper(ary[i], i, ary))
+    }
+    return result 
+  }
+
+  function map2(collection, mapper) {
+    if(typeof mapper == 'string') {
+      mapper = property(mapper)
+    }
+    if(Array.isArray(mapper)) {
+      mapper = matchesProperty(...mapper)
+    }
+    if(typeof mapper == 'object') {
+      mapper = matches(...mapper)
+    }
+
+    var result = []
+    for(let key in collection ) {
+      result.push(mapper(collection[i], i, ary))
+    }
+    return result 
+  }
+
+  
+  function filter2(collection, predicate) {
+    if(typeof predicate == 'string') {
+      predicate = property(predicate)
+    }
+    if(Array.isArray(predicate)) {
+      predicate = matchesProperty(...predicate)
+    }
+    if(typeof predicate == 'object') {
+      predicate = matches(...predicate)
+    }
+
+    var result = []
+    for(let key in collection ) {
+      if(predicate(collection[key], key, collection) === true)
+      result.push(collection[key])
+    }
+    return result 
+  }
+
+
+
+
+// function transformPredicate(maybePredicate) {
+  function iteratee(maybePredicate) {
+  if(typeof maybePredicate == 'function') {
+    return maybePredicate      
+  }
+  if(typeof predicate == 'string') {
+    return property(predicate)
+  }
+  if(Array.isArray(predicate)) {
+    return matchesProperty(...predicate)
+  }
+  if(typeof predicate == 'object') {
+    return matches(...predicate)
+  }
+}
+function map(collection, mapper) {
+  // mapper = transformPredicate(mapper)
+  mapper = iteratee(mapper)
+  var result = []
+  for(let key in collection ) {
+    result.push(mapper(collection[i], i, ary))
+  }
+  return result 
+}
+function filter(collection, predicate) {
+  // predicate = transformPredicate(predicate)
+  predicate = iteratee(predicate)
+  var result = []
+  for(let key in collection ) {
+    if(predicate(collection[key], key, collection) === true)
+    result.push(collection[key])
+  }
+  return result 
+}
+
+
+</script>

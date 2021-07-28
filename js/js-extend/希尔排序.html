@@ -1,0 +1,46 @@
+<body>
+  
+  记住，步长是多少就分成多少组！！！！
+</body>
+<script>
+  //逆序数
+  function shellSort(array) {
+    // 初始跨度为数组长度一半
+    for(var step = array.length - 1>> 1; step > 0;step = step >> 1) {
+      for(var i = step; i< array.length; i++) {
+        // var t = array[i]
+        for(var j = i - step; j >= 0; j -= step) {
+          if(array[j] > array[j + step]) {
+            // array[j + step] = array[j]
+            swap(array, j , j+step) 
+          }else {
+            break
+          }
+        }
+        // array[j + step] = t
+      }
+    }
+    return array
+  }
+  
+  function insertSort(array) {
+    for(var i = 1; i < array.length; i++) {
+      let t = array[i]
+      for(var j = i - 1; j >= 0; j--) { 
+        if(array[j] < t) { 
+          break
+        }else{
+          array[j + 1] = array[j]
+        }
+      }
+      array[j + 1] = t
+    }
+    return array
+  }
+  function swap(array, i , j) { // 操作数组
+    let m = array[i]
+    array[i] = array[j]
+    array[j] = m
+    // return array    为什么可以省略
+  }
+</script>
