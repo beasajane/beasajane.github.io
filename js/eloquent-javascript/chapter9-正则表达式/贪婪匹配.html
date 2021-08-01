@@ -1,0 +1,46 @@
+
+<script  title="贪婪匹配">
+
+// 优先匹配所有的可能，然后减少一个字符再尝试匹配，以此类推
+function stripComment1(code) { // 除去注释  +, *, ?, {}
+  return code.replace(/\/\/.*/g,'')
+}
+function stripComment2(code) { // 除去注释  +, *, ?, {}
+  return code.replace(/\/\*[^]*/g,'')
+}
+function stripComment3(code) { // 除去注释  +, *, ?, {}
+  return code.replace(/\/\*[^]*\*\//g,'')
+}
+function stripComment(code) { // 除去注释
+  return code.replace(/\/\/.*|\/\*[^]*\*\//g, '')
+}
+console.log(stripComment(`
+  var a = 8; // create variable a
+  console.log(a * a) // log square of a
+  /*
+  alsdfkj lsdf
+  */ fakls
+ `))
+
+</script>
+<script  title="非贪婪匹配"> //  +?, *?, ??, {}?     加问号表示非贪婪
+
+// 优先匹配所有的可能，然后减少一个字符再尝试匹配，以此类推
+function stripComment1(code) { // 除去注释  +, *, ?, {}
+  return code.replace(/\/\/.*|\/\*[^]*?\*\//g,'')
+}
+
+function stripCommentx(code) { // 除去注释  +, *, ?, {}
+  return code.replace(/\/\/.*|(\/\*[^]*?\*\/)/g,'')
+}
+console.log(stripCommentx(`
+  var a = 8; // create variable a
+  console.log(a * a) // log square of a
+  /*
+  alsdfkj lsdf
+  */ dfak
+  /*
+  alsdfkj lsdf
+  */
+`))
+</script>

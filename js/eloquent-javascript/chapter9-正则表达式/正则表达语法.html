@@ -1,0 +1,213 @@
+
+
+表示单个字符[]
+表示重复字符{}
+表示元组()
+零宽断言
+test
+exec
+match  // 捕获
+replace
+split
+练习：
+
+
+<a href="https://regex101.com/">正则表达式文本判断</a>
+<a href="https://regexper.com/">正则表达式拓扑图</a> 
+<script title="创建正则表达式">
+var re1 = new RegExp('ab\n')
+var re2 = /abd/
+//特殊含义的字符，要表达自己本身，需在前面加 \
+var rePlus = /eighteen\+/
+</script>
+
+<script title="匹配测试">
+a = /asdkj/
+console.log(1,a.test('dasdasdkjdasd')) // 只要被测试的字符串中存在 正则表达式a中的连续字符串，返回true
+console.log(/an/.test('dandk'))  
+</script>
+
+<script title="匹配字符集"> // 插入连字符 -
+console.log(2,/[0-9]/.test('kdjf 1234')) // 被测试的字符串中的是否存在[]中的某一个字符
+console.log(3,/[a-g]/.test('akjek'))
+// 通用字符组  
+//   /\d/ 等价于 /[0-9]/   /\D/ => /[^0-9]/
+// /\w/ 等价于  /[0-9a-zA-Z]/   /\W/ =>  /[^0-9a-zA-Z]/ 
+// \s 为任意空白符                /\S/ => /^\s/   任意非空白字符
+// . 除换行符以外的任意符号        /[^]/ 包括换行符的所有符号
+// \b    选中词（边界）两边界  不包括标记（特殊字符）（\S*)\b    !!!hi!!!
+// ^     选中初始位置 
+// $     选中结束位置
+// 非文字字符&非空白字符/[^\w\s]/  符号字符
+
+// [^xxxx]
+// /a;sdk+/  +符号
+// /a;sdk*/  *符号
+
+// /a;sdk?s/ ?符号
+// /a;sdk{min, max}/  {num, num}符号
+
+// /a;s(dk+)+/   (fasd+或*) 符号
+// /a;s(dk+)*/i    i 符号  不区分大小写
+// \b  边界字符
+</script>
+
+<script title="子表达式分组">
+  var  的 =  /do+(ho*)+/i
+  console.log(3.1,的.test('Doohoohoo'))
+</script>
+
+<script title="匹配和分组">
+console.log(4, /\d+/.exec('faksdj kasdjf 123'))
+console.log(5,'faksdj kasdjf 123'.match(/\d+/))
+
+console.log(6,/(\d{4})-((\d{1,2})-(\d{1,2})) ((\d{1,2})(:)(\d{1,2}))/.exec('faksdjfk askdj 2008-9-03 10:25'))
+console.log(7,/(\d{4})-(\d{1,2})-(\d{1,2}) (\d{1,2})(:)(\d{1,2})/.exec('faksdjfk askdj 2008-9-03 10:25'))
+// (?:)  非捕获分组
+console.log(8,/(\d{4})-(\d{1,2})-(\d{1,2}) (\d{1,2})(?::)(\d{1,2})/.exec('faksdjfk askdj 2008-9-03 10:25'))
+
+// 具名分组
+console.log(9,/(?<year>\d{4})-(?<month>\d{1,2})-(?<day>\d{1,2}) (?<time>(\d{1,2})(?::)(\d{1,2}))/.exec('faksdjfk askdj 2008-9-03 10:25'))
+
+console.log(10,/(fo.)+/.exec('foafovfoefoasdaos foooo afasfodd'))
+
+console.log(11, /colo(u)?(r)/.exec('asd,color fas'))
+
+</script>
+
+<script title="单词和字符串的边界">
+  a = /\b bar\b/  //单词边界 boundary    - 非字符 
+  aa = /\bar\b/
+  console.log(12.0, aa.exec('foo bar'))
+  console.log(12,a.exec('foo bar'))
+
+  b = /^foo/  // ^匹配字符串开始位置
+  console.log(12.1,b.exec('foo foofoo foofoofoofoo'))
+
+  c = /o$/  // $匹配字符串结束位置
+  console.log(12.2,c.exec('fo co dooooo'))
+</script>
+
+<script title="零宽断言">
+  /*
+    零宽断言： ^(也是零宽断言)
+    断言某个位置左边或右边满足某种条件
+    '正'指的是要遇见某模式，‘负’指的是不能匹配某种模式
+    ‘预测’指享有匹配，‘回顾’指向左匹配
+      正预测断言positive lookahead：(?=foo) 要求某个位置的右边匹配xxx
+      负预测断言negative lookahead：(?!foo）要求某个位置的右边不能匹配xxx
+      正回顾断言positive lookbind： (?<=foo)要求某个位置左边匹配xxx
+      负回顾断言negative lookbind： (?<!foo) 要求某个位置不能匹配xxx
+      需要注意的是， 零宽断言的匹配必须发生在断言位置的旁边，紧挨着断言位置
+      多个断言可以连续断言同一个位置，即要求同一个位置满足多个不同条件
+
+
+
+      (?<!.) 等价于多行情况下的^, 匹配每行的开头，左边不能遇到除回车外的任意符号
+      (?<![^]) 等价于单行情况下的^，匹配字符串开头，左边不能遇到任意符号
+
+      (?!.) 等价于多行情况下的 $, 匹配每行的开头，右边不能遇到除回车外的任意符号
+      (?![^]) 等价于单行情况下的 $，匹配字符串结尾，右边不能遇到任意符号
+      
+      (?<!\w)(?=\w)|(?<=\w)(?!\w) 等价于    \b
+
+      
+  */ 
+  
+  d = /(?=foo)/
+  console.log(13,d.exec('foofooofoooofooooooo'))
+  
+  d = /(?=.*foo)/  // 只要右边有foo
+  console.log(13.1,d.exec('foofooofoooofooooooo'))
+
+  b = /(?<=foo)(?!bar)/
+  console.log('零宽断言1',b.exec('foobas'))
+</script>
+
+<script title="选项模式 分支 |">  // 优先匹配原则
+   var animal = /\b\d+ (pig|cow|chichen)s?\b/
+   console.log(14,animal.exec('123 pigs'))
+   console.log(14.1,animal.exec('1 chichen'))
+
+   e = /-+(bar|foo)/
+   console.log(14.2,e.exec('------bar'))
+   console.log(14.3,e.exec('-foo'))
+</script>
+
+<script title="replace方法">  // $&$1-$9
+  // 用法 三种
+  console.log(15, 'foo fob foc fod'.replace('o', '就'))
+  console.log(15, 'foo fob foc fod'.replaceAll('o', '就'))
+  // first
+  console.log(16, 'barobuodur'.replace(/[ou]/, 's')) // 首次匹配替换
+  console.log(16, 'barobuodur'.replace(/[ou]/g, 's'))  // 所有匹配替换
+  //second
+  console.log(17, 'foo fob foc fod'.replace(/(fo)(.)/g, '$1$2$1'))  // $9最大 $& $0 为整体
+  console.log(
+    'Hopper, Grace\nMcCarthy, John\nBeas, Jane'.replace(/(\w+) , (\w+)/, '$2 $1') // $num 第几个匹配的元组
+  )
+  console.log(
+    'Hopper, Grace\nMcCarthy, John\nBeas, Jane'.replace(/([\w]+), ([\w]+)/g, '$2 $1') // $num 第几个匹配的元组
+  )
+
+
+  console.log("Hopper, Grace \nMcCarthy, John \nRitchie, Dennis".replace(/([\w]+), ([\w]+)/g, "$2 $1"))
+  console.log("Hopper, Grace \nMcCarthy, John \nRitchie, Dennis".replace(/([\w ]+), ([\w ]+)/g, "$2 $1"))
+
+  // third  第二参数可为函数
+  var s = "the cia and fbi ";
+  console.log(s.replace (/\b(fbi|cia)\b/g, str => str.toUpperCase()))
+  console.log(s.replace (/(fbi|cia)/g, str => str.toUpperCase()))
+  var c = ' jfk foo dkals fob dajksdh foc aslkdj food'
+  console.log(c.replace (/(fo)(.)/g, (match, fo, char) => {
+    return (fo + fo + char).toUpperCase()
+  }))
+  console.log(/(fo)(.)/g.exec(c))
+  console.log(/(fo)(.)/g.exec(c))
+  reg = /(fo)(.)/g
+  console.log(reg.exec(c))
+  console.log(reg.exec(c))
+
+</script>
+
+<script title="split">  // return array
+var c = ' jfk foo dkals fob dajksdh foc aslkdj food'
+console.log(c.split(/fo/g))  
+console.log(c.split(/(fo)/g))  // 括号成为 数组的逗号，分割该字符串
+console.log(c.split(/(fo)(.)/g)) 
+console.log(c.split(/fo(.)/g)) 
+console.log(c.split(/((?:fo)(?:.))/g)) 
+
+
+</script>
+
+<script title="match">  //  /g  返回一个数组
+var  str = 'alsdkfhalskjgh'
+re = /a\w{2,4}/
+reg = /a\w{2,4}/g
+
+console.log('非全局', str.match(re))
+console.log('全局macth\n' , str.match(reg))
+'[3].foo.bar.baz[3][3][4].baz[3][4].baz'.match(/\w+/g)
+
+str = 'abb  都滴滴  爱丁堡  沙丁鱼  ghh  dkj'
+ary = str.match(/\S(\S)\1/g)
+console.log(ary)
+</script>
+
+<script title="匹配重复字符">
+  reg = /^[\w]*(\w{3})[\w]*\1[\w]*$/
+  str = 'allochirally' //匹配 all * 2 一个字符串中出现两次all
+
+
+  str = 'abb  都滴滴  爱丁堡  沙丁鱼  ghh  dkj'
+  ary = str.match(/\S(\S)\1/g)
+</script>
+<script title="看不懂的正则表达式">
+'foo.bar[3].baz[3][4]'.split(/\]\.|\]\[|\.|\[|\]/g)
+'[3].foo.bar.baz[3][3][4].baz[3][4].baz'.split(/\]\[|\]\.|\.|\[|\]/g)
+'[3].foo.bar.baz[3][3][4].baz[3][4].baz'.split(/\W+/g)
+'[3].foo.bar.baz[3][3][4].baz[3][4].baz'.split(/\w+/g)
+'[3].foo.bar.baz[3][3][4].baz[3][4].baz'.match(/\w+/g)
+</script>
+

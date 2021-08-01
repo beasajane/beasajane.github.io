@@ -1,0 +1,47 @@
++
+加号两边如果不是原始类型，优先转成字符串
+/abc/ + /def/
+/abc//def/
+
+// 内部是一个直接量，确定的
+
+<script>
+  str = 'kajsdfkgj adkjfkabeasajane ;ladjfkl aklfdjgbeasajane adfjhghjhj beasajane'
+  rep = str.replace(/beasajane/g, '_[$&]_')
+  console.log(rep)
+
+
+  var name = 'hear'  // prompt(" harry ")
+  var text = " Harry is a suspicious character ."
+  var regexp = new RegExp("\\b(" + name + ")\\b", "gi ")  // g 全局  i忽视大小写
+  // /\b(harry)\b/gi   //g 全局匹配（影响match方法   exec方法） i忽略大小写 m 每行的开始结束|整个字符串的开始结束（影响^ $)
+  console.log( text.replace(regexp , " _$1_ "))  // $1 匹配第1个捕获括号中的内容
+
+  var name = "dea+hl [] rd ";
+  var text = " This dea+hl [] rd guy is super annoying .";
+  var escaped = name.replace (/[^\w\s]/g, "\\$&");
+
+  str = 'h[]a_ d+?y'
+  str.replace(/[^\w\s]/g,'\\$&')  //  非文字字符&非空白字符/[^\w\s]/
+
+  str.replace(/(?=[\[\]\?])/g, '\\')
+
+  function re(str) {
+    result = ''
+    for(let c of str) {
+      if(c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c == ' ' || c == '_' || c >= 0 && c <= 9) {
+        result += c
+      }else {
+        result += '\\' + c
+      }
+    }
+    return result
+  }
+  re = new RegExp('\\b(' + re(str) +')\\b') //    /\b(h\[\]a_ d\+\?y)\b/
+  s = 'h[]a_ d+?y jdalsdjlk dkajd '
+  st = s.replace(re, '——$&——')
+
+
+
+
+</script>

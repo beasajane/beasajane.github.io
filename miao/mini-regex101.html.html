@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<!-- textarea 行内块元素 所以问题不是出在pre  而是出在 textarea 
+em专用字体 
+height: inherit;  height: 100%;
+   cols="30"  rows="10"  与高度矛盾
+  /* em:empty    em 为特殊字体font-style: normal; 标签内部为空 也要显示 匹配的是零宽断言的位置 */ 
+
+      white-space: pre-wrap;
+      /* overflow-wrap: break-word;*/
+    pre标签
+    
+      <textarea id="strInput" onkeyup='run()' >foobarbaz aaabbccc
+        ddddoofob foa foceeefoofsl lksdjf
+        129842 foo
+        /*sd942034 234 lsfowe
+        </textarea> <br> */ 此方式 有\n
+        sd942034 234 lsfowe</textarea> <br>  // 此方式无\n
+
+        oninput输入时触发 onkeyup案件松开时触发
+    -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>/miao/mini-regex101.html</title>
+  <style>
+    #reg,section{
+      width: 500px;
+    }
+    label{
+      cursor: pointer;
+      font-family: consolas;
+    }
+    label > input {
+      cursor: pointer;
+    }
+    em {
+      background-color: #9fcfff;
+      font-style: normal;  /*特殊字体*/
+    }
+    em:nth-child(even) {
+      background-color: #d5ebff;
+    }
+     em:empty {  
+      border-left: 1px dotted red;
+      margin-right: -1px;
+      background-color: transparent;
+    }
+    
+    section {
+      position: relative;
+      margin: 0;
+      height: 380px;
+      overflow: hidden;
+    }
+    section textarea ,
+    section pre{
+      resize: none;  /*不允许修改  textarea边框*/
+      font-size: 1.3;
+      padding: 5px;
+      border-left: 2px #555 solid;
+      border-right: 2px #555 solid;
+      margin: 0;
+      width: 100%;
+      box-sizing: border-box;
+      font-family: consolas;
+      font-size: 16px;
+      white-space: pre-wrap;
+      overflow-wrap: break-word;
+      display: block; 
+      overflow-y: scroll;
+    }
+    section textarea{
+      position:relative;
+      z-index: 5;
+      height: 100%;
+      background-color: transparent;
+      border: 2px #555 solid;
+    }
+    pre {
+      position: absolute;
+      top: 0;
+      color: transparent;
+    }
+    p#regError {
+      margin: 0;
+      height: 1rem;
+      color:red;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    请输入正则表达式： 
+    <label><input type="checkbox" id="global" checked onclick='run()'>g</label><!--
+    --><label><input type="checkbox" id="ignoreCase" onclick='run()'>i</label><!--
+    --><label><input type="checkbox" id="multiline" onclick='run()'>m</label><br> 
+    <input type="text" id="reg" value='fo.' oninput="run()">  
+    <br>
+    <p id ='regError'></p>
+    
+    请输入内容：<br>
+    <section>
+      <pre id="result"></pre> 
+      <textarea onscroll="setScroll()" id="strInput" oninput="run()">foobarbaz aaabbccc
+        ddddoofob foa foceeefoofsl lksdjf
+        129842 foo
+        sd942034 234 lsfowe</textarea> <br>
+    </section>
+  </div>
+  <script > 
+    function setScroll() {
+      var scrollTop = strInput.scrollTop // 读取滚动位置   $0.scrollTop当前元素的滚动位置
+      result.style.top = -strInput.scrollTop + 'px' // 取反之后加上  单位
+    }
+    run()
+    function run() {
+      console.time('run')
+      var regSource = reg.value
+      var flags = getFlags()
+      if(regSource == '') {
+        result.innerHTML = ''
+        regError.innerHTML = 'Please Input Any Regular Expression'
+        return 
+      }
+      try {
+        var re = new RegExp(regSource, flags) 
+        regError.innerHTML = ''
+      }catch(e) {
+        console.log(e)
+        // window.e = e
+        regError.innerHTML = e
+        result.innerHTML = ''
+        return 
+      }
+      console.log(re)
+      var str = strInput.value
+      var match
+      // if(global.checked) {
+      if(re.global) {
+        var  resultHTML  = ''
+        let lastIndex = re.lastIndex
+        while(match = re.exec(str)) {
+          resultHTML += str.slice(lastIndex, match.index) 
+          resultHTML += '<em>' + match[0] + '</em>'
+          lastIndex = re.lastIndex
+          if(match[0] == '') {
+            re.lastIndex++
+          }
+        }
+        resultHTML += str.slice(lastIndex)
+        result.innerHTML = resultHTML
+      }else {
+        var resultHTML = ''
+        match = re.exec(str)
+        resultHTML += str.slice(0, match.index)
+        resultHTML += '<em>' + match[0] + '</em>'
+        resultHTML  += str.slice(match.index + match[0].length)
+        result.innerHTML = resultHTML
+      }
+      console.timeEnd('run')
+    }
+    function getFlags() {
+      let flags = ''
+      if(global.checked) flags += 'g'
+      if(ignoreCase.checked) flags += 'i'
+      if(multiline.checked) flags += 'm'
+      return flags
+    }
+  </script>
+</body>
+</html>

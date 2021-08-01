@@ -1,0 +1,42 @@
+g	全局搜索
+i	不区分大小写搜索。
+m	多行搜索。
+s	允许 . 匹配换行符。
+u	使用unicode码的模式进行匹配。
+y	执行“粘性(sticky)”搜索,匹配从目标字符串的当前位置开始。
+re.exec(str)	一个在字符串中执行查找匹配的RegExp方法，它返回一个数组（未匹配到则返回 null）。  
+re.test(str)	一个在字符串中测试是否匹配的RegExp方法，它返回 true 或 false。
+str.match(re)	一个在字符串中执行查找匹配的String方法，它返回一个数组，在未匹配到时会返回 null。
+matchAll	一个在字符串中执行查找所有匹配的String方法，它返回一个迭代器（iterator）。
+str.search(re)	一个在字符串中测试匹配的String方法，它返回匹配到的位置索引，或者在失败时返回-1。
+str.replace(re,string)	一个在字符串中执行查找匹配的String方法，并且使用替换字符串替换掉匹配到的子字符串。
+str.split(re/string/...)	一个使用正则表达式或者一个固定字符串分隔一个字符串，并将分隔后的子字符串存储到数组中的 String 方法。
+<script title="search方法">  // 类似于 string 的 indexOf  但接的参数为正则表达式(也可接字符串)  返回初始位置下标
+'dkalasjdfljlasalskj daksjdf;las alsjd'.search(/las/)
+
+</script>
+<script title="lastIndex属性">
+  str = 'las  asld  las dalsdlas'
+  re = /las/g
+  re.exec(str)
+  re.lastIndex  // 更新到匹配成功的字符串结束位置的下一个符号
+  re.exec(str)
+  re.exec(str)
+  re.exec(str)
+  /las/g.exec(str) // 此时的正则表达式是新创建的
+  re.lastIndex = 4
+</script>
+<script title="others">
+let re = /fas(d)(.)/g
+re.flags  // 'g'
+re.global // true  有无g标志
+re.ignoreCase // false  i标志
+re.multiline // false  m标志
+re.lastIndex // 0  下一次匹配的开始位置下标   只影响global中的exec test 否则永远从0开始查找匹配
+</script>
+<script>
+  let reg = /las./gs
+  reg.dotAll  // true 
+  str = 'las lase las_ las\n'   
+  str.replace(reg, "__las__")  // 因为s的存在，.可以匹配到\n  ,即此时的.匹配任意字符
+</script>

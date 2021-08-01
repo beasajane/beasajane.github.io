@@ -90,26 +90,13 @@ var beasajane = function(){
       }
       return array
     }
-    // function reverse(array) { //modify
-    //   let l = array.length - 1
-    //   for(let i = 0; i < l >> 1; i++) {
-    //     swap(array, i , l - i)
-    //   }
-    //   return array
-    // }
-    
-  function reverse(ary) {
-    let i = 0
-    let j = ary.length - 1
-    while (i < j) {
-      let t = ary[i]
-      ary[i] = ary[j]
-      ary[j] = t
-      i++
-      j--
+    function reverse(array) { //modify
+      let l = array.length - 1
+      for(let i = 0; i < l >> 1; i++) {
+        swap(array, i , l - i)
+      }
+      return array
     }
-    return ary
-  }
     function swap(array, i, j) {
       let m = array[i]
       array[i] = array[j]
@@ -153,23 +140,79 @@ var beasajane = function(){
         
     //   }
     // }
+    /* 
+    var users = [
+    { 'user': 'barney', 'age': 36, 'active': true },
+    { 'user': 'fred',   'age': 40, 'active': false }
+    ];
+    filter(users, function)
+    filter(users, { 'user': 'barney', 'active': true })
+    filter(users,['user', 'fred'])
+    filter(['abc', 'def'], /ef/)
+  */
     function filter(array, f) {// f = iteratee(obj/ary/str)
-      if(typeof f == 'function') {
-        let ary = []
+      let result = []
+      if(typeof f == 'function') { // f是函数  
         for(let key of array) {
-          if(f(key)) ary.push(key)
-        }
-        return ary
-      }else {
-        let str = ''
-        str += f 
-        let ary = str.split('/')
-        let result = []
+          if(f(key)) result.push(key)
+        } 
+      }else if(typeof f == 'string'){  // f是字符串
         for(let key of array) {
-          if(key.includes(ary[1])) result.push(key)
+          if(key[f]) result.push(key)
         }
-        return result
+      }else if(Array.isArray(f)){ // f是数组 ['user', 'fred'])
+        for(let key of array) {
+          if(key[f[0]] == f[1]) result.push(key)
+        }
+      }else if(Object.prototype.toString.call(f) === '[object Object]'){ // f是数组 ['user', 'fred'])
+        let ary = Object.keys(f)
+        for(let key of array) {
+          for(let i = 0; i < ary.length; i++) {
+            if(!key[ary[i]] || key[i] !== f[i]) break
+            if(i == ary.length - 1) result.push(key)
+          }
+        }
+      }else { // f是正则表达式
+        for(let key of array) {
+            if(key.match(f)) result.push(key)
+        }
       }
+      return result
+    }
+    function isEqual(val1,val2) { // 排除所有不成立的
+      if(Object.prototype.toString.call(val1)  !== Object.prototype.toString.call(val2)) {
+        return false
+      }//类型不同一定不同
+      if(Array.isArray(val1)) {
+        if (val1.length !== val2.length) {
+          return false
+        }else {
+          for (let i = 0; i < val1.length; i++) {
+            if(!val2[i] || isEqual(val1[i] !== val2[i])) return false
+          }
+        }
+      }
+      if(Object.prototype.toString.call(val1) === '[object Object]') {
+        if(Object.keys(val1).length === Object.keys(val2).length) {  //对比两个对象的属性组成的数组长度是否一样
+          for(let i in val1) { // 对比两个对象的属性值 ,如果val2中不存在i，返回false，或者将两个属性值递归对比
+            if(!val2[i] || !isEqual(val1[i], val2[i])) return false
+          }
+        }else {
+          return false
+        }
+      }
+      if(typeof val1 === 'string' && val1 !== val2) {
+        return false
+      }
+      if(typeof val1 === 'number' && val1 !== val2) {
+        if(val1 !== val1 && val2 !== val2) return true
+        return false
+      }
+      if(typeof val1 === 'boolean'  && val1 !== val2) {
+        return false
+      }
+
+      return true
     }
     function map(array, f) {
       let ary = []
@@ -194,5 +237,6 @@ var beasajane = function(){
       iteratee: iteratee,
       filter: filter,
       map: map,
+      isEqual: isEqual,
     }
 }()
