@@ -1,0 +1,204 @@
+<!-- 实现一个解析json的函数，但是此json中用{}表示数组，用()表示对象，其它语法不变 
+function parseJSON(str) {
+    
+}
+// 递归下降： 解析表示递归结构的字符串  //  树状结构，递归结构，嵌套结构都可以用递归下降的方式姐
+
+parseJSON('{1,2,{1,2,3},("a":1,"b": {1,2,3}),5}') -->
+<script>
+  // 初始不应考虑会出错的情况，否则会扰乱思路逻辑
+  var parseJSON = (function() {
+    str = '[1,"fooo",[1,2123413,3,true],{"a":1,"b":[1,2,3],"c":{"x":1,"yyy":false}},5,null]'
+    var i = 0   
+    
+    return function parseJSON(input) {
+      str = input
+      i = 0
+      return parseValue()
+    }
+    // 递归下降： 解析表示递归结构的字符串  //  树状结构，递归结构，嵌套结构都可以用递归下降的方式姐
+    // 每个函数的作用为，从i位置开始解析一个对应的值（内容），并将i指向该解析完成后的下一个位置，以供下一个其他函数继续解析
+    //解析：->->扫描字符串     正则表达处理的是一种模式，而json处理不同的模式
+    // 先不考虑转义符 降低复杂度，排除干扰项，理清逻辑思路
+    function parseValue(){  // 解析出不同类型的值
+      var c = str[i]
+      if(c == '[') {
+        return parseArray()
+      }
+      else if(c == '{') {
+        return parseObject()
+      }
+      else if(c == '"') {
+        return parseString()
+      }
+      else if(c == 't') {
+        return parseTrue()
+      }
+      else if(c == 'f') {
+        return parseFalse()
+      }
+      else if(c == 'n') {
+        return parseNull()
+      }
+      else return parseNumber()
+    }
+    
+    // 从i指向的位置解析出一个true，并将i指向下一个位置
+    function parseTrue() {
+      // var s = str.substr(i, 4)
+      // if (s !== 'true') {
+      //   throw new SnytaxError('unExpected token:' + s + 'at pos' + i)
+      // }
+      i += 4
+      return true
+    }
+    function parseFalse() {
+      i += 5
+      return false
+    }
+    function parseNull() {
+      i += 4
+      return null
+    }
+    // 从i指向的位置（此时为")解析一个字符串， 并将i指向该字符串之后的位置
+    function parseString() {
+      let s = ''
+      for(i = i + 1; i < str.length; i++) { //i = i + 1  跳过当前双引号
+        if(str[i] == '"') break
+        s += str[i]
+      }
+      i++ // 指向结束双引号之后的位置
+      return s
+    }
+    function parseString1() {
+      i++
+      var result = ''
+      while(str[i] !== '"') {
+        result += str[i++]
+      }
+      i++ 
+      return result 
+    }
+    
+    // 先考虑数字只有正整数部分
+    // 从i指向的位置解析出一个数值，此时，（str[i]已经指向数值的最高位），最后将i指向该字符串之后的位置
+    function parseNumber() {
+      let num = ''
+      while(Number(str[i]) === Number(str[i]) && str[i] !== ' ') {
+        num += str[i++]
+      }
+      return Number(num) // 跳出循环时，就已经指向下一个位置
+    }
+    function parseNumber1() {
+      let numStr = ''
+      while(str[i] >= '0' && str[i] <= '9') {
+        numStr += str[i++]
+      }
+      return  Number(numStr)
+    }
+    
+    // 此时i指向数组开始的中括号（[),解析出一个数组 ，将i指向数组“]“ 后面的位置 ，返回数组
+    function parseArray() {
+      let ary = []
+      i++
+      if(str[i] == ']') {
+        i++
+        return ary
+      }
+      while(true) {
+        // skipSpace() // 跳过空格
+        var val = parseValue()
+        // skipSpace()
+        ary.push(val) 
+        if(str[i] == ']') {
+          i++
+          // skipSpace()
+          return ary 
+        }else if(str[i] == ',') {
+          i++  // 跳过','
+        }else { // 解析每个语法的时候，如果并不是这种语法的书写方式，就throw error
+          throw new SyntaxError('unExpected token at pos' + i)
+        }
+      }
+    }
+    // 此时i指向对象开始的中括号（{),解析出一个对象 ，将i指向数组“}“ 后面的位置 ，返回数组
+    function parseObject1() {
+      let obj = {}
+      i++ // 跳过'{'
+      while(true) {
+        if(str[i] == '}') {
+          i++ // 指向‘}’下一个位置
+          return obj
+        }
+        if(str[i] == ',') {
+          i++ // 跳过','
+        }
+        var propertyName = parseValue()  // propertyName => key
+        if(str[i] == ':') {
+          i++ // 跳过':'
+        }
+        var propertyValue = parseValue()
+        obj[propertyName] = propertyValue
+      }
+    }
+    function parseObject() {
+      var result = {}
+      i++
+      while(str[i] !== '}') {
+        var key = parseString()
+        i++ 
+        var val = parseValue()
+        result[key] = val
+        if(str[i] == ',') {
+          i++
+        }
+      }
+      i++
+      return result 
+    }
+  })()
+  // 当函数作为一行的开始，是一条语句，而不是表达式，无法调用，用括号括起来，使其成为表达式，然后才能调用。
+  // 创建一个函数作用域，将其他函数放在其中
+  // var parseJSON = (函数表达式)()  得到返回值为函数
+  (function() {})() // 立即执行函数  IIFE  immediately invoked Function Expression
+
+  parseJSON('[1,"fooo",[1,2123413,3,true],{"a":1,"b":[1,2,3],"c":{"x":1,"yyy":false}},5,null]')
+  ;`
+searchengine = http :// www. google .com/ search ?q=$1
+spitefulness =9.7
+; comments are preceded by a semicolon ...
+; each section concerns an individual enemy
+[ larry ]
+fullname = Larry Doe
+type = kindergarten bully
+website = http :// www. geocities .com/ CapeCanaveral /11451
+[ gargamel ]
+fullname = Gargamel
+type = evil sorcerer
+outputdir =/ home / marijn / enemies / gargamel
+`
+</script>
+<script>
+
+  // if(str[i] == '"') {
+    //   ary.push(  parseString() )
+    // }
+    // else if(str[i] == 'n') {
+    //   ary.push(  parseNull() )
+    // }
+    // else if(str[i] == 't') {
+    //   ary.push(  parseTrue() )
+    // }
+    // else if(str[i] == 'f') {
+    //   ary.push(  parseFalse() )
+    // }
+    // else if(str[i] == '[') {
+    //   ary.push(  parseArray() )
+    // }
+    // else if(str[i] == '{') {
+    //   ary.push(  parseObject() )
+    // }
+    // else ary.push(  parseNumber() )
+  
+    // return ary
+</script>

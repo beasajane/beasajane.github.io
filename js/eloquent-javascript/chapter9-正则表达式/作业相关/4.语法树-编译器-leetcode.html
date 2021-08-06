@@ -1,0 +1,332 @@
+<body>
+  https://leetcode.com/tag/tree/
+  https://leetcode.com/problems/serialize-and-deserialize-binary-tree/
+  https://leetcode.com/problems/construct-string-from-binary-tree/
+  https://leetcode.com/problems/binary-search-tree-iterator/
+  https://leetcode.com/problems/balance-a-binary-search-tree/
+  https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/
+  https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree/
+  https://leetcode.com/problems/kth-largest-element-in-an-array/
+  https://leetcode.com/explore/challenge/card/july-leetcoding-challenge-2021/611/week-4-july-22nd-july-28th/3827/
+  https://leetcode.com/problems/sliding-window-median/
+  https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
+  https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
+  https://leetcode.com/problems/trim-a-binary-search-tree/
+  https://leetcode.com/problems/search-in-a-binary-search-tree/
+  https://leetcode.com/problems/insert-into-a-binary-search-tree/
+  https://leetcode.com/problems/delete-node-in-a-bst/
+  https://leetcode.com/problems/wildcard-matching/
+  https://leetcode.com/problems/wildcard-matching/
+
+
+
+  https://leetcode.com/problems/parsing-a-boolean-expression/
+  https://leetcode.com/problems/letter-combinations-of-a-phone-number/
+  <a href="https://esprima.org/">esprima.org</a><br>
+  <a href="https://github.com/jamiebuilds/the-super-tiny-compiler">super tiny compiler </a><br>
+  <a href="https://github.com/starkwang/the-super-tiny-compiler-cn/blob/master/super-tiny-compiler-chinese.js">super tiny compiler(最小的编译器)中文版</a><br>
+  syntax tree 编译原理中的概念<br>
+  一个程序拿到 文本 ，需要解析出 语法树，才能立即该程序的功能<br>
+  <a href="https://leetcode.com/problems/wildcard-matching/" target="_blank">通配符</a> <br>
+  <a href="https://leetcode.com/problems/mini-parser/" target="_blank">mini-parser</a> <br>
+  <a href="https://leetcode.com/problems/basic-calculator" target="_blank">basic-calculator</a> <br>
+  <a href="https://leetcode.com/problems/parse-lisp-expression" target="_blank">parse-lisp-expression -super-hard</a> <br>
+  <a href="https://leetcode.com/problems/parsing-a-boolean-expression/" target="_blank">解析字符串并判断true or false</a><br>
+</body>
+<script title="parsing-a-boolean-expression">
+  // "|(&(t,f,t)"  // 要解析的字符串
+//   {
+//     funcName: '|',
+//         parameters:[{
+//             funcName: &,
+//             parameters: [true,false,true]
+//         },{
+//             funcName: '|',
+//             parameters: [true]
+//         }]
+//    }
+var parseExpression = (function() {  // 转换为语法树
+  let str = "&(t,f,|(&(t,f),f))"  //这玩意要写对了，不然要调试改写很多的  此为c语言风格
+  var i = 0  //  严重问题
+  return function parse(input){
+    str = input
+    i = 0
+    return parseParameter() //
+  }
+  function parseValue() {
+        if(str[i] == 't') { 
+          i++ // i指向下一个位置
+          return true
+        }
+        else if(str[i] == 'f') {
+          i++
+          return false
+        }
+      }
+
+  function parseFunctionCall() {
+    var obj = {
+      funcName: str[i],
+      parameters: []
+    }
+    i++ // 跳过函数名 skip
+    i++ // 跳过‘（’
+    while(str[i] !== ')') {
+      var parameters = parseParameter()
+      obj.parameters.push(parameters)
+      if (str[i] == ',') {
+        i++
+      }
+    }
+    i++ // skip
+    return obj
+  }
+
+  function parseParameter() {
+    if(str[i] == 't' || str[i] == 'f') {
+      return parseValue()
+    }else {
+      return parseFunctionCall()
+    }
+  }
+})()
+
+function evaluate(tree) {  // parseParameter return a object or  value
+  if (typeof tree == 'object') {
+    var parameterValues = tree.parameters.map(evaluate)  // array/object      将tree 中的所有参数传给evaluate得到结果true or false
+    if (tree.funcName == '&') {
+      for (var i = 0; i < parameterValues.length; i++) {
+        if(parameterValues[i] == false) {
+          return false
+        }
+      }
+      return true
+    }
+    if (tree.funcName == '|') {
+      for (var i = 0; i < parameterValues.length; i++) {
+        if(parameterValues[i] == true) {
+          return true
+        }
+      }
+      return false
+    }
+    if (tree.funcName == '!') {
+      return !parameterValues[0]
+    }
+  }else {
+    return tree
+  }
+}
+
+function outputJS(tree) {  // js语言风格
+  if (typeof tree == 'object') { // 如果时树状结构
+    if(tree.funcName == '|') {
+      return tree.parameters.map(outputJS).map(it => `(${it})`).join(' || ') // 将所有的参数用或运算连接
+    }
+    if(tree.funcName == '&') {
+      return tree.parameters.map(outputJS).map(it => `(${it})`).join(' && ') // 将所有的参数用或运算连接
+    }
+    if(tree.funcName == '!') {
+      return `!(${tree.parameters.map(outputJS)[0]})`// 将所有的参数用或运算连接
+      // return '!(' + tree.parameters.map(outputJS)[0] + ')'// 将所有的参数用或运算连接
+    }
+  }else { // 参数列表
+    return String(tree)
+  }
+}
+// 27 - 92 为编译器  将 "&(t,f,|(&(t),f))"  => 语法树  => "(true) && (false) && (((true)) || (false))"
+
+function outputLisp(tree) {//将"&(t,f,|(&(t),f))" 的语法树输出成Lisp语言风格 的代码 (| f t) 
+  if (typeof tree == 'object') { // 如果时树状结构
+    var paras = tree.parameters.map(outputLisp) //将 "&(t,f,|(&(t),f))"  => "(true) && (false) && (((true)) || (false))"
+    return `(${tree.funcName} ${paras.join(' ')})`
+  }else { // 参数列表
+    return String(tree)
+  }
+}
+
+// 将程序预处理，转化成不可分割的单词列表    即  token 列表 （list）  可从    esprima.org  网站查看js  token  list   
+// 而以上两个编译，为直接扫描（因皆为单个字母），无预处理程序
+
+function outputJS1(tree) {
+  if (typeof tree == 'object') { // 如果时树状结构
+    if(tree.funcName == '|') {
+      return tree.parameters.map(outputJS1).join(' || ') // 将所有的参数用或运算连接
+    }
+    if(tree.funcName == '&') {
+      return tree.parameters.map(outputJS1).join(' && ') // 将所有的参数用或运算连接
+    }
+    if(tree.funcName == '!') {
+      return '!' + tree.parameters.map(outputJS1)[0] // 将所有的参数用或运算连接
+    }
+  }else { // 参数列表
+    return String(tree)
+  }
+}
+eval("(true) && (false) && (((true)) || (false))")
+function parseFunctionCall1() {  // 解析出函数调用，返回一个对象
+      if(str[i] == 't') { 
+        i++ // i指向下一个位置
+        return true
+      }
+      else if(str[i] == 'f') {
+        i++
+        return false
+      }
+
+      let obj = {}
+      if(str[i] == '|') {
+        i++ // 跳过 |
+        obj.funcName = '|'
+      }
+      else if(str[i] == '&') {
+        i++ // 跳过 |
+        obj.funcName = '&'
+      }
+      else if(str[i] == '!') {
+        i++ // 跳过 |
+        obj.funcName = '!'
+      }
+      i++ // 跳过 '('
+      let ary = []
+      while(str[i] !== ')') {
+        if(str[i] == 't' || str[i] == 'f' || str[i] == '|'  || str[i] == '&' || str[i] == '!') {  // 当前i指向‘|’  当 &(t,&(t,f)) 时
+          ary.push(parseFunctionCall1())
+        }   
+        if(str[i] == ')') break  // 当 &（t） 时  
+        i++ //跳过 ','   当&（f，t）时
+      }
+      i++ // 跳过‘）’
+      obj.parameters = ary
+      return obj
+    }
+</script>
+<script type='d'>
+  
+  function parseValue() {
+    if(str[i] == 't') { 
+      i++ // i指向下一个位置
+      return true
+    }
+    else if(str[i] == 'f') {
+      i++
+      return false
+    }
+  }
+  function parseFunctionCall() {  // 解析出函数调用，返回一个对象
+    let obj = {}
+    if(str[i] == '|') {
+      i++ // 跳过 |
+      obj.funcName = '|'
+      i++ // 跳过 '('
+      let ary = []
+      while(str[i] !== ')') {
+        if(str[i] == 't') {
+          ary.push(parseValue())
+        }else if (str[i] == 'f') {
+          ary.push(parseValue())
+        }else if(str[i] == '|'  || str[i] == '&' || str[i] == '!') {  // 当前i指向‘|’
+          ary.push(parseFunctionCall())
+        }
+        i++ //跳过 ','
+      }
+      //  i++ // 跳过‘）’指向下一个位置
+      obj.parameters = ary
+    }
+    else if(str[i] == '&') {
+      i++ // 跳过 |
+      obj.funcName = '&'
+      i++ // 跳过 '('
+      let ary = []
+      while(str[i] !== ')') {
+        if(str[i] == 't' || str[i] == 'f') {
+          ary.push(parseValue())
+        }else if(str[i] == '|'  || str[i] == '&' || str[i] == '!') {  // 当前i指向‘|’
+          ary.push(parseFunctionCall())
+        }
+        i++ //跳过 ','
+      }
+      //  i++ // 跳过‘）’指向下一个位置
+      obj.parameters = ary
+    }
+    else if(str[i] == '!') {
+      i++ // 跳过 |
+      obj.funcName = '!'
+      i++ // 跳过 '('
+      let ary = []
+      while(str[i] !== ')') {
+        if(str[i] == 't') {
+          ary.push(parseValue())
+        }else if (str[i] == 'f') {
+          ary.push(parseValue())
+        }else if(str[i] == '|'  || str[i] == '&' || str[i] == '!') {  // 当前i指向‘|’
+          ary.push(parseFunctionCall())
+        }
+        i++ //跳过 ','
+      }
+      //  i++ // 跳过‘）’指向下一个位置  字符串结束，无需指向下一个位置
+      obj.parameters = ary
+    }
+    return obj
+  }
+  // "|($(t,&(f),t),|(t,&(f,t)))"  // 要解析的字符串
+    b = {
+      funcName: '|',
+      parameters: [
+        {
+          funcName: "&",
+          parameters: [
+            {
+              type: 'Value',
+              value: true,
+            },
+            {
+              funcName: '&',
+              parameters: [
+                {
+                  type: 'Value',
+                  value: false
+                }
+              ]
+            },
+            {
+              type: 'Value',
+              value: true,
+            }
+          ]
+        },
+        {
+          funcName: '|',
+          parameters: [
+            {
+              type: "Value",
+              value: true
+            },
+            {
+              type: 'funcCall',
+              funcName: '&',
+              parameters:[
+                {
+                  type: 'Value',
+                  value: false
+                },
+                {
+                  type: 'Value',
+                  value: true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+
+
+
+
+
+
+
+
+
+  </script>

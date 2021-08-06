@@ -18,6 +18,13 @@ height: inherit;  height: 100%;
         sd942034 234 lsfowe</textarea> <br>  // 此方式无\n
 
         oninput输入时触发 onkeyup案件松开时触发
+        
+        不同元素之间的空格合并，消\n（大概）
+
+
+
+        另一种方法；textarea（id=a）与pre（id=b）标签都定高  b.scrolltop = a.scrolltop  即同时滚动滚动条
+        而该方法为，a 定高，b不定高， a滚动滚动条，b则滚动整个元素，即改变定位时的top属性
     -->
 <html lang="en">
 <head>
@@ -68,7 +75,8 @@ height: inherit;  height: 100%;
       font-family: consolas;
       font-size: 16px;
       white-space: pre-wrap;
-      overflow-wrap: break-word;
+      /* overflow-wrap: break-word; */
+      word-break: break-all; 
       display: block; 
       overflow-y: scroll;
     }
@@ -81,6 +89,8 @@ height: inherit;  height: 100%;
     }
     pre {
       position: absolute;
+      
+      /*height: 100%;*/
       top: 0;
       color: transparent;
     }
@@ -122,7 +132,7 @@ height: inherit;  height: 100%;
       var flags = getFlags()
       if(regSource == '') {
         result.innerHTML = ''
-        regError.innerHTML = 'Please Input Any Regular Expression'
+        regError.innerHTML = '请输入正则表达式'
         return 
       }
       try {
@@ -169,6 +179,10 @@ height: inherit;  height: 100%;
       if(multiline.checked) flags += 'm'
       return flags
     }
+
+
+  
+
   </script>
 </body>
 </html>

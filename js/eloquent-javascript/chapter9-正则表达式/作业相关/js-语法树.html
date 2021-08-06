@@ -1,0 +1,38 @@
+js 程序 语法树 
+esprima.org 网站
+<script>
+  var answer = 6 * 7;
+  var syntax = { //
+  "type": "Program",
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "id": {
+            "type": "Identifier",
+            "name": "answer"
+          },
+          "init": {
+            "type": "BinaryExpression",
+            "operator": "*",
+            "left": {
+              "type": "Literal",
+              "value": 6,
+              "raw": "6"
+            },
+            "right": {
+              "type": "Literal",
+              "value": 7,
+              "raw": "7"
+            }
+          }
+        }
+      ],
+      "kind": "var"
+    }
+  ],
+  "sourceType": "script"
+}
+</script>

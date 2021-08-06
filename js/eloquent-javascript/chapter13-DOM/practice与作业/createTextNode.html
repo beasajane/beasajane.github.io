@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <p>The
+    <img src="img/cat.png" alt="cat">
+    in the a
+    <img src="img/hat.png" alt="Hat">
+    in the 
+    <c>The<a href="">发射点发感慨</a>浮动观苏答复</c>
+    <img src="img/hat.png" alt="Hat">
+    <a href="">adsdf</a>
+    playing
+    <img src="img/pat.png" alt="patball">
+  </p>
+  <button data-dot-tob="alskdj" onclick=" replaceImages()">replace</button> 
+  <!-- $0.dataset.dotTob 
+  delete $0.dataset.dotTob 删除该属性
+  -->
+  <script >
+    function replaceImages() {
+      var p = document.getElementsByTagName('p')[0]
+      var imgs = Array.from(document.getElementsByTagName('img'))  // 用Array.from由动态的集合创建了一个新的数组
+      let l = imgs.length
+      for(var i = 0; i < imgs.length; i++) {  
+        var img = imgs[i]  
+        var textNode = document.createTextNode(img.alt)
+        p.replaceChild(textNode, img)
+      }
+      //p.normalize() //将元素中所有连续的文本节点链接到一起
+    }
+    [].slice.call({0:'a',1:'c',2:'d',length:3}) // ['a','c','d'] 该例子：将类数组对象作为slice函数的this参数 数组上的所有的方法可以对数组进行操作，也可以对类数组进行操作
+    let b = Array.prototype.slice.call({0:'a',1:'c',2:'d',length:3})
+    let a = Array.prototype.slice 
+    a.call({0:'a',1:'c',2:'d',length:3})
+    var aryLike = {0:'a',1:'c',2:'d',length:3}
+    aryLike.slice = a
+    aryLike.slice()
+  </script>
+  <script type='书'>
+    function replaceImages() {
+      var images = document.body.getElementsByTagName('img')
+      for (var i = images.length - 1; i >= 0; i--) {
+        var image = images[i]
+        if(images.alt) {
+          var text = document.createTextNode(image.alt)
+          image.parentElement.replaceChild(text, image)
+        }
+      }
+    }
+  </script>
+  
+  <script type='2'>
+    function replaceImages() {
+      var p = document.getElementsByTagName('p')[0]
+      var imgs = document.getElementsByTagName('img')  // Array.from将集合创建了一个新的数组
+      let l = imgs.length
+      for(var i = imgs.length - 1; i >= 0; i--) {  
+        var img = imgs[i]  
+        var textNode = document.createTextNode(img.alt)
+        p.replaceChild(textNode, img)
+      }
+    }
+  </script>
+  <!-- imgs = document.getElementsByTagName('img')   ；img这个变量指向的对象不变，内容改变 -->
+  <script type='1'>
+    function replaceImages() {
+      var p = document.getElementsByTagName('p')[0]
+      var imgs = document.getElementsByTagName('img')  // 类数组对象是实时动态的
+      let l = imgs.length
+      for(var i = 0; i < l; i++) { 
+        var img = imgs[0]  
+        var textNode = document.createTextNode(img.alt)
+        p.replaceChild(textNode, img)
+      }
+    }
+  </script>
+  
+  <script title="normalize实现">
+    function normalize(node) {
+      if (node.nodeType == 1) {  // 1 document.ELEMENT_NODE 
+        var str = ''
+        var childs = Array.from(node.childNodes) // 构造静态集合
+        for(var i = 0; i < childs.length; i++) {  // childs数组集合中下标所指向的节点并未消失
+          var child = childs[i]
+          if(child.nodeType == document.TEXT_NODE) {
+            str += child.data
+            node.removeChild(child) //**
+          }else {
+            if(str.length) { // 空文本，就无需创建新的节点
+              var textNode = document.createTextNode(str) // **
+              node.insertBefore(textNode, child) // **
+              str = ''
+            }
+          }
+        }
+        if(str.length) { //当最后一个节点也是TEXT_NODE时
+          var textNode = document.createTextNode(str)
+          node.appendChild(textNode)
+        }
+      }
+    }
+  
+  </script>
+  <script type='personal' title="normalize实现">
+    function normalize(node) {
+      let ary = getTextNodeOfparentNode(node)
+      let str = ''
+      for(var text of ary) { // 将所有文本节点的字符串拼接
+        str += text.data.replace(/(?<!\w)[\s\n]*|(?!\w)[\s\n]*(?!\w)/g, '') + ' '
+      }
+      return str
+      function getTextNodeOfparentNode(node) {
+        if(node.nodeType == 1) {
+          let strAry = []
+          for(let child of node.childNodes) {
+            if(child.nodeType == 3) {  // 获取所有的text节点
+              strAry.push(child)
+            }
+            strAry.push(false)
+          }
+          return strAry
+        }
+      }
+    }
+  
+  </script>
+</body>
+</html>

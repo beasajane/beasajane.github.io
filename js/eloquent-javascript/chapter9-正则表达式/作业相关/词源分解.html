@@ -1,0 +1,18 @@
+<script>
+  var code = `if (i == p.length) {
+      if(j == s.length) {
+        return true
+      }else {
+        return false
+      }
+    }`
+    debugger
+    var token = []
+    var match
+    var re = /\s*(\w+|==|\W)\s*/g
+    while( match = re.exec(code)) {
+      debugger
+      token.push(' '+ match[1])
+    }
+    console.log(token)
+</script>

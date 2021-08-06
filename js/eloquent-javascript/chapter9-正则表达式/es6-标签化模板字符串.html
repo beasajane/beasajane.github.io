@@ -1,0 +1,69 @@
+<script>
+
+  //标签化模板字符串的语法  tagged template string
+  //一个函数后面紧跟一个模板字符串，将会以特定形式调用该函数：第一个参数为模板字符串的各个字符串部分组成的数组，这个数组有一个raw属性，指向一个数组，内容为模板字符串的各个部分未经转义组成。
+  // 函数剩余参数为所有的插值内容
+  // 函数的返回值会成为整个表达式的返回值
+
+  String.raw`aksj\n`
+  // 语法1  
+  a = 1
+  b = 2
+  c = 3
+  s = `foo  asd wer a;sdkj kfja;s`
+  t = `foo ${a} asd wer a;sdkj kfja;s`  // ${a}  *a表达式* 的  *值* 被转成 *字符串*
+  // ${表达式}
+
+  //语法2
+  `aksj\n` //"aksj\n"
+  str = String.raw `aksj\n` //"aksj\\n"
+
+  function f() {return "a;sldkfj"}
+  f`lfkasdjf`  // "a;sldkfj"
+
+  function f(a) {return a*a}
+  f `4`  //16
+
+`lfka\$\{'fds'\}sdjf`.split(/\$\{[^}]+\}(?=[^])/g)
+function raw(string) { //
+  string.split(/\$\{[^}]+\}(?=[^])/g)
+}
+
+
+// raw函数
+function raw(partials,...interpolations) {
+  var result = partials.raw[0]
+  for(var i = 0; i < interpolations.length; i++) {
+    result += interpolations[i] + partials.raw[i + 1]
+  }
+  return result
+}
+raw`ajoad\jkl${23}lak\dsj\\` //"ajoad\\jkl23lak\\dsj\\\\"
+
+
+
+//examples
+  styles = css`
+        div {
+          color: red;
+        }
+  `  // 表示返回的是该段css样式的一个对象
+
+  div = t7`
+      <div><span></span></div>
+  ` 
+
+  //反引号套反引号
+var s = `asdf ${`af${`aflsdj`}lsdj`}faslkdjf`  
+
+
+String.raw`\``  // \转义掉了  反引号 `  即反斜杠不能出现在末尾
+//  反引号出现在开头，需 ；
+String.raw`abcd\``.length //6
+;`abcd\``.length // 5
+
+
+//以特定形式调用该函数  其忽略空格符
+  // var a = 'dasini'  // 'dasini' is not a function  so 需加 ;
+  // `lfka\$\{'fds'\}sdjf`.split(/\$\{[^}]+\}(?=[^])/g)
+</script>

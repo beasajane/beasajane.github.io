@@ -23,19 +23,25 @@ str.split(re/string/...)	一个使用正则表达式或者一个固定字符串�
   re.exec(str)
   re.exec(str)
   re.exec(str)
-  /las/g.exec(str) // 此时的正则表达式是新创建的
+  //     /las/g.exec(str) // 此时的正则表达式是新创建的
   re.lastIndex = 4
 </script>
-<script title="others">
+<script title="flags-g-m-i-u-">
 let re = /fas(d)(.)/g
 re.flags  // 'g'
 re.global // true  有无g标志
 re.ignoreCase // false  i标志
 re.multiline // false  m标志
+var reg = /foo/gy   //  sticky   y标志  必须连续匹配,同时和g一同出现
+console.log(  reg.exec('foofoofoo-foo-foo'),reg.exec('foofoofoo-foo-foo'),reg.exec('foofoofoo-foo-foo'),reg.exec('foofoofoo-foo-foo'),reg.exec('foofoofoo-foo-foo'))
+console.log(/./s.test('\n'))          // . 是否匹配回车  ‘s’标志
+
+console.log(/\u{6211}/u.test('我')) ; console.log(/\u6211/.test('我'))        // unicode       /\u{6211}/u可以用四个以上数字字符  /\u6211/ 只能加四个数字字符
+console.log(/[\u{6211}-\u{6233}]/u.test('我')) 
 re.lastIndex // 0  下一次匹配的开始位置下标   只影响global中的exec test 否则永远从0开始查找匹配
 </script>
-<script>
-  let reg = /las./gs
+<script title="replace">
+  var reg = /las./gs
   reg.dotAll  // true 
   str = 'las lase las_ las\n'   
   str.replace(reg, "__las__")  // 因为s的存在，.可以匹配到\n  ,即此时的.匹配任意字符

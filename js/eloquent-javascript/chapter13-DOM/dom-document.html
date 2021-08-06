@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- 匿名文本也会创建子节点  文本节点  -->
+  <!-- document 
+        * getElementById
+        * getElementsByTagName  // 类数组对象 不仅是数组，还是映射 ？？ 先序遍历得到的 该标签组成的数组，下标作为其在页面中出现在顺序  同时还有映射，由元素的名字（或元素的id）建立到标签的映射 （可以由名字或id拿到该标签）
+            譬如：document.link['name/id'] 拿到‘name/id’的a标签
+        * getElementsByClassName  // 类数组对象 ？？
+        * getElementsByName
+        ** other
+           * forms //页面中所有的form元素
+           * all  // 页面中所有的标签组成的类数组对象，即映射  （集合collection）  document.all[id/name]
+      
+      dom节点
+        * firstElementChild
+        * scrollTop
+      
+      
+  -->
+  <h1>
+    <span id='he123'>hellow</span>
+    <span id= 'abc123'>abc</span>
+    <span>world</span>
+  </h1>
+  <!-- document.body.firstChild.nextSibling.childNodes[3].childNodes[0].data = 'yuqing' -->
+  <h2>
+    <span class='dasd'>hellow</span>
+    <span>abc</span>
+    <span>world</span>
+  </h2>
+</body>
+<!-- function searchStrFromNode (node, str) {  // 不考虑跨节点的内容
+  if(node.nodeType == document.TEXT_NODE) {
+      return node.data.includes(str)
+  }else if (node.nodeType == document.ELEMENT_NODE) {
+      for(var i = 0; i< node.childNodes.length; i++) {
+          var child = node.childNodes[i]
+          if(searchStrFromNode(child, str) ) {
+              return true
+          }
+      }
+  return false 
+  }
+} -->
+<!-- function traverse(node) {
+    let ary = []
+    node.childNodes.forEach(it => ary.push(it.tagName))
+    return ary
+} -->
+<!-- function traverse(node, depth = 0) {
+  if(node.nodeType == document.ELEMENT_NODE) {
+    console.log(''+ addSpace(depth) + node.tagName) 
+    for(var child of node.childNodes) {
+      traverse(child, depth + 2)
+    }
+    //  depth -= 2 // 子作用域
+  }
+} 
+function addSpace(depth) {
+  let str = ''
+  for(let i = 0; i < depth; i++){
+    str += " "
+  }
+  return str
+}
+traverse(document.documentElement)
+traverse(document)-->
+<!-- function traverse(node, depth = 0) {
+  if(node.nodeType == document.ELEMENT_NODE) {
+    console.log(' '.repeat(depth * 2) + node.tagName) 
+    for(var child of node.childNodes) {
+      traverse(child, depth + 1)
+    }
+  }
+}-->
+<!-- function getElementsByTagName(node, tagNameAry = []) {
+  if(node.nodeType == document.ELEMENT_NODE) {
+      tagNameAry.push(node.tagName)
+      for(let child of node.childNodes) {
+          getElementsByTagName(child, tagNameAry)
+      }
+  }
+  return tagNameAry
+} -->
+<!-- function getElementsByTagName(node, tagName, tagNameAry = []) {  // tageName == 'SPAN' tagName
+  if(node.nodeType == document.ELEMENT_NODE) {
+      if(node.tagName == tagName){
+          tagNameAry.push(node.tagName)
+      }
+      for(let child of node.childNodes) {
+          getElementsByTagName(child, tagName, tagNameAry)
+      }
+  }
+  return tagNameAry
+} -->
+<!-- function getElementsByTagName(node, tagName) {
+    var result = []
+    for(let child of node.children) {
+        if(child.tagName == tagName){
+            result.push(child)
+        }
+        result.push(...getElementsByTagName(child,tagName))
+    }
+    return result
+} -->
+
+
+<!-- function getElementById(id) {
+  let doc= traverse(document.documentElement)
+  for(let child of doc) {
+      if(child.id == id) {
+          return child
+      }
+  }
+}
+function traverse(node, ary = []) {  // 找该节点及其之下的所有标签 ,返回他们组成的数组
+if(node.nodeType == document.ELEMENT_NODE) {
+  ary.push(node)
+  for(let child of node.childNodes) {
+    traverse(child,ary)
+  }
+}
+return ary
+} -->
+<!-- function getElementById(id) {  // 师版  id 字符串
+  return find(document.documentElement) 
+  function find(node) { // 在node及其后代中寻找id节点
+    if(node.id == id) {
+      return node
+    }else {
+      for(let child of node.children) {
+        var resultMayBe = find(child)
+        if(resultMayBe) return resultMayBe
+      }
+      return null
+    }
+  }
+} -->
+<!-- function getElementById(id) {
+  var target = null
+  traverse(document.documentElement, (node) => {
+    if(node.id == id) {
+      target = node
+    }
+  })
+  return target  // 返回最后一个id
+}
+function traverse(node, action) {
+  if(node.nodeType == 1) {
+    action(node)
+    for(var child of node.children) {
+      traverse(child, action)
+    }
+  }
+} -->
+<!-- function getElementById(id) { 
+  var target = null
+  traverse(document.documentElement, (node) => {
+    if(node.id == id) {
+      target = node
+      return false
+    }
+  })
+  return target  
+}
+function traverse(node, action) { //遍历dom树，在action第一次返回false时停止遍历 ，带有停止功能的遍历函数
+  if(node.nodeType == 1) {
+    if(action(node) === false) {
+      return false
+    }
+    for(var child of node.children) {
+      if(traverse(child, action) === false)
+      return false 
+    }
+  }
+} -->
+</html>

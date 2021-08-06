@@ -221,7 +221,54 @@ var beasajane = function(){
       }
       return ary
     }
-    
+    function concat(array, ...values) { // 接收参数array ，values （array  or elements of array）
+      let ary = array.slice()
+      for(let i of values) {
+        if(Array.isArray(i)) {
+          for(let j of i) {
+            ary.push(j)
+          }
+        }else {
+          ary.push(i)
+        }
+      }
+      return ary // 返回一个新的数组
+    } 
+    function difference(array, ...values) {
+      let ary = array.slice()
+      if(values.length == 1 && Array.isArray(values[0])) {
+        values = values[0].slice()
+      }
+      for(let i = 0 ; i < values.length; i++) {
+        let idx = array.indexOf(values[i])
+        if(idx > -1 ) {
+          ary.splice(idx, 1)
+        }
+      }
+      return ary
+    }
+    function values(object) {
+      let ary = []
+      for(let key in object) {
+        if(object.hasOwnProperty(key)) {
+          ary.push(object[key])
+        }
+      }
+      return ary
+    }
+    function keys(object) {
+      let ary = []
+      for(let key in object) {
+        if(object.hasOwnProperty(key)) 
+          ary.push(key)
+      }
+      return ary
+    }
+    function create(prototype, properties) {
+      for(let i in properties) {
+        
+      }
+    }
     return {
       chunk: chunk, 
       indexOf: indexOf,
@@ -238,5 +285,9 @@ var beasajane = function(){
       filter: filter,
       map: map,
       isEqual: isEqual,
+      concat: concat,
+      difference:difference,
+      values:values,
+      keys:keys,
     }
 }()

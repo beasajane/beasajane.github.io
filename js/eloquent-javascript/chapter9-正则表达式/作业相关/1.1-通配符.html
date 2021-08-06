@@ -2,18 +2,106 @@
   // 操作系统中类似正则表达式的东东，名为通配符  wildcard
   // * 任意数量的任意字符
   // ？任意一个字符
+  // 任意一个符号  /[^\w\s]/g
 
 
 
   // 实现函数判断通配符与字符串的的匹配关系
   // 通配符中*代表任意内容?代表任意单个符号
-  function wildcardMatching(wildcard, star) {  // match   test
-    
+  function wildcardMatching( str,wildcard) {  // match   test
+    // wildcard.replace(/[^\w\s]/g, '\\$&').replaceAll('\\?', '.').replaceAll('\\*', '.*')
+    var reSource = wildcard
+      .replace(/(?=[^\w\s])(?![\*\?])/g, '\\')  // 匹配到的是位置 即零宽断言
+      .replace(/\?/g, '.')
+      .replace(/\*/g, '.*')
+    var re = new RegExp(reSource)
+    return re.test(str)
   }
-  wildcardMatching('??cad', 'ggcad') // true
+  new RegExp('.\\)\\w&')
+
+  var isMatch = function(s, p) {
+    let re = new RegExp(p.replace(/(?=[^\w\s])/g, '\\').replace(/\*/g, '.*').replace(/\?/g, '.'))
+    return re.test(s)
+  };
+
+
+  function wildcardMatchings(wildcard, star) {  // match   test
+    let card //  (?<=a)[.]*(?=b)
+    let s = ''
+    let a, b, re 
+    let lastIndex = 0
+    for(let i = 0; i < wildcard.length; i++) {
+      if(wildcard[i] == '*') {
+        a = wildcard.slice(lastIndex, i) 
+        b = wildcard.slice(i + 1,  wildcard.length)
+        s = '\(\?\<\=' + a + '\)\[\.\]\*\(\?\=' + b + '\)'
+        re = new RegExp(s)
+      }
+    }
+    if(re.__proto__ !== RegExp.prototype) re = new RegExp(wildcard)
+    if(re.exec(star)) return  true
+    return false
+  }
+   // true
   wildcardMatching('*', 'ggcad') // true
   wildcardMatching('a*cad', 'ggcad') // true
   wildcardMatching('a*cad', 'ggcad') // false
 
   // leetcode      wildcard-matching
+  let reg = new RegExp('\(\?\<\=a\)\[\.\]\*\(\?\=b\)')
+  let re = new RegExp('\\(\\?\\<\\=a\\)\\[\\.\\]\\*\\(\\?\\=b\\)')
+</script>
+<script  title="leetcode-wildcard-matching">
+  /**
+ * @param {string} s
+ * @param {string} p
+ * @return {boolean}
+ */
+function isMatch(s, p) {
+  p = p.replace(/\*+/g, '*')
+  
+  var cache = {
+      // '8-15': true, // p.slice(8) 与 s.slice(15) 是否匹配
+  }
+  
+  return isMatching(p, s)
+    
+  function isMatching(p, s, i = 0, j = 0) {
+    if (i == p.length) {
+      if (j == s.length) {
+        return true
+      } else {
+        return false
+      }
+    }
+    if (j == s.length) {
+      if (p[i] == '*' && i == p.length - 1) {
+        return true
+      } else {
+        return false
+      }
+    }
+
+    var key = i + '-' + j
+    if (key in cache) {
+      return cache[key]
+    }
+  
+    if (p[i] == '*') {
+      // 尝试*匹配s中的前i个符号
+      for (var k = 0; k <= s.length; k++) {
+        if (isMatching(p, s, i + 1, j + k)) {
+          return cache[key] = true
+        }
+      }
+      return cache[key] = false
+    }
+  
+    if (p[i] == '?' || p[i] == s[j]) {
+      return isMatching(p, s, i + 1, j + 1)
+    } else {
+      return cache[key] = false
+    }
+  }
+}
 </script>

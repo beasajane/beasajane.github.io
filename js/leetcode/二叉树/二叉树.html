@@ -309,4 +309,27 @@ var levelOrder = function(root) { //param  binary tree object node
     return ary 
 };
 
+
+// 先序 遍历 条件 中断 （到问题或者其中一个答案即可）
+function traverse(root,action) { // 数独
+  if(root) {
+    traverse(root,action) 
+    if(action (root.val) === false ){ // === 防止自动转换
+      return false
+    }
+    if(traverse(root.left, action) === false) {
+      return false
+    }
+    if(traverse(root.right,action) === false) {
+      return false
+    }
+    return true
+  }
+}
+traverse(root, val => {
+  if (val == 8) {
+    return false
+  }
+})
+
 </script>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>elt函数2</title>
+</head>
+<body>
+  <!-- 
+    document.createElement
+    document.createTextNode
+   -->
+  <script>
+    function elt(name, attrs, ...childs) {  // name 元素名（创建一个元素节点，该节点在js中typeofjs对象）， attrs属性集合（元素的属性，即js中对象的属性），，子节点（匿名文本，其他节点） 自己点appendchild
+      var node = document.createElement(name) 
+      if(attrs) {
+        for(var key in attrs) {
+          var val = attrs[key]
+          node[key] = val
+        }
+      }
+      for(var child of childs) {
+        node.append(child)
+      }
+      return node
+    }
+    elt(
+      'div', 
+      {class: 'foo', id: 'bar', title: 'baz'},
+      'aksdfj',
+      elt('span')
+      )
+
+    // dom树 生成 自定义  (虚拟DOM，将原dom中的不需要属性忽略)
+    function elt2(name, attrs, ...childs) {  // 创建要给对象包含  元素名， 属性集合， 子节点集合
+      var node = {tagName: name} 
+      if(attrs) {
+        node.attrs = attrs //
+      }
+      node.childNodes = childs
+      return node
+    }
+  
+    elt2(
+      'div', 
+      {class: 'foo', id: 'bar', title: 'baz'},
+      'aksdfj',
+      elt2('span', {id: 'a', title: 'd'}, elt2('em'))
+      )
+  </script>
+  <script>
+  function replaceImages() {
+    var p = document.getElementsByTagName('p')[0]
+    var imgs = Array.from(document.getElementsByTagName('img'))  // 用Array.from由动态的集合创建了一个新的数组
+    let l = imgs.length
+    for(var i = 0; i < imgs.length; i++) {  
+      var img = imgs[i]  
+      var textNode = document.createTextNode(img.alt)
+      p.replaceChild(textNode, img)
+    }
+    //p.normalize() //将元素中所有连续的文本节点链接到一起
+  }
+  [].slice.call({0:'a',1:'c',2:'d',length:3}) // ['a','c','d'] 该例子：将类数组对象作为slice函数的this参数 数组上的所有的方法可以对数组进行操作，也可以对类数组进行操作
+  let b = Array.prototype.slice.call({0:'a',1:'c',2:'d',length:3})
+  let a = Array.prototype.slice 
+  a.call({0:'a',1:'c',2:'d',length:3})
+  var aryLike = {0:'a',1:'c',2:'d',length:3}
+  aryLike.slice = a
+  aryLike.slice()
+</script>
+<script type='书'>
+  function replaceImages() {
+    var images = document.body.getElementsByTagName('img')
+    for (var i = images.length - 1; i >= 0; i--) {
+      var image = images[i]
+      if(images.alt) {
+        var text = document.createTextNode(image.alt)
+        image.parentElement.replaceChild(text, image)
+      }
+    }
+  }
+</script>
+
+<script type='2'>
+  function replaceImages() {
+    var p = document.getElementsByTagName('p')[0]
+    var imgs = document.getElementsByTagName('img')  // Array.from将集合创建了一个新的数组
+    let l = imgs.length
+    for(var i = imgs.length - 1; i >= 0; i--) {  
+      var img = imgs[i]  
+      var textNode = document.createTextNode(img.alt)
+      p.replaceChild(textNode, img)
+    }
+  }
+</script>
+<!-- imgs = document.getElementsByTagName('img')   ；img这个变量指向的对象不变，内容改变 -->
+<script type='1'>
+  function replaceImages() {
+    var p = document.getElementsByTagName('p')[0]
+    var imgs = document.getElementsByTagName('img')  // 类数组对象是实时动态的
+    let l = imgs.length
+    for(var i = 0; i < l; i++) { 
+      var img = imgs[0]  
+      var textNode = document.createTextNode(img.alt)
+      p.replaceChild(textNode, img)
+    }
+  }
+</script>
+</body>
+</html>

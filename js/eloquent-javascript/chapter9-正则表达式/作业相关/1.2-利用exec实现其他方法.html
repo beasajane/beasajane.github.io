@@ -1,8 +1,270 @@
-使用正则表达式的exec方法实现所有与正则相关的方法，直接实现到对应类型的原型上
+<body>
+  <strong title="严重问题"> while( val = this.indexOf(spliter, oldIndex) >= 0) {  // val = true</strong>
+  <strong title="严重问题"> // 如果零宽断言位置为0，不push  这些都是细节，额外条件，核心逻辑不是该内容，都是小事，这些条件可以再额外添加</strong>
+  使用正则表达式的exec方法实现所有与正则相关的方法，直接实现到对应类型的原型上
+  // [$&,$1,$2,$3,...,$9]   re.exec(str) 返回值是一个数组，
+  String.prototype.match2 = function() {}
+  String.prototype.split2 = function() {}
+  String.prototype.replace2 = function() {}
+  String.prototype.search2 = function() {}
+  
+  RegExp.prototype.test2 = function() {}
+</body>
+<script>
+  class RegExps extends RegExp {
+    constructor(...str) {
+      // return str = new RegExp(...str)
+      super(...str) 
+    }
+    test1(str) {
+      if(this.exec(str)) return true
+      return false 
+    }
+    test2(str) {
+      super.test(str)
+    }
+    test3(str) {
+      return super.test(str)
+    }
+  }
+  class Str extends String{
+    constructor(...str) {
+      super(...str)
+    }
+    match(re) {
+      if(!re.global) {
+        return re.exec(this)
+      }
+      let ary = new Array
+      let val
+      while(val = re.exec(this)) {
+        ary.push(val[0])
+      }
+      return ary
+    }
+    split3(re) {
+      let ary = new Array
+      let lastIndex = 0
+      let val 
+      let length = 0
+      while(val = re.exec(this)) {
+        let s = ''
+        length = val[0].length
+        for(let i = lastIndex + length; i < val.index ; i++) {  // 上一次匹配的位置，到这次匹配的位置 ，中间去掉匹配的值的长度，剩下未匹配到的字符串
+          s += this[i]
+        }
+        lastIndex = val.index
+        ary.push(s)
+      }
+      ary.push(this.slice(lastIndex + length, this.length))
+      return ary
+    }
+    split2(spliter) {
+      let ary = new Array
+      if(Object.prototype.toString.call(spliter) == '[xxxx RegExp]') {  // 必须利用exec方法，因该此时的方法只能循环一次， 当正则表达有元组的时候，就无法回溯
+       
+        let oldLastIndex = spliter.lastIndex  // 记录外界的lastIndex的值
+         
+        if (!spliter.global) {
+          spliter = new RegExp(spliter, spliter.flags + 'g')
+        }
+        let val 
+        // let startIndex = spliter.lastIndex = 0  // 重置为零
+        let startIndex = spliter.lastIndex 
+        startIndex = 0// 重置为零
+        while(val = spliter.exec(this)) {
+          let s = ''
+           // 上一次匹配的位置，到这次匹配的位置 ，中间去掉匹配的值的长度，剩下未匹配到的字符串
+          s += this.slice(startIndex, val.index)
+          startIndex = spliter.lastIndex
+          if (val[0] == '') { // 零宽匹配
+            spliter.lastIndex++
+            if(val.index == 0) continue   // 如果零宽断言位置为0，不push  这些都是细节，额外条件，核心逻辑不是该内容，都是小事，这些条件可以再额外添加
+          }
+          ary.push(s)
+        }
+        spliter.lastIndex = oldLastIndex
+        ary.push(this.slice(startIndex, this.length))
+      } 
+      else if(Object.prototype.toString.call(spliter) == '[object RegExp]') {
+        let oldLastIndex = spliter.lastIndex
+        if(!spliter.global) {
+          spliter = new RegExp(spliter, spliter.flags + 'g')
+        }
+        spliter.lastIndex = 0
+        
+        let match
+        let startIndex = spliter.lastIndex
+        while(match = spliter.exec(this)) {
+          ary.push(this.slice(startIndex, match.index))
+          ary.push(...match.slice(1))  //  exec     正则表达式中有元组的存在
+          startIndex = spliter.lastIndex // slice 起始位置
+          if(match[0] == 0) { // 零宽匹配 不更新
+            spliter.lastIndex++ // 下一次匹配查找位置
+          }
+        }
+        ary.push(this.slice(lastIndex))
+        spliter.lastIndex = oldLastIndex
+      }
+      else if(Object.prototype.toString.call(spliter) == '[object RegExp]') {
+          
+        var oldLastIndex = spliter.lastIndex
+        spliter.lastIndex = 0
 
-String.prototype.match2 = function() {}
-String.prototype.split2 = function() {}
-String.prototype.replace2 = function() {}
-String.prototype.search2 = function() {}
+        if (!spliter.global) {
+          spliter = new RegExp(spliter, spliter.flags + 'g')
+        }
 
-RegExp.prototype.test2 = function() {}
+        var startIndex = spliter.lastIndex
+        var match = null
+
+        while (match = spliter.exec(this)) {
+          ary.push(this.slice(startIndex, match.index)) // 隔板之前的位置
+          ary.push(...match.slice(1)) // 将分组捕获到的内容放入隔板位置
+          startIndex = spliter.lastIndex
+          if (match[0] == '') { // 零宽匹配   
+            spliter.lastIndex++
+          }
+        }
+        ary.push(this.slice(startIndex))
+
+        spliter.lastIndex = oldLastIndex
+        return ary
+      }
+      else if(typeof spliter == 'String') {
+        var startIdx = 0
+        var i
+        while ((i = this.indexOf(spliter, startIdx)) >= 0) {
+          ary.push(this.slice(startIdx, i))
+          startIdx = i + spliter.length
+        }
+        ary.push(this.slice(startIdx))
+      }
+      else if( typeof spliter == 'string') {  // 问题
+        let oldIndex = 0
+        let val
+        // while(val = this.indexOf(spliter, oldIndex) || !val && val !== -1) {  // val = true
+        // while((val = this.indexOf(spliter, oldIndex) || !val) && val !== -1) {  // val = true
+        // while(val = this.indexOf(spliter, oldIndex) || (!val && val !== -1)) {  // val = true
+          // while(val = this.indexOf(spliter, oldIndex) && val !== -1) {
+        while( (val = this.indexOf(spliter, oldIndex)) >= 0) {  // val = true
+        // while(this.indexOf(spliter, oldIndex) >= 0) {  // val = true
+        //   val = this.indexOf(spliter, oldIndex)
+          let s = ''
+          if(val !== oldIndex) {
+            s += this.slice(oldIndex, val)
+          }
+          ary.push(s)
+          oldIndex = val + spliter.length
+        }
+        ary.push(this.slice(oldIndex, this.length))
+      }
+      
+      return ary
+    }
+    search2(re) {
+      if(re.global) {
+        re = new RegExps(re.source)
+      }
+      return re.exec(this).index
+    }
+    search1(re) {
+      return re.exec(this).index
+    }
+    replace2(replacer, replacement) {
+      if(typeof replacer =='string') {  // $& 情况
+        let idx = this.indexOf(replacer)
+
+        if(typeof replacement  == 'function') {
+          replacement = replacement(replacer, idx, this)
+        }else {
+          replacement = replacement.split2('$&').join(replacer)
+        }
+        if(idx == -1) {
+          return this
+        }else {
+          return this.slice(0,idx) + replacement + this.slice(idx + replacer.length)
+        }
+      }else { //if(Object.prototype.toString.call(replacer) == '[object RegExp]') 
+        if(typeof replacement == 'string') {
+          replacement = transformStringToFunction(replacement)
+        }
+        let initIndex = replacer.lastIndex
+        if(replacer.global == true) {  //只考虑global情况
+          let str = ''
+          let startIndex = 0
+          replacer.lastIndex = 0
+          let match
+          while(match = replacer.exec(this)) {
+            str += this.slice(startIndex, match.index) + replacement(match)
+            startIndex = replacer.lastIndex
+            if(match[0] == '') {
+              replacer.lastIndex++
+            }
+          }
+          str += this.slice(startIndex)
+          replacer.lastIndex = initIndex 
+          return str
+        }
+      }
+      
+    }
+  }
+// re = new RegExp(re, 'g')
+// str = new Str('gfedcbabcdefg')
+// str.replace2(re, '-$&-$1-$2-$3-$4-')
+// str.replace2(re, transformStringToFunction('-$&-$1-$2-$3-$4-'))
+  function transformStringToFunction(replacementString) {
+    let splitted = replacementString.split(/(\$[\d\&])/)
+    return function(...args) { 
+      let str = ''
+      if(Array.isArray(args[0])) {
+        args = args[0]
+      }
+      for(let part of splitted) {
+        if(part.length == 2 && part[0] == '$') {
+          if(part[1] == '&') {
+            str += args[0]
+          }else {
+            str += args[Number(part[1])]
+            // str += args[part[1]] | 0
+          }
+        }else {
+          str += part
+        }
+      }
+      return str
+    }
+  }
+  'aaa$&bbb$1ccc$2dd'.split(/($[\d&])/) //["aaa", "$&", "bbb", "$1", "ccc", "$2", "dd"]
+  'aaa$&bbb$1ccc$2dd'.split(/(\$[\d\&])/) //["aaa", "$&", "bbb", "$1", "ccc", "$2", "dd"]
+  re = /(((a)(b))((c)(d)))/
+  re.exec('hgedcbabcdefgh') //["abcd", "abcd", "ab", "a", "b", "cd", "c", "d", index: 6, input: "hgedcbabcdefgh", groups: undefined]
+
+  'fooafoobfoocfood'.replace(/oo(.)/g, '-$1-')
+  'fooafoobfoocfood'.replace(/oo(.)/g, transformStringToFunction('-$1-')) //等价
+</script>
+<script>
+  // let s = ''
+  //         if(replacement.includes('$&')){
+  //           // let replacement = replacement.replace(/\$\&/g, replacer)
+  //           // let replacement = replacement.split2('$&').join(replacer)
+  //           let str = ''
+  //           for(let i = 0; i < replacement.length; ) {
+  //             let index = replacement.indexOf('$&', i)
+  //             if(index >= 0) {
+  //               str += replacement.slice(i, index) + replacer
+  //               // i += 2
+  //               i = index + 2
+  //               continue
+  //             }
+  //             str += replacement.slice(i)
+  //             replacement = str
+  //             break
+  //           }
+  //         }
+  //         s += this.slice(0,idx) + replacement + this.slice(idx + replacer.length)
+  //         return s
+
+
+</script>

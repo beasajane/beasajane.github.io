@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>elt函数</title>
+</head>
+<body>
+  <!-- 
+    setAttribute
+    getAttribute
+
+    data-
+    $0.innerText  // 多空格 =》 1个
+    $0.textContent  // 原始字符串拼接
+   -->
+  <script>
+    //$0.title//不能添加非标准属性  都有id属性，都有titl属性
+    function elt(name, attrs, ...childs) {  // name 元素名（创建一个元素节点，该节点在js中typeofjs对象）， attrs属性集合（元素的属性，即js中对象的属性），，子节点（匿名文本，其他节点） 自己点appendchild
+      var node = document.createElement(name) 
+      if(attrs) {
+        for(var key in attrs) {
+          var val = attrs[key]
+          node.setAttribute(key, val) // 添加属性
+        }
+      }
+      for(var child of childs) {
+        node.append(child)
+        // node.appendChild(child)  字符串不能传给appendChild
+      }
+      return node
+    }
+    elt(
+      'div', 
+      {class: 'foo', id: 'bar', title: 'baz'},
+      'aksdfj',
+      elt('span')
+      )
+  </script>
+  <script>  // 浏览器并没存储页面元素标签的原始的源代码，而是由源代码构造出dom节点，有些信息丢失
+    function getTextContent(node) {
+      if(node.nodeType == document.TEXT_NODE) {
+        return node.data 
+      }else if(node.nodeType == document.ELEMENT_NODE) { // ndoe.childNodes 不是一个数组
+        return Array.from(node.childNodes).map(getTextContent).join('')
+      }
+      return ''
+    }
+
+    function getInnerHTML(node) {
+      var result = ''
+      for (var child of node.childNodes) {
+          if (child.nodeType == document.TEXT_NODE) {
+              result += child.data
+          } else if (child.nodeType == document.ELEMENT_NODE) {
+              var tagName = child.tagName.toLowerCase()
+              var attrNames = child.getAttributeNames()
+              var attrs = attrNames.map(name => {
+                  var val = child.getAttribute(name)
+                  return name + '="' + val + '"'
+              }).join(' ')
+              result += `<${tagName} ${attrs}>` + getInnerHTML(child) + `</${tagName}>`
+          }
+      }
+      return result
+    }
+    function getInnerHtml(node) { //拼接子节点的outerHTML   // 不包含自己节点
+      return Array.from(node.childNodes).map(getOuterHTML).join('')
+    }
+    function getOuterHTML(node) {  //自闭和标签     html5中不能有结束标签
+      // 
+      // 控制台联想的时候，$0指向的标签有问题，attributes错过
+      if (node.nodeType == document.TEXT_NODE) {
+        return node.data
+      }else if(node.nodeType == document.ELEMENT_NODE) { // 拼字符串
+        let tagName = node.tagName.toLowerCase()
+        var attrNames = node.getAttributeNames()
+        var attrs = attrNames.map(name => {
+          var val = node.getAttribute(name)
+          return name + '="' + val + '"'
+        }).join(' ')
+        return `<${tagName} ${attrs}>` + Array.from(node.childNodes).map(getOuterHTML).join('') + `<${tagName}>`
+      }
+      return ''
+    }
+    
+    function getInnerHtml2(node) { //拼接子节点的outerHTML
+      return Array.from(node.childNodes).map(MyGetOuterHTML2).join('')
+    }
+    function MyGetOuterHTML2(node) {
+      // 控制台联想的时候，$0指向的标签有问题，attributes错过
+      if (node.nodeType == document.TEXT_NODE) {
+        return node.data
+      }else if(node.nodeType == document.ELEMENT_NODE) { // 拼字符串
+        let attributes = node.attributes
+        let str = `<${node.localName} `
+        for(let attribute of attributes) {
+          str += `${attribute.localName}="${attribute.nodeValue}" `
+        }
+        str += '>'
+        let childs = Array.from(node.childNodes)
+        for(let child of childs) {
+          str +=  getOuterHTML( child )
+        }
+        str +=`</${node.localName}>`
+        return str
+      }
+      return ''
+    }
+    function myGetOuterHTML(node) {
+      //问题： 如何得到 标签名  属性名即属性值 标签内部的匿名文本节点 及其他节点
+      // 想的太多了，不知道从哪里下手了，先不考虑属性
+      // 不仅由纯文本标签 ，元素标签可以直接转成html标签
+      if (node.nodeType == document.TEXT_NODE) {
+        return node.data
+      }else if(node.nodeType == document.ELEMENT_NODE) { // 拼字符串
+        let str = '<' + node.localName + '>'
+        let childs = Array.from(node.childNodes)
+        for(let child of childs) {
+          str +=  getOuterHTML( child )
+        }
+        str +='</' + node.localName + '>'
+        return str
+      }
+      return ''
+    }
+
+    function setInnerHTML(node, htmlSTR) { // 先解析htmlStr  构造出dom树（树状结构）  remove append  
+      //将dom树转成字符串 为解析
+    }
+  </script>
+</body>
+</html>
