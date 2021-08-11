@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <p>
+    Lorem ipsum dolor <button>按钮</button>sit amet consectetur adipisicing elit. Fugiat, laudantium. Repellendus, labore consequuntur. Provident, dolorum possimus! Dignissimos nemo, alias iusto praesentium temporibus, provident vero consectetur neque eveniet sunt magnam non!
+  </p>
+  <script>
+    var btn = document.querySelector('button')
+    var p = document.querySelector('p')
+    btn.addEventListener('mousedown', e => {console.log(1)
+    // e.stopPropagation()
+    // e.stopImmediatePropagation()
+    console.log(5)
+  }) // 箭头函数的this看其外层作用域，this 为全局作用域
+    // btn.addEventListener('mousedown', e => {console.log(2)}) 
+    p.addEventListener('mousedown', e => {
+      if(event.which == 3) {console.log(3)}
+    }) 
+    // p.addEventListener('mousedown', e => console.log(4)) 
+  </script>
+</body>
+</html>

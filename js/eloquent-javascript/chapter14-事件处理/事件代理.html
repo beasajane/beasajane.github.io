@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>面试题</title>
+</head>
+<body>
+  <ul>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+  </ul>
+  <script>
+    var lis = document.querySelectorAll('li')
+    // for(var i = 0; i < lis.length; i++) { //  var 提前，可以为函数中的变量创建独立作用域
+    // for(let i = 0; i < lis.length; i++) {  // 每循环一次，let 一次 i 变量，每一次的循环，创建一个独立的作用域
+    //   var li = lis[i]
+    //   li.addEventListener('click', e => {  // 块创建的作用域
+    //     console.log(i)  
+    //   })
+    // }
+    // for(var i = 0; i < lis.length; i++) {  // 每循环一次，let 一次 i 变量，每一次的循环，创建一个独立的作用域
+    //   (function(i){// 函数创建作用域
+    //     var li = lis[i]
+    //     li.addEventListener('click', e => {
+    //       console.log(i)  
+    //     })
+    //   })(i) // IIFE
+    // }
+  var ul = document.querySelector('ul')
+  ul.addEventListener('click', function(e) {  // 箭头函数 为上一层的作用域
+    // console.log(e.target.textContent)
+    console.log(e)
+    console.log(e.currentTarget)
+    console.log(Array.from(ul.children).indexOf(e.target) + 1)
+  })
+  </script>
+</body>
+</html>

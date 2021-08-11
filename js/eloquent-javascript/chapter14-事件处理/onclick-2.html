@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+<button Xonclick="foo();console.log('asd');console.log(innerHTML);appendChild(createTextNode('asd'))">abc asdf asdf </button>
+<!-- with(document) {
+  with(button) {
+    btn.onclick = function() {
+      foo();console.log('asd');console.log(innerHTML);appendChild(createTextNode('asd'))
+    }
+  }
+} -->
+<button>def</button>
+<script>
+  var btn = document.querySelector('button')
+
+  btn.onclick = function() {  // 1.与 元素中的onclick属性为覆盖关系     2.函数 函数调用
+    console.log(1)
+    console.log(btn.innerHTML)
+  }
+
+  btn.addEventListener('click', function() {
+    console.log('abc clicked b')
+  })
+  btn.addEventListener('click', function() {
+    console.log('abc clicked c')
+  })
+  function foo() {
+    console.log(2)
+  }
+
+  btn.onclick = foo 
+  btn.onclick()// this btn
+</script>
+</body>
+</html>

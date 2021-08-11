@@ -1,5 +1,14 @@
 <script>
-  function swapNode(a,b) {
-    
+  function swapNode(a,b) { // 交换两个节点
+    if(a.contains(b) || b.contains(a)) {
+      return false
+    }
+    var placeholder = document.createTextNode('')
+    a.parentNode.insertBefore(placeholder, a)
+    b.parentNode.replaceChild(a, b)
+    a.parentNode.repalceChild(b, placeholder)
+    return ture
   }
+  //  语法 ：var insertedNode = parentNode.insertBefore(newNode, referenceNode);
+  // 语法： parentNode.replaceChild(newChild, oldChild);
 </script>

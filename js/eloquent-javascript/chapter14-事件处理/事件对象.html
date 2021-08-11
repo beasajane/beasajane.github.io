@@ -1,0 +1,23 @@
+<button onclick='foo(event)'>abc asdf asdf </button>
+<button xonclick='foo(实参)'>abc asdf asdf </button>
+<!-- 事件的时间线  模型   -->
+<p>def</p>
+<script>//为元素绑定事件
+  var btn = document.querySelector('button')
+  var p = document.querySelector('p')
+
+  btn.addEventListener('mousedown', function(e) { // event => e  有全局变量 event 的值可能会被浏览器清空
+    console.log(e)
+  }) 
+ // window.event  旨在事件运行的过程中存在
+ // 事件处理函数，按顺序运行，等函数运行完毕才会处理下一个事件
+  function foo(event) {  // 被作为谁的事件处理函数，this为谁
+    console.log(this)
+  }
+
+
+  // btn.addEventListener('click', foo) // btn
+  // p.addEventListener('click', foo) // p
+  // addEventListener('click', foo) // this window
+
+</script>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <p>Chick this document to active the handle</p>
+  <button>abc</button>
+  <button>def</button>
+  <script type='a' title="事件处理器">
+    addEventListener('click', () => alert('you clicked !'))
+  </script>
+  <script type='b' title="事件处理器">
+    window.addEventListener('click', () => alert('you clicked !'))
+  </script>
+  <script  title="">
+    var btn = document.querySelector('button')
+    btn.onclick = function() {
+      console.log('abc clicked 1')
+    }
+    btn.onclick = function() {  
+      console.log('abc clicked 2')
+    }
+    btn.addEventListener('click', function() {
+      console.log('abc clicked 1')
+    })
+    btn.addEventListener('click', function() {
+      console.log('abc clicked 2')
+    })
+    window.addEventListener('click', () => console.log('window clicked !'))
+
+
+
+    var obj = {
+      _value: [],
+      set value(val) {
+        this._value.push(val)
+      }
+    }
+
+  </script>
+  <script type='2' title="">
+    var btn = document.querySelector('button')
+   
+    btn.onclick = function () {
+      debugger
+      console.log(1)
+    }
+    var f = btn.onclick
+    btn.onclick = function() {
+      f()
+      console.log(`as;dfkl
+      alsdkj 2`)
+    }
+    var g = btn.onclick
+    btn.onclick = function() {
+      g()
+      console.log(`alsdkjasdk
+      asdlf 3`)
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function buildTable(objs) {
+
+      var uniqueKeys = Array.from(new Set([].concat(...objs.map(Object.keys))))  // 去重后的对象的属性名组成的数组
+      var table = document.createElement('table')
+      var tableHeadRow = document.createElement('tr')
+
+      table.append(tableHeadRow)
+      table.border = '1'
+
+      for(var i = 0; i < uniqueKeys.length; i++) { // 创建表头单元格,并将单元格append到行中 
+        var tableHeadCell = document.createElement('th')
+        tableHeadCell.textContent= uniqueKeys[i]
+        tableHeadRow.append(tableHeadCell)
+      }
+
+      for(var obj of objs) {
+        var tr = document.createElement('tr')
+        for(var key of uniqueKeys) {
+          var td = document.createElement('td')
+          if(obj.hasOwnProperty(key)){
+            td.textContent = obj[key]
+            if(typeof obj[key] == 'number') {
+              td.style.textAlign = 'right'
+            }
+          }
+          tr.append(td)
+        }
+        table.append(tr)
+      }
+
+      return table
+    }
+    
+    document.body.append(buildTable([
+  {name: "Kilimanjaro", height: 5895, country: "Tanzania"},
+  {name: "Everest", height: 8848, country: "Nepal"},
+  {name: "Mount Fuji", height: 3776, country: "Japan"},
+  {name: "Mont Blanc", height: 4808, country: "Italy/France"},
+  {name: "Vaalserberg", height: 323, country: "Netherlands"},
+  {name: "Denali", height: 6168, country: "United States"},
+  {name: "Popocatepetl", height: 5465, country: "Mexico"}
+  ]))
+  </script>
+</body>
+</html>

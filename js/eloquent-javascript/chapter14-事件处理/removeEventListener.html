@@ -1,0 +1,16 @@
+<button>abc asdf asdf </button>
+
+<button>def</button>
+<script>
+  var btn = document.querySelector('button')
+
+  function abc() {
+    console.log('abc clicked b')
+  }
+  btn.addEventListener('click', abc)
+  btn.removeEventListener('click', abc)
+  // btn.removeEventListener('click', function() {  // 函数参数不同，只是内容一样 将函数参数定义到外面
+  //   console.log('abc clicked b')
+  // })
+
+</script>
