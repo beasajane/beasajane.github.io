@@ -21,7 +21,7 @@
       position: absolute;
       left: 200px;
       top: 200px;
-      transform:translate(-50%,-50%);
+      /* transform:translate(-50%,-50%); */
     }
     #circle_sun {
       width: 80px;
@@ -48,40 +48,46 @@
 </head>
 <body>
   <section>
-    <div id="circle_sun"></div>
-    <div id='circle_earth'></div>
-    <div id='circle_kin'></div>
-    <div id='circle_moon'></div>
+    <main>
+      <div id="circle_sun"></div>
+      <div id='circle_earth'></div>
+      <div id='circle_kin'></div>
+      <div id='circle_moon'></div>
+    </main>
   </section>
   <script>
     // var circle_earth = document.querySelector('#circle_earth')
     // var circle_kin = document.querySelector('#circle_kin')
     // var circle_earth = document.getElementById('#circle_earth')
-    var angle = 15, lastTime = null;
+    var angle1 = 15,angle2 = 15,angle3 = 15, lastTime = null;
     function animate(time) {
       if(lastTime != null) {
-        angle += (time - lastTime) * 0.0005
+        angle1 += (time - lastTime) * 0.0005
+        angle2 += (time - lastTime) * 0.001
+        angle3 += (time - lastTime) * 0.003
       }
       lastTime = time
-      y_sun = 400 + (Math.sin(angle) * 200) 
-      x_sun = 400 + (Math.cos(angle) * 200) 
+      y_sun = 400 + (Math.sin(angle1) * 200) - (circle_sun.offsetWidth / 2)
+      x_sun = 400 + (Math.cos(angle1) * 200) - (circle_sun.offsetWidth / 2)
       circle_sun.style.top = y_sun + 'px'
       circle_sun.style.left = x_sun + 'px'
 
-      y_earth = y_sun + (Math.sin(angle * 1.5) * 100) 
-      x_earth= x_sun  + (Math.cos(angle * 1.5) * 100)
+      y_earth = y_sun + (Math.sin(angle2) * 100) + (circle_sun.offsetWidth / 2) - (circle_earth.offsetWidth / 2)
+      x_earth= x_sun  + (Math.cos(angle2) * 100) + (circle_sun.offsetWidth / 2) - (circle_earth.offsetWidth / 2)
 
       circle_earth.style.top = y_earth + 'px'
       circle_earth.style.left = x_earth + 'px'
 
-      y_moon = y_earth + (Math.sin(angle * 3) * 40) 
-      x_moon = x_earth + (Math.cos(angle * 3) * 40) 
+      x_moon = x_earth + (Math.cos(angle3) * 40) + (circle_earth.offsetWidth / 2) - (circle_moon.offsetWidth / 2)
+      y_moon = y_earth + (Math.sin(angle3) * 40) + (circle_earth.offsetWidth / 2) - (circle_moon.offsetWidth / 2)
 
       circle_moon.style.top = y_moon + 'px'
       circle_moon.style.left = x_moon +'px'
 
       requestAnimationFrame(animate)
     }
+    requestAnimationFrame(animate)
+    // animate()
     // function animate(time) {
     //   if(lastTime != null) {
     //     angle += (time - lastTime) * 0.0005
@@ -102,7 +108,6 @@
 
     //   requestAnimationFrame(animate)
     // }
-    requestAnimationFrame(animate)
   </script>
 </body>
 </html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- 方法一 -->
+<button onclick="foo();console.log('asd');console.log(innerHTML);appendChild(createTextNode('asd'))">abc asdf asdf </button>
+<!-- with(document) {
+  with(button) {
+    btn.onclick = function() {
+      foo();console.log('asd');console.log(innerHTML);appendChild(createTextNode('asd'))
+    }
+  }
+} -->
+<button>def</button>
+<script>
+
+function foo() {
+    console.log(2)
+  }
+  btn.onclick = foo 
+  btn.onclick()// this btn
+  
+  
+  // 方法二
+  var btn = document.querySelector('button')
+  btn.onclick = function(e) {  // 事件处理函数，this指向当前事件对象，
+    //事件处理函数一般写为function声明的函数 ，箭头函数的this指向外层作用域
+    // （形参）参数e 事件对象 
+    //有个全局参数（实参） event
+    console.log(1)
+    console.log(btn.innerHTML)
+  }
+  // 该方法只能绑定一个事件处理函数，多个则被最后一个覆盖
+
+  // 该方法有定多个事件处理的形式，如下
+  // var btns = document.querySelector('button')
+  // var f = btns.onclick
+  // btns.onclick = function(e) { 
+  //   f(e)
+  //   event
+  //   this.append()
+  //   e.innerHTML
+  //   console.log(btns.innerHTML)
+  // }
+
+  // 解绑   btns.onclick = null
+
+// 绑定方法 三   该方法可以绑定多个事件处理函数，
+  btn.addEventListener('click', function() {  
+    console.log('abc clicked b')
+  })
+  btn.addEventListener('click', function() {
+    console.log('abc clicked c')
+  })
+
+</script>
+</body>
+</html>

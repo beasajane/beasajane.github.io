@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+  div {
+    width: 200px;
+    height: 200px;
+    border: 1px solid;
+  }
+  button {
+    width: 50px;
+    height: 50px;
+    border: 1px dashed brown;
+  }
+  </style>
+</head>
+<body>
+  <p> Hover over this <strong> paragraph </strong>. </p>
+  
+  <div><button>aa</button></div>
+  <script>
+    var para = document.querySelector('div')
+    var butt = document.querySelector('button')
+    function isInside(node, target) {
+      while(node != null) {
+        if(node == target) return true
+        node = node.parentNode
+      }
+    }
+    para.addEventListener('mouseover', function(e){
+      if(!isInside(e.relatedTarget, e))
+      para.style.backgroundColor = 'brown'
+    })
+    para.addEventListener('mouseout', function(e){
+      if(!isInside(e.realtedTarget, e))
+      para.style.backgroundColor = ''
+    })
+
+  </script>
+
+
+
+
+  <script type='初级版'>  // mouseout  mouseover  ||  mouseenter  mouseleave 阻断冒泡阶段
+    var div = document.querySelector('div')
+    var btn = document.querySelector('button')
+
+    btn.addEventListener('mouseover', e => {
+      console.log('btn over')
+      btn.style.background = 'violet'
+    })
+    btn.addEventListener('mouseout', e => {
+      console.log('btn out')
+      btn.style.background = ''   
+    })
+
+    div.addEventListener('mouseover', e => {
+      console.log('div over')
+      div.style.background = 'violet'
+    })
+    div.addEventListener('mouseout', e => {
+      console.log('div out')
+      div.style.background = ''
+    })
+  </script>
+</body>
+</html>
