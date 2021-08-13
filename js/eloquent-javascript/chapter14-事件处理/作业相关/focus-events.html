@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>焦点事件</title>
+  <!-- 元素有焦点事件 窗口也有焦点事件 -->
+</head>
+<body>
+  <script>
+    // focus  blur 不冒泡  || focusin focusout 冒泡
+  </script>
+  <p> Name : <input type ="text" data-help =" Your full name"></p>
+  <p>Age: <input type ="text" data-help ="Age in years"></p>
+  <p id ="help"></p>
+  <script >
+  var help = document.querySelector ("#help");
+  var fields = document.querySelectorAll ("input");
+
+  document.body.addEventListener('focusin', function(e) {
+    var text = e.target.getAttribute("data-help");
+    help.textContent = text;
+  })
+  document.body.addEventListener('focusout', function(e) {
+    help.textContent = '';
+  })
+  // document.body.addEventListener('focus', function(e) {
+  //   var text = e.target.getAttribute("data-help");
+  //   help.textContent = text;
+  // },true) // 捕获阶段
+  // document.body.addEventListener('blur', function(e) {
+  //   help.textContent = '';
+  // },true) // 捕获阶段
+
+
+  // for (var i = 0; i < fields.length; i++) {
+  //   fields[i].addEventListener("focus", function (event) {
+  //   var text = event.target.getAttribute("data-help");
+  //     help.textContent = text;
+  //   });
+  //   fields[i].addEventListener("blur", function(event){
+  //     help.textContent = "";
+  //   });
+  // }
+</script >
+</body>
+</html>

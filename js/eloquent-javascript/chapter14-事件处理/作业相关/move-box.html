@@ -85,16 +85,34 @@
       }
     })
     
+    // window.addEventListener('blur', function(e) {  // 窗口失去焦点时，速度为0
+    //   vx = 0
+    //   vy = 0
+    // })
+    let hasFocus = true
+    // window.addEventListener('blur', () => {  // 游戏暂停暂停
+    //   hasFocus = false
+    // })
+    // window.addEventListener('focus', () => {
+    //   hasFocus = true
+    //   requestAnimationFrame(move)
+    // })
+
+
+
 
     var lastTime = 0
-    requestAnimationFrame(function move(time){
+    function move(time){
       var timeDiff = time - lastTime
       lastTime = time
 
       div.style.left = parseFloat(div.style.left) + vx * timeDiff * 0.1 + 'px'
       div.style.top = parseFloat(div.style.top) + vy * timeDiff * 0.1 + 'px'
-      requestAnimationFrame(move)
-    })
+      if(hasFocus) {
+        requestAnimationFrame(move)
+      }
+    }
+    requestAnimationFrame(move)
 
 
 
