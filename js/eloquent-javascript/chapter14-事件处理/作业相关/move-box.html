@@ -85,11 +85,12 @@
       }
     })
     
-    // window.addEventListener('blur', function(e) {  // 窗口失去焦点时，速度为0
-    //   vx = 0
-    //   vy = 0
-    // })
-    let hasFocus = true
+    window.addEventListener('blur', function(e) {  // 窗口失去焦点时，速度为0
+      vx = 0
+      vy = 0
+    })
+    
+    // let hasFocus = true
     // window.addEventListener('blur', () => {  // 游戏暂停暂停
     //   hasFocus = false
     // })
@@ -108,9 +109,9 @@
 
       div.style.left = parseFloat(div.style.left) + vx * timeDiff * 0.1 + 'px'
       div.style.top = parseFloat(div.style.top) + vy * timeDiff * 0.1 + 'px'
-      if(hasFocus) {
+      // if(hasFocus) {
         requestAnimationFrame(move)
-      }
+      // }
     }
     requestAnimationFrame(move)
 

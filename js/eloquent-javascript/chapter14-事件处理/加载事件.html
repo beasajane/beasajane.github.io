@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>整个文档被加载完成以后的初始化操作</title>
+  <!-- 在解析html时遇到script标签，将其解析之后，立刻执行 -->
+  <style>
+    .dot {
+      height: 10px;
+      width: 10px;
+      border-radius: 5px;
+      border-radius: ;
+      background: red;
+      position: absolute;
+      
+      top:0;
+      left: 0;
+    }
+    svg {
+      border:dashed 2px blueviolet;
+    }
+    input{
+      margin-left: 10px;
+    }
+  </style>
+  
+  <script>
+    window.onload = function() {  // 所有的节点加载完成以后，才初始化，（运行js） ，即在图片加载完成之后 。图片、视频较大，需要花费很长时间，而这个期间，无法交换
+
+      var svg = document.querySelector('svg')
+      var lastpos = null
+  
+  
+      document.addEventListener('mousedown', function(e) {
+        console.log(e)
+        function drawDot(e) {
+          var pos = mousePos(svg)
+  
+          var line = document.createElementNS("http://www.w3.org/2000/svg",'line')  //svg line标签
+          if(lastpos == null) {
+            line.setAttribute('x2', pos.x)
+            line.setAttribute('y2', pos.y)
+          }else {
+            line.setAttribute('x2', lastpos.x)
+            line.setAttribute('y2', lastpos.y)
+          }
+          line.setAttribute('x1', pos.x)
+          line.setAttribute('y1', pos.y)
+          line.setAttribute('stroke', color.value)
+          line.setAttribute('stroke-width', range.value)
+          line.setAttribute('stroke-linecap', 'round')
+  
+          lastpos = pos
+          svg.append(line)
+        }
+        document.addEventListener('mousemove', drawDot)
+  
+        document.addEventListener('mouseup', function once() {
+          lastpos = null
+          document.removeEventListener('mousemove', once)
+          document.removeEventListener('mousemove', drawDot)
+        })
+      })
+  
+      document.addEventListener('keydown', function(e) {
+        if(e.key == 'z' && e.ctrlKey) {
+          svg.removeChild(svg.children[svg.children.length - 1])
+        }
+      })
+      range.addEventListener('mouseover', function(e){
+        console.log('aksdj')
+        let span = document.createElement('span')
+  
+        span.innerHTML = range.value
+        section.appendChild(span)
+  
+        range.addEventListener('mouseout', function(){
+          // section.removeChild(span)
+          console.log(section.children.length - 1)
+        })
+      })
+  
+  
+      // document.addEventListener('mousedown', function(e) {
+        
+      //   document.addEventListener('mousemove',  draw = function (e) {
+      //     console.log(e)
+  
+      //     var dot = document.createElement('div')
+      //     // dot.className = 'dot'
+      //     dot.classList.add('dot')
+    
+      //     // dot.style.left = (e.pageX - 5) + 'px'
+      //     // dot.style.top = (e.pageY - 5) + 'px'
+      //     dot.style.transform = `translate(${e.pageX - 5}px, ${e.pageY - 5}px)`
+    
+      //     document.body.append(dot)
+      //   })
+  
+      //   document.addEventListener('mouseup', function once(e) {
+      //     document.removeEventListener('mousemove', once)
+      //     document.removeEventListener('mousemove', draw)
+      //   })
+      // })
+  
+      //d3.js 里的一个函数
+      function mousePos(node) { //该函数只能在事件函数在运行的时候调用
+        var box = node.getBoundingClientRect()
+  
+        return {
+          x: window.event.clientX - box.x,
+          y: window.event.clientY - box.y,
+        }
+      }
+    }
+  </script>
+</head>
+<body>
+  <section id='section'>
+    <svg style="width: 500px; height: 500px;"></svg><br>
+    <input type="color" id="color"><br>
+    <input type="range" id="range" min="1" max="8">
+  </section>
+
+</body>
+</html>

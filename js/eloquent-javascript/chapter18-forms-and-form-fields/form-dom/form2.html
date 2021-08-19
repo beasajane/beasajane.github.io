@@ -1,0 +1,16 @@
+<form action="example/submit.html">
+  Value : <input type="text"name="value">
+  <button type="submit">Save </button>
+  <textarea name="" id="" cols="30" rows="10">
+one
+two
+three
+  </textarea>
+</form>
+<script>
+  var form = document.querySelector("form");
+  form.addEventListener("submit", function (event) {
+    console.log("Saving value", form.elements.value.value);
+    event.preventDefault();
+  });
+</script>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .dot {
+      height: 10px;
+      width: 10px;
+      border-radius: 5px;
+      border-radius: ;
+      background: red;
+      position: absolute;
+      
+      top:0;
+      left: 0;
+    }
+    svg {
+      border:dashed 2px blueviolet;
+    }
+    input{
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <section id='section'>
+    <svg style="width: 100%; height: 500px;"></svg><br>
+    线条颜色:&nbsp;<input type="color" id="colorinput"> 
+    &nbsp;&nbsp;&nbsp;
+    形状: <button onclick=" tool='line' ">—</button> <button onclick=" tool='circle' " >O</button>
+    线条粗细:&nbsp;<input type="range" id="widthrange" min="1" max="8" value="3">
+  </section>
+
+  <script>
+    var svg = document.querySelector('svg')
+    // var lastpos = null
+    var tool='line'
+
+    document.addEventListener('mousedown', function(e) {
+      if(tool == 'line'){
+        console.log(e)
+        var pos = mousePos(svg)
+        // var g = document.createElementNS("http://www.w3.org/2000/svg",'g') 
+        // svg.append(g)
+        var polyline = document.createElementNS("http://www.w3.org/2000/svg",'polyline')
+  
+        polyline.setAttribute('stroke', colorinput.value)
+        polyline.setAttribute('stroke-width', widthrange.value)
+        polyline.setAttribute('stroke-linecap', 'round')
+        polyline.setAttribute('stroke-linejoin', 'round') //折线
+        polyline.setAttribute('fill', 'none')
+  
+        svg.append(polyline)
+        var points = `${pos.x},${pos.y} `
+        polyline.setAttribute('points', points)
+        
+        function drawDot(e) {
+          var pos = mousePos(svg)
+          var line = document.createElementNS("http://www.w3.org/2000/svg",'line')  //svg line标签
+          points += `${pos.x},${pos.y} `
+          polyline.setAttribute('points', points)
+  
+          // if(lastpos == null) {
+          //   line.setAttribute('x2', pos.x)
+          //   line.setAttribute('y2', pos.y)
+          // }else {
+          //   line.setAttribute('x2', lastpos.x)
+          //   line.setAttribute('y2', lastpos.y)
+          // }
+          // line.setAttribute('x1', pos.x)
+          // line.setAttribute('y1', pos.y)
+          // line.setAttribute('stroke', colorinput.value)
+          // line.setAttribute('stroke-width', widthrange.value)
+          // line.setAttribute('stroke-linecap', 'round')
+          // line.setAttribute('stroke-linejoin', 'round')
+          
+          
+          // lastpos = pos
+          // g.append(line)
+        }
+        document.addEventListener('mousemove', drawDot)
+        
+        document.addEventListener('mouseup', function once() {
+          // lastpos = null
+          // document.removeEventListener('mousemove', once)
+          document.removeEventListener('mousemove', drawDot)
+        })
+      }
+      if(tool == 'circle') {
+        
+        var ellipse = document.createElementNS("http://www.w3.org/2000/svg",'ellipse')
+        // var ellipse = document.createElementNs("http://www.w3.org/2000/svg",'ellipse')
+        svg.append(ellipse)
+
+        ellipse.setAttribute('stroke', colorinput.value)
+        ellipse.setAttribute('stroke-width', widthrange.value)
+        ellipse.setAttribute('fill', 'none')
+
+        var startpos = mousePos(svg)
+        function drawEllipse(node) {
+          var curpos = mousePos(svg)
+          var cx = (startpos.x + curpos.x) / 2
+          var cy = (startpos.y + curpos.y) / 2
+          ellipse.setAttribute('cx', cx)
+          ellipse.setAttribute('cy', cy)
+          
+          var rx = Math.abs(startpos.x - curpos.x) / 2
+          var ry = Math.abs(startpos.y - curpos.y) / 2
+          ellipse.setAttribute('rx', rx)
+          ellipse.setAttribute('ry', ry)
+
+        }
+        document.addEventListener('mousemove', drawEllipse)
+        
+        document.addEventListener('mouseup', function once() {
+          // lastpos = null
+          // document.removeEventListener('mousemove', once)
+          document.removeEventListener('mousemove', drawEllipse)
+        })
+      }
+    })
+    function mousePos(node) { //该函数只能在事件函数在运行的时候调用
+      var box = node.getBoundingClientRect()
+      
+      return {
+        x: window.event.clientX - box.x,
+        y: window.event.clientY - box.y,
+      }
+    }
+    
+    document.addEventListener('keydown', function(e) {
+      if(e.key == 'z' && e.ctrlKey && svg.lastElementChild) {
+        svg.removeChild(svg.lastElementChild)
+      }
+    })
+    
+    let span = document.createElement('span')
+    section.appendChild(span)
+    span.innerHTML = widthrange.value
+    widthrange.addEventListener('input', function() {
+      span.innerHTML = widthrange.value
+    })
+
+        
+        // 问题
+        // widthrange.addEventListener('mousedown', function(e){
+        //   console.log('aksdj')
+        //   let span = document.createElement('span')
+        
+        //   span.innerHTML = widthrange.value
+        //   section.appendChild(span)
+        
+        //   widthrange.addEventListener('mouseup', function(){
+        //     section.removeChild(span)
+        //     console.log(section.children.length - 1)
+        //   })
+        // })
+            
+            
+            // document.addEventListener('mousedown', function(e) {
+              
+            //   document.addEventListener('mousemove',  draw = function (e) {
+            //     console.log(e)
+            
+            //     var dot = document.createElement('div')
+            //     // dot.className = 'dot'
+            //     dot.classList.add('dot')
+            
+            //     // dot.style.left = (e.pageX - 5) + 'px'
+            //     // dot.style.top = (e.pageY - 5) + 'px'
+            //     dot.style.transform = `translate(${e.pageX - 5}px, ${e.pageY - 5}px)`
+            
+            //     document.body.append(dot)
+            //   })
+              
+            //   document.addEventListener('mouseup', function once(e) {
+            //     document.removeEventListener('mousemove', once)
+            //     document.removeEventListener('mousemove', draw)
+            //   })
+            // })
+                  
+  </script>
+</body>
+</html>

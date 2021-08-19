@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .dragable {
+      position: fixed;
+      width: 50px;
+      height: 50px;
+    }
+  </style>
+</head>
+<body>
+  <div class="dragable" style='left:20px;top:20px;background-color: blueviolet;'></div>
+  <div class="dragable" style='left:30px;top:20px;background-color: rgb(165, 34, 40);'></div>
+  <div class="dragable" style='left:50px;top:20px;background-color: rgb(33, 194, 105);'></div>
+
+  <script>  // 选中了不存在的匿名文本
+    //let dragable = document.querySelector('div.dragable')
+   let maxindex =  3
+    document.addEventListener('mousedown', function(e) {
+      if(!e.target.classList.contains('dragable')){  //事件代理，只绑定一个事件，可以修改增减元素
+        return 
+      }
+      console.dir(e)
+     let dragable = e.target
+      dragable.style.zIndex = maxindex++
+      console.dir(dragable)
+      
+      console.log(e)
+     let startx = e.clientX  // 初始时，鼠标在屏幕上的位置
+     let starty = e.clientY
+
+     let elementStartx = parseFloat(dragable.style.left) // 初始时，元素的位置
+     let elementStarty = parseFloat(dragable.style.top)
+
+      window.addEventListener('mousemove', function move(eve) {  // 事件参数，相同，导致，内部不能选择前面的问题
+        if(eve.which === 0 || eve.buttons === 0){
+          window.removeEventListener('mousemove', move)
+          console.log('mousemove')
+          return 
+        }
+       let curx = eve.clientX // 当前时刻，鼠标在屏幕上的位置
+       let cury = eve.clientY
+       let dx = curx - startx
+       let dy = cury - starty
+
+        // startx = curx
+        // // startx = cury
+        // starty = cury
+        //let left = parseFloat(dragable.style.left)  + dx 
+        // if(left < 0) {
+        //   left = 0
+        // }
+        //let top = parseFloat(dragable.style.top) + dy 
+        // if(top < 0) top = 0
+        // dragable.style.left = left + 'px'
+        // dragable.style.top = top + 'px'
+        
+        console.log(parseFloat(dragable.style.left) + dx + 'px')
+
+       let left = elementStartx + dx
+       let top = elementStarty + dy
+        left = Math.max(left, 0)
+        top = Math.min(top, window.innerWidth - dragable.offsetWidth)
+        // if(left < 100) {left = 0} // 磁吸效果
+        // if(left < 0)  left = 0
+        // if(left > window.innerWidth - dragable.offsetWidth) 
+        //   left = window.innerWidth - dragable.offsetWidth
+        if(left > window.innerWidth - dragable.offsetHeight - 100) 
+          left = window.innerWidth - dragable.offsetHeight
+        if(top < 0) top = 0
+        dragable.style.left = left + 'px'
+        dragable.style.top = top + 'px'
+        
+      })
+        
+    })
+  </script>
+</body>
+</html>

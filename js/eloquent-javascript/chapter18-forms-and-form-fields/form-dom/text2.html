@@ -1,0 +1,15 @@
+<input type="text" name="text1"> length : <span id="length1">0</span>
+<br>
+<input type="text" name="text2"> length : <span id="length2">0</span>
+  <script>
+    var text1 = document.querySelector("input[name='text1']");
+    var text2 = document.querySelector("input[name='text2']");
+    var output1 = document.querySelector("#length1");
+    var output2 = document.querySelector("#length2");
+    text1.addEventListener("change", function () {
+      output1.textContent = text1.value.length;
+    });
+    text2.addEventListener("input", function () {
+      output2.textContent = text2.value.length;
+    });
+  </script>
