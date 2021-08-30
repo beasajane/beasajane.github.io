@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,43 +14,58 @@
       border-radius: ;
       background: red;
       position: absolute;
-      
-      top:0;
+
+      top: 0;
       left: 0;
     }
+
     svg {
-      border:dashed 2px blueviolet;
+      border: dashed 2px blueviolet;
     }
-    input{
+
+    input {
       margin-left: 10px;
     }
   </style>
 </head>
+
 <body>
+  <div id="svgContainer">
+    <svg style="width: 800px; height: 500px;" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ></svg>
+  </div>
+  <br>
   <section id='section'>
-    <svg style="width: 100%; height: 500px;"></svg><br>
-    线条颜色:&nbsp;<input type="color" id="color"> 
+    <button onclick="save()">保存</button>
+    <button onclick="openfile()">打开</button>
+    <!-- accept='.svg'  只能选svg文件 -->
+    <input type="file" accept=".svg" id="fileInput" hidden>
+    <!-- <svg style="width: 800px; height: 500px;" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ></svg><br> -->
+    线条颜色:&nbsp;<input type="color" id="color">
     &nbsp;&nbsp;&nbsp;
     线条粗细:&nbsp;<input type="range" id="widthrange" min="1" max="8" value="3">
   </section>
 
   <script>
-    var svg = document.querySelector('svg')
-    var lastpos = null
+    let svg = document.querySelector('svg') // 用let声明的全局变量，不是window的属性
+    let lastpos = null
 
-
+    
     let bihua = 0
-    document.addEventListener('mousedown', function(e) {
-      
+    svgContainer.addEventListener('mousedown', function (e) {
+      console.log(e.target)
+      if(!svg.contains(e.target)) { // svg里面不包含事件的目标元素
+        return 
+      }
+      drawandnosave = true
       // console.log(e)
       function drawDot(e) {
-        var pos = mousePos(svg)
+        let pos = mousePos(svg)
         // console.log(e)
-        var line = document.createElementNS("http://www.w3.org/2000/svg",'line')  //svg line标签
-        if(lastpos == null) {
+        let line = document.createElementNS("http://www.w3.org/2000/svg", 'line')  //svg line标签
+        if (lastpos == null) {
           line.setAttribute('x2', pos.x)
           line.setAttribute('y2', pos.y)
-        }else {
+        } else {
           line.setAttribute('x2', lastpos.x)
           line.setAttribute('y2', lastpos.y)
         }
@@ -58,15 +74,15 @@
         line.setAttribute('stroke', color.value)
         line.setAttribute('stroke-width', widthrange.value)
         line.setAttribute('stroke-linecap', 'round')
-        
+
         line.setAttribute('data-bihua', bihua)
-        
+
         lastpos = pos
         svg.append(line)
       }
       bihua++
       document.addEventListener('mousemove', drawDot)
-      
+
       document.addEventListener('mouseup', function once() {
         lastpos = null
         // document.removeEventListener('mousemove', once)
@@ -74,22 +90,22 @@
       })
     })
     function mousePos(node) { //该函数只能在事件函数在运行的时候调用
-      var box = node.getBoundingClientRect()
-      
+      let box = node.getBoundingClientRect()
+
       return {
         x: window.event.clientX - box.x,
         y: window.event.clientY - box.y,
       }
     }
-    
-    document.addEventListener('keydown', function(e) {
+
+    document.addEventListener('keydown', function (e) {
       // if(e.key == 'z' && e.ctrlKey && svg.lastElementChild) {
       //   svg.removeChild(svg.lastElementChild)
       // }
-      if(e.key == 'z' && e.ctrlKey ) {
-        if(svg.lastElementChild) {
+      if (e.key == 'z' && e.ctrlKey) {
+        if (svg.lastElementChild) {
           let bihua = svg.lastElementChild.dataset.bihua //得到data-bihua的值
-          while(svg.lastElementChild && svg.lastElementChild.dataset.bihua == bihua){
+          while (svg.lastElementChild && svg.lastElementChild.dataset.bihua == bihua) {
             svg.removeChild(svg.lastElementChild)
           }
         }
@@ -97,55 +113,95 @@
       // if(e.key == 'z' && e.ctrlKey) {
       //   svg.lastElementChild && svg.removeChild(svg.lastElementChild)  // 短路特性
       // }
-          
+
     })
-    
+
     let span = document.createElement('span')
     section.appendChild(span)
     span.innerHTML = widthrange.value
-    widthrange.addEventListener('input', function() {
+    widthrange.addEventListener('input', function () {
       span.innerHTML = widthrange.value
     })
 
-        
-        // 问题
-        // widthrange.addEventListener('mousedown', function(e){
-          //   console.log('aksdj')
-          //   let span = document.createElement('span')
-          
-          //   span.innerHTML = widthrange.value
-          //   section.appendChild(span)
-          
-          //   widthrange.addEventListener('mouseup', function(){
-            //      section.removeChild(span)
-            //     console.log(section.children.length - 1)
-            //   })
-            // })
-            
-            
-            // document.addEventListener('mousedown', function(e) {
-              
-              //   document.addEventListener('mousemove',  draw = function (e) {
-                //     console.log(e)
-                
-                //     var dot = document.createElement('div')
-                //     // dot.className = 'dot'
-                //     dot.classList.add('dot')
-                
-                //     // dot.style.left = (e.pageX - 5) + 'px'
-                //     // dot.style.top = (e.pageY - 5) + 'px'
-                //     dot.style.transform = `translate(${e.pageX - 5}px, ${e.pageY - 5}px)`
-                
-                //     document.body.append(dot)
-                //   })
-                
-                //   document.addEventListener('mouseup', function once(e) {
-                  //     document.removeEventListener('mousemove', once)
-                  //     document.removeEventListener('mousemove', draw)
-                  //   })
-                  // })
-                  
-                  //d3.js 里的一个函数
+
+    // 问题
+      // widthrange.addEventListener('mousedown', function (e) {
+      //   console.log('aksdj')
+      //   let span = document.createElement('span')
+
+      //   span.innerHTML = widthrange.value
+      //   section.appendChild(span)
+
+      //   widthrange.addEventListener('mouseup', function () {
+      //     section.removeChild(span)
+      //     console.log(section.children.length - 1)
+      //   })
+      // })
+
+
+      // document.addEventListener('mousedown', function (e) {
+
+      //   document.addEventListener('mousemove', draw = function (e) {
+      //     console.log(e)
+
+      //     let dot = document.createElement('div')
+      //     // dot.className = 'dot'
+      //     dot.classList.add('dot')
+
+      //     // dot.style.left = (e.pageX - 5) + 'px'
+      //     // dot.style.top = (e.pageY - 5) + 'px'
+      //     dot.style.transform = `translate(${e.pageX - 5}px, ${e.pageY - 5}px)`
+
+      //     document.body.append(dot)
+      //   })
+
+      //   document.addEventListener('mouseup', function once(e) {
+      //     document.removeEventListener('mousemove', once)
+      //     document.removeEventListener('mousemove', draw)
+      //   })
+      // })
+
+      // d3.js 里的一个函数
+      let drawandnosave = false
+       window.addEventListener('beforeunload', e => {
+         if(drawandnosave) {
+           return e.returnValue = '还未保存，是否退出？'
+         }
+       })
+
+      function save() {
+        drawandnosave = false
+        let svgSource = svg.outerHTML
+        let blob = new Blob(['<?xml version="1.0" encoding="UTF-8"?>' + svgSource], {type: 'image/xml+svg'}) // svg的媒体类型
+        let url = URL.createObjectURL(blob) //<?xml version="1.0" encoding="UTF-8"?>  xml的文档类型声明，不需要也可以
+        let anchor = document.createElement('a')
+        anchor.href = url
+        anchor.download = 'xxx.svg' // a标签
+        anchor.click() // 调用click方法，模拟anchor 的click事件被点击一次
+        // el.focus()   el.blur()
+      }
+
+    function openfile() {
+      if(drawandnosave) {
+        let answer = confirm('当前绘画为保存， 确定要打开新文件？')
+        if (answer == false) {
+          return 
+        }
+      }
+      fileInput.click() // 必须要有用户的交互，才能打开文件，如点击
+    }
+    fileInput.addEventListener('change', function(){
+      let svgFile = fileInput.files[0]
+      let reader = new FileReader()
+      reader.addEventListener('load', () => {// 给文件读取器的load事件添加处理器（函数）
+        let svgFileContent = reader.result // 获得文件的文本内容
+        svgContainer.innerHTML = svgFileContent 
+        // window.svg = svgContainer.querySelector('svg') // 全局的svg 换为新的svg  // 用let声明的全局变量不是window的属性
+        svg = svgContainer.querySelector('svg') // 全局的svg 换为新的svg  // 用let声明的全局变量不是window的属性
+      })
+      reader.readAsText(svgFile) // 以文本方式读取文件内容
+    })
   </script>
 </body>
+
 </html>

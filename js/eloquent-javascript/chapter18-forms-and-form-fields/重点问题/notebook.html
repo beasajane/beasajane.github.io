@@ -1,0 +1,30 @@
+<textarea id="codeInput" cols="30" rows="10">
+  var a = 1
+  var b = 2
+  var c = 0
+
+  console.log(a)
+  console.log(b)
+
+  c = a * b
+</textarea>
+<pre id="resultShow"></pre>
+<button onclick="run()">run</button>
+<script>
+  function run() {
+    resultShow.textContent = ''
+    var console = {
+      log: function(...args) {
+        window.console.log(...args)
+        resultShow.textContent += args.join(' ') + '\n'
+      }
+    }
+    
+    var code = codeInput.value
+    var result = '=> ' + eval(code)  // 将代码放在作用域中运行，导致下面问题
+    // -- window.document.body.innerHTML = ''  破坏整个页面（或机器）
+    // 还原精灵
+    resultShow.textContent += result
+    // 能够运行一段程序的另一段程序，可以叫做虚拟机
+  }
+</script>

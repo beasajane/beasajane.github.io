@@ -1,0 +1,7 @@
+<script>
+  var primeWorker1 = new Worker('prime.js')
+  var deepClone = new Worker('a.js')
+  // addEventListener('message', e => console.log(e.data))
+  var clone = primeWorker1.postMessage(obj = {x:1, y:2})  // 展开之后为最新值
+  deepClone.postMessage(obj = {x:1, y:2})  // 展开之后为最新值
+</script>

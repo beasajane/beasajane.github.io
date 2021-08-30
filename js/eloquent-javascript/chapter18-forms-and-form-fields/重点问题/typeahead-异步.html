@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input type="text">
+  <ul></ul>
+  <script>
+    var input = document.querySelector('input')
+    var ul = document.querySelector('ul')
+    var currentShowTime = 0//当前展示的联想内容的发起时间
+
+    input.addEventListener(
+      'input', 
+      debounce( e => {
+        var startTime = Date.now() // 记录开始请求数据（联想词）的时间
+
+        // 发起请求
+        getSuggest(e.target.value, (suggests) => {
+          if(currentShowTime > startTime) {  // 为防止，后请求的数据先展示，而先请求的数据后展示问题
+            return // 一旦出现应该后展示的数据先出现，那么应当先展示的数据收到时，将不会再展示出来
+          }
+          currentShowTime = startTime
+          ul.innerHTML = ''
+          suggests.forEach(suggest => {  // 参数，字符串组成的数组
+            var li = document.createElement('li')
+            li.textContent = suggest
+            ul.append(li)
+          })
+        })
+      }, 200)
+    )
+
+    function getSuggest2(word, callbak) {
+      console.log('start get suggests')
+      var suggests = Array(10).fill(0).map((a,i) => {
+        return word + i
+      })
+      setTimeout(() => {
+        callbak(suggests)
+      }, 1000 + 2000 * Math.random());
+    }
+
+     //2021-08-19 09-05-20-问题讲解
+     //面试重点 ijax
+     // 异步问题 最难，最重要的
+    function getSuggest(word, callback) { //
+      var xhr = new XMLHttpRequest()  // 发一个请求
+      xhr.open('get', `https://www.baidu.com/sugrec?pre=1&p=3&ie=utf-8&json=1&prod=pc&from=pc_web&sugsid=34399,31660,34404,33848,34450,34072,34092,34106,26350,34471&wd=${word}&req=2&csor=3&pwd=fo&_=1629798081516`)
+      // get(url,callback)
+      xhr.addEventListener('load', function(e) { // onload 接口
+        // callback(xhr.responseText)
+        callback(  JSON.parse(xhr.responseText).g.map(it => it.q)  ) //suggests  回调函数的参数，字符串组成的数组
+      }) // xhr.responseText => 字符串  
+      // JSON.parse(xhr.responseText)  = {"q":"word","p":false,"g":[{"type":"sug","sa":"s_1","q":"word文档"},{"type":"sug","sa":"s_2","q":"word怎么删除空白页"},{"type":"sug","sa":"s_3","q":"word文档打字时会消掉后面字"},{"type":"sug","sa":"s_4","q":"word怎么画一条横线"},{"type":"sug","sa":"s_5","q":"word是什么意思"},{"type":"sug","sa":"s_6","q":"word文档怎么排版"},{"type":"sug","sa":"s_7","q":"word转pdf"},{"type":"sug","sa":"s_8","q":"word很大你忍一下什么梗"},{"type":"sug","sa":"s_9","q":"word怎么做表格"},{"type":"sug","sa":"s_10","q":"word怎么读"}],"slid":"9731363460461750272","queryid":"0x181bf822109e800"}
+      xhr.send()
+    }
+    function get(url , callback) {  // 该函数从网上读数据 ， Filereader在内存中读数据
+      var xhr = new XMLHttpRequest()  // 发一个请求
+      // get(url,callback)
+      xhr.addEventListener('load', function(e) { // onload 接口
+        // callback(xhr.responseText)
+        callback( JSON.parse(xhr.responseText) )
+      })
+
+      xhr.open('get', url)
+      xhr.send()
+    }
+    // https://www.baidu.com/sugrec?pre=1&p=3&ie=utf-8&json=1&prod=pc&from=pc_web&sugsid=34399,31660,34404,33848,34450,34072,34092,34106,26350,34471&wd=great
+    // https://www.baidu.com/sugrec?pre=1&p=3&ie=utf-8&json=1&prod=pc&from=pc_web&sugsid=34399,31660,34404,33848,34450,34072,34092,34106,26350,34471&wd=great&req=2&csor=3&pwd=fo&_=1629798081516
+    // https://www.baidu.com/sugrec?pre=1&p=3&ie=utf-8&json=1&prod=pc&from=pc_web&sugsid=34399,31660,34404,33848,34450,34072,34092,34106,26350,34471&wd=great&req=2&csor=3&pwd=fo&cb=jQuery1102012364965434539177_1629798081513&_=1629798081516
+
+    function debounce(f, duration) {
+      var id
+      var latestArgs
+      var latestThis
+      return function(...args) {
+        latestArgs = args
+        latestThis = this
+        clearTimeout(id)
+        id = setTimeout(() => {
+          f.call(latestThis, ...latestArgs)
+        }, duration)
+      }
+    }
+
+
+    // 异步 执行   跟内存以外的数据进行操作都是这种形式（异步）（事件也是异步），，，  直接拿到数据（数据直接拿到，在内存中）可以直接返回（同步）
+    function getFileContent(f, file) {
+      var reader = new FileReader()
+
+      reader.addEventListener('load', () => { // 类似稍后执行的，就无法执行同步
+        f( reader.result )
+      })
+
+      reader.readAsText(file) // 作用是让浏览器在另一个线程开始读取一个文件的操作，读取需要时间
+    }
+    // getFileContent( function f(content) { // 文件名可以拿到，但文件路径可以拿到
+
+    // }, input.files[0]) // input.files[0]  该文件多久读完（文件读取的时间），就多久调用f函数，同时将文件内容传给该函数
+    // setTimeout(() => { }, timeout) // 间隔固定的时间，调用函数
+    // setInterval(() => { }, interval);
+    // getSuggest(function() {}, 'word')
+
+  </script>
+</body>
+</html>

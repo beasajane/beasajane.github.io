@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div>
+    <div data-time="Home">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolor corporis provident placeat beatae qui, quisquam nam dignissimos recusandae, quibusdam odio, ipsa tenetur reprehenderit! Laudantium beatae fugiat, veritatis asperiores laboriosam eius.</div>
+    <div data-time="Link">Quisquam saepe obcaecati totam tempora consectetur nisi provident dolor doloribus at libero dolorem iusto recusandae optio alias fugiat, dignissimos molestiae assumenda ea quibusdam explicabo. Cum non ad sequi ipsum a?</div>
+    <div data-time="About">Alias nostrum, error perspiciatis excepturi similique expedita, voluptate repudiandae corrupti saepe asperiores quis molestias commodi reprehenderit delectus? Corrupti, quidem nostrum? Perferendis quasi ab ducimus illum nostrum modi sed, libero tenetur?</div>
+  </div>
+  <div>
+    <div data-time="H">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolor corporis provident placeat beatae qui, quisquam nam dignissimos recusandae, quibusdam odio, ipsa tenetur reprehenderit! Laudantium beatae fugiat, veritatis asperiores laboriosam eius.</div>
+    <div data-time="L">Quisquam saepe obcaecati totam tempora consectetur nisi provident dolor doloribus at libero dolorem iusto recusandae optio alias fugiat, dignissimos molestiae assumenda ea quibusdam explicabo. Cum non ad sequi ipsum a?</div>
+    <div data-time="A">Alias nostrum, error perspiciatis excepturi similique expedita, voluptate repudiandae corrupti saepe asperiores quis molestias commodi reprehenderit delectus? Corrupti, quidem nostrum? Perferendis quasi ab ducimus illum nostrum modi sed, libero tenetur?</div>
+  </div>
+  <script>
+    function asTabs(node) {
+      let children = Array.from(node.children).reverse()
+      let buttons = []
+
+      for(let child of children) {
+        let button = document.createElement('button')
+        buttons.push(button)
+
+        button.textContent = child.dataset.time
+        child.style.display = 'none'
+
+        button.addEventListener('click', function(e) {
+          children.forEach(it => it.style.display = 'none')
+          child.style.display = 'block'
+          // button.classList.add('active')
+          buttons.forEach(it => it.style.backgroundColor = '')
+          button.style.backgroundColor = 'red'
+        })
+        // node.append(button)
+        node.prepend(button)
+      }
+      // buttons[2].click()
+      node.firstElementChild.click()
+    }
+    asTabs(document.querySelector('body > div'))
+    asTabs(document.querySelectorAll('body > div')[1])
+  </script>
+</body>
+</html>

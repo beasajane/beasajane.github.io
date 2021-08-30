@@ -1,0 +1,178 @@
+<body>
+  行：
+  <select name="" id="rowCount">
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+  </select>
+  列：
+  <select name="" id="colCount">
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+  </select>
+  图片：
+  <select name="" id="imgSelect">
+    <option value="https://travel.12306.cn/imgs/resources/uploadfiles/images/fcd7173f-7651-46e7-a126-bdc199e1f6f7_product_W572_H370.jpg">图1</option>
+    <option value="https://travel.12306.cn/imgs/resources/uploadfiles/images/8b36f9a7-f780-4e71-b719-9300109a9ff2_product_W572_H370.jpg">图2</option>
+    <option value="https://travel.12306.cn/imgs/resources/uploadfiles/images/c7c03732-3c86-4308-aea7-df747d4999e8_product_W572_H370.jpg">图3</option>
+  </select>
+  <button onclick="start()">Start</button>
+  <div id='gameWorld'>
+  </div>
+  <style>
+    #gameWorld {
+      width: 300px;
+      height: 400px;
+    }
+    #gameWorld span{ 
+      float: left;
+      font-size: 50px;
+      color: black;
+      text-align: center;
+      text-shadow: 1px 1px 3px red;
+    }
+  </style>
+</body>
+<script>
+  class Game {
+    constructor(width = 3, height = 3) {
+      this.width = width
+      this.height = height
+      this.world = Array(height).fill(0).map(it => Array(width).fill(0))
+      this.init()
+      console.log(this)
+    }
+    random() { // 随即调用up down left right
+      var directions = ['up', 'down', 'left', 'right']
+
+      for(var i = 0; i < 100000; i++) {
+        var idx = Math.random() * 4 | 0
+        var direction = directions[idx]
+        this[direction]() // 两种方式读取对象的属性值
+      }
+    }
+    init() {
+      let i = 0
+      for(var row = 0; row < this.height; row++) {
+        for(var col = 0; col < this.height; col++) {
+          this.world[row][col] = i++
+        }
+      }
+      this.world[row - 1][col - 1] = -1
+      this.emptyRow = row - 1 // 空位置的行
+      this.emptyCol = col - 1 // 空位置的列
+    }
+
+    isInRange(row, col) {
+      if(row < 0 || col < 0) {
+        return false 
+      }
+      if(row >= this.height || col >= this.width) {
+        return false 
+      }
+      return true 
+    }
+    // 检查游戏是否结束
+    check() {
+
+    }
+    move(row, col) {
+      if(this.isInRange(row, col)) {
+        // debugger
+        this.world[this.emptyRow][this.emptyCol] = this.world[row][col]
+        this.world[row][col] = -1
+        this.emptyRow = row
+        this.emptyCol = col
+
+        this.check()
+      }
+    }
+
+    up() {
+      // 即将移动的元素的位置
+      var moveRow = this.emptyRow + 1 // 
+      var moveCol = this.emptyCol
+
+      this.move(moveRow, moveCol)
+    }
+    down() {
+      // 即将移动的元素的位置
+      var moveRow = this.emptyRow - 1 // 
+      var moveCol = this.emptyCol 
+
+      this.move(moveRow, moveCol)
+    }
+    left() {
+      // 即将移动的元素的位置
+      var moveRow = this.emptyRow
+      var moveCol = this.emptyCol + 1  // 
+
+      this.move(moveRow, moveCol)
+    }
+    right() {
+      // 即将移动的元素的位置
+      var moveRow = this.emptyRow 
+      var moveCol = this.emptyCol - 1  // 
+
+      this.move(moveRow, moveCol)
+    }
+    print() {
+      console.log(this.toString())
+    }
+    toString() {
+      return this.world.map(row => {
+        return row.map(it => {
+          if(it == -1) {
+            return ' '
+          } else {
+            return it
+          }
+        }).join('')
+      }).join('\n')
+    }
+  }
+  function start() {
+    var width = colCount.value - 0
+    var height = rowCount.value - 0
+    var game = new Game(width, height)
+
+    game.random()
+
+    renderGame(game)
+    document.addEventListener('keydown', e => {
+      if(e.key.startsWith('Arrow')) {
+        var direction = e.key.slice(5).toLowerCase()
+        game[direction]()
+        renderGame(game)
+      }
+    })
+  }
+  function renderGame(game) {
+    gameWorld.textContent = '' // 清空
+    for(var row = 0; row < game.world.length; row++) {
+      for(var col = 0; col < game.world[row].length; col++) {
+        var num = game.world[row][col]
+        var x = num % game.width// 水平偏移
+        var y = Math.floor(num / game.height) // 垂直偏移
+
+        var width = 300 / game.width
+        var height = 400 / game.height
+
+        var span = document.createElement('span')
+        span.textContent = num
+        span.style = `
+          width: ${width}px;
+          height: ${height}px;
+          background-size: 300px 400px;
+          background-image: url(${imgSelect.value});
+          background-position: -${x * width}px -${y * height}px;
+        `
+        if(num == -1) {
+          span.style.background = ''
+        }
+        gameWorld.append(span)
+      }
+    }
+  }
+</script>

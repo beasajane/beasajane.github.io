@@ -1,4 +1,81 @@
-Notes : <select id="list"></select>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  Notes: <select id="notesList"></select>
+  <button onclick="newNote()">new</button>
+  <br>
+  <textarea id="currentnote" cols="30" rows="10"></textarea>
+  <script>
+    var list = document.querySelector('#notesList')
+
+    var notes = JSON.parse(localStorage.getItem("notes")) || {'shopping list': ''} // 当页面加载时， 从localStorage（内存）中解析出js对象，如果undefined（未存储内容），则，notes 对象为初始值
+
+    for(var name in notes) { // 遍历所有的notes属性 
+      if(notes.hasOwnProperty(name))
+      addToListItem(name) // notes自己的属性，就添加到notes的select中
+    }
+
+    function addToListItem(name) { // 将每一个notes的名添加到select中
+      let option = document.createElement('option')
+      option.textContent = name
+      list.appendChild(option)
+    }
+    
+    // 给localStorage添加notes属性，将当前页面所有的记录转化为json格式存到notes属性的属性值中。
+    function saveToStorage() {
+      localStorage.setItem('notes', JSON.stringify(notes))
+    }
+
+    var current = document.querySelector('#currentnote') // 当前的日记内容所在的areatext标签
+    current.value = notes[list.value]  // 当前的标签内容 为notes[select中当前选中的option的值]
+    list.addEventListener('change', function() {
+      current.value = notes[list.value]
+    })
+    
+    current.addEventListener('change', function() {
+      notes[list.value] = current.value
+      saveToStorage() // 内容每改变一次，就将notes在localStorage保存一次
+    })
+
+    function newNote() { // 新建一个note
+      var name = prompt("Please input note's name")
+      if(!name) return 
+      if(!notes.hasOwnProperty(name)) {
+        // 给notes添加新的属性
+        notes[name] = ''
+        addToListItem(name) 
+        saveToStorage()
+      }
+      list.value = name 
+      current.value = notes[name]
+    }
+
+
+    // 当localStorage由本网站的其他页面修改时，触发，（自己修改不触发）
+    window.addEventListener('storage', e => {
+      console.log('localStorage 被其他页面改变了')
+      notes = JSON.parse(localStorage.getItem('notes'))
+
+      list.innerHTML = ''
+      for(var name in notes) {
+        if(notes.hasOwnProperty(name)) {
+          addToListItem(name)
+        }
+      }
+
+      current.value = notes[list.name]
+    })
+    </script>
+</body>
+</html>
+<!-- Notes : <select id="list"></select>
   <button onclick="addNote()">new </button><br>
     <textarea id="currentnote" style="width: 100%; height : 10 em">
   </textarea >
@@ -18,6 +95,7 @@ Notes : <select id="list"></select>
     function saveToStorage() {
       localStorage.setItem("notes", JSON.stringify(notes));
     }
+
     var current = document.querySelector("#currentnote");
     current.value = notes[list.value];
     list.addEventListener("change", function () {
@@ -38,4 +116,4 @@ Notes : <select id="list"></select>
       list.value = name;
       current.value = notes[name];
     }
-  </script >
+  </script> -->

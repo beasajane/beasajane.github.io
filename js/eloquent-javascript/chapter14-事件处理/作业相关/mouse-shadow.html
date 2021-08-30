@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    span.mouse-shadow {
+      width: 1px;
+      height: 1px;
+      border-radius: 50%;
+      background-color: #923843;
+      position: fixed;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    // let i = 0
+    addEventListener('mousemove', e => {
+      // i++
+      // if( i % 2) {
+      //   return 
+      // }
+      console.log('m')
+      var span = document.createElement('span') 
+      span.classList.add('mouse-shadow')
+
+      span.style.left = e.clientX + 'px'
+      span.style.top = e.clientY + 'px'
+
+      document.body.append(span)
+
+      setTimeout(e => {
+        document.body.removeChild(span)
+      }, 16 * 8)
+    })
+
+
+  //   let x = -88888
+  //   let y = -88888
+  //   addEventListener('mousemove', e => { // 更新鼠标位置
+  //     x = e.clientX
+  //     y = e.clientY
+  //   })
+  //   var stack = []
+  //   function getSpan() {
+  //     if( stack.length) {
+  //       return stack.pop()
+  //     } else {
+  //       return document.createElement('span')
+  //     }
+  //   }
+  // requestAnimationFrame(function ani() {
+  //   // var span = document.createElement('span') 
+  //   var span = getSpan() 
+  //   span.classList.add('mouse-shadow')
+
+  //   span.style.left = x + 'px'
+  //   span.style.top = y + 'px'
+
+  //   document.body.append(span)
+
+  //   setTimeout(() => {
+  //     document.body.removeChild(span)
+  //     stack.push(span)
+  //   }, 128)
+
+  //   requestAnimationFrame(ani)
+  // })
+  </script>
+</body>
+</html>

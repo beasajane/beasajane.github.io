@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>对象，带环问题</title>
+</head>
+<body>
+  <script>
+    function cloneDeep(obj, map = new Map()) { // 常见的对象
+      if(map.has(obj)) { // 如果obj已经被复制
+        return map.get(obj) // 直接返回它的复制
+      }
+      
+      var result = {}// 复制，建立它的复制
+      map.set(obj, result) // 设置映射，防止重复估值
+      for(var key in obj) {
+        var val = obj[key]
+        if(val && typeof val === 'object') {
+          result[key] = cloneDeep(val, map)
+        } else {
+          result[key] = val
+        }
+      }
+      return result
+    }
+    obj = {a: 1, b: 2, c: obj}
+    obj.c = obj
+    //环
+    // function cloneDeep() {
+    //   var result = {}
+    //   for(var key in obj) {
+    //     var val = obj[key]
+    //     if(val && typeof val === 'object') {
+    //       result[key] = cloneDeep(val)
+    //     } else {
+    //       result[key] = val
+    //     }
+    //   }
+    //   return result
+    // }
+  </script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id='world'></div>
+  <button onclick="next()">next</button>
+  <button onclick="autoRun()">auto/stop</button>
+  <button onclick="clears()">clears</button>
+  <button onclick="toggleCircular()">切换边界</button>
+  <script>
+    time
+    class Conway {
+      constructor(width, height) {
+        this.width = width
+        this.height = height
+        this.world = new Array(width * height).fill(0) // 创建一个长宽大小的棋盘格
+        this.circular = false
+      }
+      randomFill(ratio) {  // 游戏的中被标记的位置所占总体的比例
+        for(var i = 0; i < this.world.length; i++) {
+          this.world[i] = Math.random() < ratio ? 1 : 0 // 为该位置细胞的状态赋值，1为活的，0为死的
+        }
+      }
+      setCircular(val = true) {
+        this.circular = val
+      }
+      get(row, col) { // 获取第row行，第col列的细胞
+        if(this.circular) {
+          if(row >= this.height) {
+            row = 0
+          }
+          if(row < 0) {
+            row = this.height - 1
+          }
+          if(col >= this.width) {
+            col = 0
+          }
+          if(col < 0) {
+            col = this.width - 1
+          }
+        }else {
+          if(row >= this.height || col >= this.width || col < 0 || row < 0) return 0
+        }
+        return this.world[this.width * row + col]
+      }
+      set(row, col, val) {// 给第row行，第col列的细胞赋值
+        // if(row > this.height || col > this.width){ return }
+        // if(col < 0 || row < 0){ return }
+        this.world[this.width * row + col] = val
+      }
+      //某行某列位置的细胞活着的邻居数量
+      getNeightbors(row, col) {
+        var count = 0
+        //数出 row， col为中心的九个格子中九个格子活细胞的数量
+        for(var r = row - 1; r <= row + 1; r++) {
+          for(var c = col - 1; c <= col + 1; c++) {
+            
+            if(row > this.height || col > this.width){ continue }
+            if(col < 0 || row < 0){ continue }
+            count += this.get(r, c)
+          }
+        }
+
+        return count - this.get(row, col)
+      }
+      next() {
+        var newWorld = new Array(this.height * this.width).fill(0)
+        for(var r = 0; r < this.width; r++) { // 第几行row
+          for(var c = 0; c < this.height; c++) { // 第几列col
+            // 首先判断该位置是活的还是死的细胞
+            var thisStatus = this.get(r, c)
+            // 再判断该位置周围有多少活的细胞
+            var liveNeightbors = this.getNeightbors(r, c)
+            
+            if(thisStatus == 1) { // 判断活细胞周围的邻居
+              if(liveNeightbors == 2 || liveNeightbors == 3 ) { // die
+                newWorld[r * this.width + c] = 1
+              }else { // live
+                newWorld[r * this.width + c] = 0
+              }
+            }else { // 判断死细胞周围的邻居
+              if(liveNeightbors == 3) { // live
+                newWorld[r * this.width + c] = 1
+              }else {// die
+                newWorld[r * this.width + c] = 0
+              }
+            }
+          }
+        }
+        this.world = newWorld
+      }
+      printWorldToHTML() {
+        var html = ''
+        for(var r = 0; r < this.height; r++) {
+          for(var c = 0; c < this.width; c++) {
+            html += this.get(r, c) ? `<input type="checkbox" data-row="${r}" data-col="${c}" checked>` : `<input type="checkbox" data-row=${r} data-col=${c}>`
+          }
+          html += '<br>' 
+        }
+        // console.log(html)
+        return html
+      }
+      // printWorld() {
+        //   var str = ''
+        //   for(var r = 0; r < this.height; r++) {
+        //     for(var c = 0; c < this.width; c++) {
+        //       str += this.get(r, c) ? 'O' : '.'
+        //     }
+        //     str += '\n'
+        //   }
+        //   console.log(str)
+        //   // return str
+        // }
+    }
+    var div = document.querySelector('#world')
+    c = new Conway(10,10)
+    // c.randomFill(0.3)
+    function next() {
+      c.next()
+      div.innerHTML=c.printWorldToHTML()
+    }
+    let running = false
+    let setIntervalId
+    function autoRun() {
+      console.log(this)
+      if(running){
+        running = false
+        // this.textContent = 'autoRun'
+        event.target.textContent = 'AutoRun'
+        clearInterval(setIntervalId)
+      }else {
+        running = true
+        // this.textContent = 'Stop'
+        event.target.textContent = 'Stop'
+        setIntervalId = setInterval(next, 500);
+      }
+      // setInterval(() => {
+      //   next()
+      // }, 500);
+    }
+
+    div.innerHTML = c.printWorldToHTML()
+    div.addEventListener('click', function(e) {
+      var target = e.target
+      var row = Number(target.dataset.row)
+      var col = Number(target.dataset.col)
+      c.set(row, col, target.checked ? 1 : 0)
+    })
+
+    function clears() {
+      console.log(1)
+      next()
+    }
+    function toggleCircular() {
+      // c.circular = !c.circular
+      c.setCircular(!c.circular)
+    }
+
+    // c.set(1,2,1)  
+    // c.set(2,2,1)
+    // c.set(3,2,1)
+    // c.printWorldToHTML()
+    // c.next()
+  </script>
+
+</body>
+</html>

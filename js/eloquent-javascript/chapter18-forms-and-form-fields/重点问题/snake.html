@@ -1,0 +1,157 @@
+<body>
+  <pre>
+
+  </pre>
+</body>
+<script>
+  class SnakeGame{
+    // [
+    //   [.,.,.,.,.,.,.,.,.,.,.]
+    //   [.,.,.,.,.,.,.,.,.,.,.]
+    //   [.,.,.,.,.,.,.,.,.,.,.]
+    //   [.,.,.,.,.,<,<,<,.,.,.]
+    //   [.,.,.,.,.,.,.,^,.,.,.]
+    //   [.,.,.,.,.,.,.,^,.,.,.]
+    //   [.,.,.,.,.,.,.,^,.,.,.]
+    //   [.,.,Q,.,.,.,>,^,.,.,.]
+    //   [.,.,.,.,.,.,.,.,.,.,.]
+    // ]
+    constructor(width = 10, height = 10) {
+      this.width = width
+      this.height = height
+      this.world = null
+
+      this.snakeLength = 0 // 蛇长
+      this.headpos = null // 蛇头，{x: 5， y: 8}，[5, 8]
+      this.tailpos = null // 蛇尾
+      this.isGameOver = false
+      this.init()
+    }
+
+    // 初始化蛇的位置
+    init() {
+      debugger
+      this.world = Array(this.height).fill('0').map(it => Array(this.width).fill('.'))
+      this.world[3][4] = '>'
+      this.snakeLength = 1
+
+      this.headpos = {row: 3, col: 4}
+      this.tailpos = {row: 3, col: 4}
+
+      this.placeApple()
+    }
+    placeApple() {
+      var row = Math.floor(this.height * Math.random())
+      var col = Math.floor(this.height * Math.random())
+      if(this.world[row][col] == '.')  {
+        this.world[row][col] = 'Q'
+      }else {
+        this.placeApple()
+      }
+    }
+    getChar(pos) { //获得某个位置的符号
+      return this.world[pos.row][pos.col]
+    }
+    // 设置某个坐标的符号
+    setChar(pos, char) {
+      this.world[pos.row][pos.col] = char
+    }
+    getNextPos(pos) { // 获取这个位置指向下一个位置的坐标
+      var curChar = this.getChar(pos)
+      if(curChar == '>') {
+        return {row: pos.row, col: pos.col + 1}
+      }
+      if(curChar == '<') {
+        return {row: pos.row, col: pos.col - 1}
+      }
+      if(curChar == '^') {
+        return {row: pos.row - 1, col: pos.col}
+      }
+      if(curChar == 'v') {
+        return {row: pos.row + 1, col: pos.col}
+      }
+    }
+    gameOver() {
+      this.isGameOver = true
+      setTimeout(() => {
+        alert('game over, score:' + this.snakeLength) // 该形式属于游戏之外
+      }); //当前代码执行完之后，运行里面的alert
+    }
+    next() {
+      if(this.isGameOver) {
+        return 
+      }
+      var headChar = this.getChar(this.headpos) // 由头的坐标获得头的符号
+      var headNextPos = this.getNextPos(this.headpos) // 由头的坐标获得下一个位置的头的坐标
+      var headNextChar = this.getChar(headNextPos) //由下一个位置头部的坐标得到其符号
+
+      if(headNextChar == '.') {
+        // this.world[headNextChar.now][headNextChar.col] => setChar()
+        this.setChar(headNextPos, headChar)
+        this.headpos = headNextPos //蛇头的位置
+      }else if(headNextChar == 'Q') {
+        this.setChar(headNextPos, headChar)
+        this.headpos = headNextPos //蛇头的位置
+        this.placeApple()
+        this.snakeLength++
+      }else {
+        this.gameOver()
+      }
+
+      if(headNextChar == '.') {
+        var tailNextPos = this.getNextPos(this.tailpos) // 尾的下个位置
+        this.setChar(this.tailpos, '.')
+        this.tailpos = tailNextPos
+      }
+
+      return this
+    }
+    changeDirection(direction) {
+      switch(direction) {
+        case 'up':    return this.setChar(this.headpos, '^')
+        case 'down':  return this.setChar(this.headpos, 'v')
+        case 'left':  return this.setChar(this.headpos, '<')
+        case 'right': return this.setChar(this.headpos, '>')
+      }
+    }
+
+    print() {
+      console.log(this.toString())
+    }
+    toString() {
+      return this.world.map(row => {
+        return row.map(char => {
+          if(char == '.') {
+            return '5'
+          }else {
+            return '0'
+          }
+        }).join('')
+      }).join('\n')
+    }
+  }
+
+  var game = new SnakeGame()
+  var pre = document.querySelector('pre')
+
+  document.addEventListener('keydown', (e) => {
+    console.log(e)
+    if(e.key.startsWith('Arrow')) {
+      var direction = e.key.slice(5).toLocaleLowerCase()
+      game.changeDirection(direction)
+      clearInterval(id)
+      tick()
+      // game.next()
+      // pre.textContent =  game.toString()
+      id = setInterval(tick, 1000)
+    }
+  })
+
+  pre.textContent =  game.toString()
+
+  function tick() {
+    game.next()
+    pre.textContent =  game.toString()
+  }
+  var id = setInterval(tick, 1000)
+</script>

@@ -1,0 +1,63 @@
+<input type="text">
+<span></span>
+<script>
+  var input = document.querySelector('input')
+  var span = document.querySelector('span')
+  // var id
+  // input.addEventListener('input', e => {
+  //   clearTimeout(id)
+  //   id = setTimeout(() => {
+  //     span.textContent = '显示联想' + Math.random()
+  //   }, 1000)
+  // })
+
+  input.addEventListener('input',
+      throttle(() => {
+        span.textContent = '显示联想' + Math.random()
+      }, 1000)
+    )
+  function throttle(f, duration) {
+    let lastRunTime = 0
+    let timeoutId
+    return function () {
+      if (Date.now() - lastRunTime > duration) {
+        f()
+        lastRunTime = Date.now()
+      } else {
+        clearTimeout(timeoutId)
+        timeoutId = setTimeout(() => {
+          f()
+        }, duration)
+      }
+    }
+  }
+ 
+  function debounce(f, duration) { // 返回一个函数
+    var timeoutId
+    return function (...args) {
+      clearTimeout(timeoutId)
+      timeoutId = setTimeout(() => { // 箭头函数没有this，看外面有没有this
+        f.call(this, ...args)
+      }, duration)
+    }
+  }
+
+
+
+
+  // function displayCoords(event) {
+  //   document.body.textContent =
+  //     "Mouse at" + event.pageX + "," + event.pageY;
+  // }
+  // var scheduled = false, laste;
+  // addEventListener("mousemove", function (e) {
+  //   laste = e;
+  //   if (!scheduled) {
+  //     scheduled = true;
+  //     setTimeout(function () {
+  //       scheduled = false;
+  //       displayCoords(laste);
+  //     }, 1000);
+  //   }
+  // });
+</script>

@@ -1,0 +1,34 @@
+<!-- <script>
+  setTimeout(() => {
+    console.log(12345)
+  },3000) //3毫秒即3秒之后运行函数
+</script> -->
+<span id="curTime"></span><br>
+<span id="curTime2"></span>
+<script>
+  var msToNextSec = 1000 - Date.now() % 1000
+  setTimeout(() => {
+    setInterval(() => { // 该方法，当误差大于10ms，将会重置误差 模上10ms
+      curTime.textContent = new Date().getTime()
+    }, 1000)
+    setTimeout(function tick() { // 该方法，误差会累计
+      curTime2.textContent = new Date().getTime()
+      setTimeout(tick, 1000)
+    }, 1000)
+    // curTime.textContent = new Date().getTime()
+  }, msToNextSec);
+  // curTime.textContent = new Date().getTime()
+  //
+</script>
+<script>
+  setTimeout(() => {
+    console.log(2)
+  }, 0); // 最少等待0ms时间执行里面的函数 ,即不能精确的让里面的函数再多久时间之后执行
+// 当作用域中中的程序执行完之后，再执行
+
+console.log(1234)
+</script>
+<script>
+  //setInterval 
+  // 由于中间有程序运行，占用了cpu，间隔时间，之后，
+</script>

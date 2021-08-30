@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    div {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #923843;
+      position: fixed;
+    }
+  </style>
+</head>
+<body>
+  <div style="left:0; top: 0;"></div>
+  <div style="left:0; top: 0;"></div>
+  <div style="left:0; top: 0;"></div>
+  <div style="left:0; top: 0;"></div>
+  <div style="left:0; top: 0;"></div>
+  <script>
+    var fires = document.querySelectorAll('div')
+    var mousex = -99990
+    var mousey = -99990
+
+    window.addEventListener('mousemove', e => {
+      mousex = e.clientX
+      mousey = e.clientY
+    })
+
+
+    requestAnimationFrame(function ani(time) { // time == 16ms
+      var angle1 = time * 0.005
+      for(var fire of fires) {
+        fire.style.left = Math.cos(angle1) * 150 + mousex + 'px'
+        fire.style.top = Math.sin(angle1) * 150 + mousey + 'px'
+
+        angle1 += Math.PI * 2 / fires.length
+      }
+      requestAnimationFrame(ani)
+      // var angle2 = angle1 + 2 / 3 * Math.PI
+      // var angle3 = angle2 + 2 / 3 * Math.PI
+
+      // fire.style.left = Math.cos(angle1) * 50 + mousex + 'px'
+      // fire.style.top = Math.sin(angle1) * 50 + mousey + 'px'
+    })
+  </script>
+</body>
+</html>

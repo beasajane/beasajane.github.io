@@ -1,0 +1,92 @@
+<pre draggable="true">asdfasdfasdfasdf</pre>
+<style>
+  pre {
+    border: 5px solid grey;
+    height: 100px;
+  }
+</style>
+<script> // ondrag/drop
+// ondrag end/start/enter/leave/over
+  var pre = document.querySelector('pre')
+  let temp, blob
+
+  // //拖拽松手的时候  
+  // // pre.addEventListener()
+  // pre.addEventListener('drop', function(e) {
+  //   console.log('drop')
+  //   // console.log(e.dataTransfer.files)
+  //   e.preventDefault()
+
+
+  //   console.log(e.dataTransfer.files[0])  //file继承至Blob
+  //   temp = e.dataTransfer.files[0]
+
+  //   blob = URL.createObjectURL(temp) // 创建一个链接  这里是同步执行，非异步执行
+  //   //blob =  blob:http://127.0.0.1:5500/832548a5-3a82-4b74-8156-01c60d670f42
+
+  //   let a = document.createElement('a')
+  //   a.href = blob
+  //   a.innerHTML = `${e.dataTransfer.files[0].name}`
+  //   pre.append(a)
+    
+
+  //   //由于异步执行的原因，reader.result 值为空（null）
+  //   // let img = document.createElement('img')
+  //   // pre.append(img)
+  //   // let reader = new FileReader()
+  //   // reader.readAsDataURL(temp)
+  //   // console.log(reader.result)
+  //   // let imgURL = reader.result
+  //   // img.src = imgURL
+  //   // console.log(imgURL)
+  // })
+  // pre.addEventListener('dragenter', function(e) {
+  //   console.log('dragenter')
+  //   e.preventDefault()
+  //   pre.textContent ='松开鼠标'
+  // })
+  // pre.addEventListener('dragleave', function(e) {
+  //   console.log('dragleave')
+  //   e.preventDefault()
+  //   pre.textContent = '拖到这里'
+  // })
+  // pre.addEventListener('dragover', function(e) {
+  //   console.log('dragover')
+  //   e.preventDefault() // 禁止浏览器打开拖拽的文件
+  // })
+  
+  // // 以上代码为，外面的文件（文本）等网里面拖
+
+  History
+back: ƒ back()
+forward: ƒ forward()
+go: ƒ go()
+length: (...)
+pushState: ƒ pushState()
+replaceState: ƒ replaceState()
+scrollRestoration: (...)
+state: (...)
+
+
+  // pre.addEventListener('dragmove', function(e) {
+  //   console.log('dragmove')
+  //   this.clientX
+  //   // e.preventDefault()
+  // })
+
+  // 里面的东西往外面拖
+  pre.addEventListener('dragstart', function(e) {
+    console.log('dragstart')
+    console.log(e.dataTransfer)
+
+    // var blob = new Blob(['abcd'], {type: 'text/plain'})
+    // e.dataTransfer.setData('text/plain', blob)
+
+    e.dataTransfer.setData('text/plain', `${pre.textContent}`)
+    // e.preventDefault()
+  })
+  pre.addEventListener('dragend', function(e) {
+    console.log('dragend')
+    // e.preventDefault()
+  })
+</script>

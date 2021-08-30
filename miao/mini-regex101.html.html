@@ -120,6 +120,35 @@ height: inherit;  height: 100%;
         sd942034 234 lsfowe</textarea> <br>
     </section>
   </div>
+  <script id='worker' title='第二线程' type='worker'>
+    addEventListener('message', e => {
+      var re = e.data.re
+      var str = e.data.str
+      var matches = []
+      var match = null
+      while (match = re.exec(str)) {
+        matches.push(match)
+        if(match[0] == '') {
+          re.lastIndex++
+        }
+        if(!re.global) {
+          break
+        }
+      }
+      postMessage(matches)
+    })
+    function startWorker(f) {
+      //拿到函数的源代码， 用源代码构造一个文件，用文件构造一个链接，用链接传给worker()
+      var source = '(' + f.toString() + ')' // 函数的源代码转换成函数
+      var blob = new Blob([source], {type: 'application/javascript'}) // [source, source] source为文件片段， type 文件的类型 
+      var url = URL.createObjectURL(blob) 
+      return new Worker(url)
+    }
+    // blob = new Blob(['var a = 0; console.log(a)'], {type: 'application/javascript'})
+    // 浏览器中只能通过链接打开一个文件
+    // url = URL.createObjectURL(blob) // 创建文件链接链接
+    // new Worker(url)  // 开启一个新的线程，需要一个文件链接
+  </script>
   <script > 
     function setScroll() {
       var scrollTop = strInput.scrollTop // 读取滚动位置   $0.scrollTop当前元素的滚动位置
@@ -148,6 +177,45 @@ height: inherit;  height: 100%;
       console.log(re)
       var str = strInput.value
       var match
+      /*
+      实现时间范围内的是否匹配成功
+        var worker = startWorker(function() {
+          addEventListener('message', e => {
+      var re = e.data.re
+      var str = e.data.str
+      var matches = []
+      var match = null
+      while (match = re.exec(str)) {
+        matches.push(match)
+        if(match[0] == '') {
+          re.lastIndex++
+        }
+        if(!re.global) {
+          break
+        }
+      }
+      postMessage(matches)
+    })
+        })
+        
+        var success = false
+        worker.addEventListener('message', e => {
+          success = true
+          var matches = e.data
+
+          拼html字符串
+          显示到页面上
+        })
+
+        worker.postMessage({re:re, str: str})
+        
+        setTimeout(() => {
+          if(!success) {
+            匹配超时
+            worker.terminate()
+          }
+        },2000)
+      */
       // if(global.checked) {
       if(re.global) {
         var  resultHTML  = ''
@@ -181,7 +249,13 @@ height: inherit;  height: 100%;
     }
 
 
-  
+    function startWorker(f) {
+      //拿到函数的源代码， 用源代码构造一个文件，用文件构造一个链接，用链接传给worker()
+      var source = '(' + f.toString() + ')' // 函数的源代码转换成函数
+      var blob = new Blob([source], {type: 'application/javascript'}) // [source, source] source为文件片段， type 文件的类型
+      var url = URL.createObjectURL(blob) 
+      return new Worker(url)
+    }
 
   </script>
 </body>

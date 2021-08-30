@@ -1,0 +1,25 @@
+<img src="" alt="" srcset="">
+<script>
+  window.ononline = function() {
+    console.log('您有网了')
+  }
+  window.onoffline = function() { // 存到localStorage
+    console.log('您断网了')
+  }
+
+
+  // window.onerror 不太合适叫事件，因为函数接收不只一个参数
+  // 更适合叫hook函数/钩子函数
+  var prevOnerror = typeof window.onerror == 'function' ? window.onerror : function() {}//保存之前可能存在的函数
+  window.onerror = function(errmsg, filename, row, col, error) { // 页面内部有报错，但报错没有被捕获到的时候触发
+    prevOnerror()
+    console.log(arguments)
+    // send(arguments, 'https://myserver.com/error-report')
+  }// 用来做错误上报功能
+  window.addEventListener('error', function(e) {
+
+  })
+</script>
+<script>
+  a
+</script>

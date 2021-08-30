@@ -27,7 +27,7 @@
 </head>
 <body>
   <section id='section'>
-    <svg style="width: 100%; height: 500px;"></svg><br>
+    <svg style="width: 500; height: 500px;"></svg><br>
     线条颜色:&nbsp;<input type="color" id="colorinput"> 
     &nbsp;&nbsp;&nbsp;
     形状: <button onclick=" tool='line' ">—</button> <button onclick=" tool='circle' " >O</button>
@@ -54,13 +54,13 @@
         polyline.setAttribute('fill', 'none')
   
         svg.append(polyline)
-        var points = `${pos.x},${pos.y} `
+        var points = `${pos.x} ${pos.y} `
         polyline.setAttribute('points', points)
         
         function drawDot(e) {
           var pos = mousePos(svg)
           var line = document.createElementNS("http://www.w3.org/2000/svg",'line')  //svg line标签
-          points += `${pos.x},${pos.y} `
+          points += `${pos.x} ${pos.y} `
           polyline.setAttribute('points', points)
   
           // if(lastpos == null) {
@@ -144,44 +144,6 @@
       span.innerHTML = widthrange.value
     })
 
-        
-        // 问题
-        // widthrange.addEventListener('mousedown', function(e){
-        //   console.log('aksdj')
-        //   let span = document.createElement('span')
-        
-        //   span.innerHTML = widthrange.value
-        //   section.appendChild(span)
-        
-        //   widthrange.addEventListener('mouseup', function(){
-        //     section.removeChild(span)
-        //     console.log(section.children.length - 1)
-        //   })
-        // })
-            
-            
-            // document.addEventListener('mousedown', function(e) {
-              
-            //   document.addEventListener('mousemove',  draw = function (e) {
-            //     console.log(e)
-            
-            //     var dot = document.createElement('div')
-            //     // dot.className = 'dot'
-            //     dot.classList.add('dot')
-            
-            //     // dot.style.left = (e.pageX - 5) + 'px'
-            //     // dot.style.top = (e.pageY - 5) + 'px'
-            //     dot.style.transform = `translate(${e.pageX - 5}px, ${e.pageY - 5}px)`
-            
-            //     document.body.append(dot)
-            //   })
-              
-            //   document.addEventListener('mouseup', function once(e) {
-            //     document.removeEventListener('mousemove', once)
-            //     document.removeEventListener('mousemove', draw)
-            //   })
-            // })
-                  
   </script>
 </body>
 </html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>frame-框架-利用该特点-不用刷新-切换内容-history全局对象</title>
+</head>
+<body>
+  <div>
+    <ul>
+      <li><img id="id-11" src="https://travel.12306.cn/imgs/resources/uploadfiles/images/243945e6-c45d-4870-9cf5-77e488068646_product_W572_H370.jpg" alt=""></li>
+      <li><img id="id-12" src="https://travel.12306.cn/imgs/resources/uploadfiles/images/1716878f-79a2-4db1-af8c-b9c2039f0b3c_product_W572_H370.jpg" alt=""></li>
+      <li><img id="id-13" src="https://travel.12306.cn/imgs/resources/uploadfiles/images/6d77d0ea-53d0-4518-b7e9-e53795b4920c_product_W572_H370.jpg" alt=""></li>
+      <li><img id="id-14" src="https://travel.12306.cn/imgs/resources/uploadfiles/images/c7c03732-3c86-4308-aea7-df747d4999e8_product_W572_H370.jpg" alt=""></li>
+      <li><img id="id-15" src="https://travel.12306.cn/imgs/resources/uploadfiles/images/d9ae79de-2f3f-4e9f-ad6e-bdc291dda92a_product_W572_H370.jpg" alt=""></li>
+      <li><img id="id-16" src="https://travel.12306.cn/imgs/resources/uploadfiles/images/b0c76b21-531b-4af4-a607-cf5672c72ded_product_W572_H370.jpg" alt=""></li>
+      <li><img id="id-17" src="https://travel.12306.cn/imgs/resources/uploadfiles/images/b0c76b21-531b-4af4-a607-cf5672c72ded_product_W572_H370.jpg" alt=""></li>
+      <li><img id="id-18" src="https://travel.12306.cn/imgs/resources/uploadfiles/images/8b36f9a7-f780-4e71-b719-9300109a9ff2_product_W572_H370.jpg" alt=""></li>
+    </ul>
+  </div>
+
+  <div id="popup">
+    <!-- &times;  x -->
+    <span onclick="history.back()" style="display: block; line-height: 50px; text-align: center; width: 80px;height:50px;cursor: pointer;border: 1px solid black;font-size: 1.3rem;">back</span>
+    <img src="https://travel.12306.cn/imgs/resources/uploadfiles/images/d9ae79de-2f3f-4e9f-ad6e-bdc291dda92a_product_W572_H370.jpg" alt="">
+  </div>
+  <style>
+    #popup img {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+    #popup {
+      display: none;
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-color: rgba(255, 255, 255, 1);
+    }
+  </style>
+  <script>
+    let url = document.querySelector('ul')
+    let popup = document.querySelector('#popup')
+    let popupImg = document.querySelector('#popup > img')
+
+    url.addEventListener('click', function(e) {
+      console.dir(e.target)
+      if(e.target.localName = 'img') {
+        let img = e.target
+        popup.style.display = 'block'
+        popupImg.src = img.src
+
+        // history.pushState(null, null, './img/' + img.id) 方法
+        history.pushState({imgId: img.id}, null, './img/' + img.id) // 给具体图片页面的地址绑定一个数据（state）{imgId: img.id}
+        // {imgId: img.id} 放在e.state上
+
+        // // 用location.hash 方法， 可以进行刷新
+        // location.hash = '' + img.id // 给hash赋值的时候，不用加#
+      } 
+    })
+
+    // // 用location.hash 方法
+    // window.addEventListener('hashchange', e => {
+    //   console.log(e)
+    //   console.dir(e)
+    //   if(location.href.endsWith('push-state.html')) { //以 push-state.html 为结尾的地址
+    //     popup.style.display = 'none'
+    //   }else { // 否则进入到了具体的图片的页面  
+    //     let imgId = location.hash.slice(1)  //'#'
+    //     let imgSrc = document.getElementById(imgId).src
+    //     popupImg.src = imgSrc
+    //     popup.style.display = 'block'
+    //   }
+    // })
+    // // 去除 #   初始化的时候，如果有hash
+    // window.dispatchEvent(new Event('hashchange'))
+
+
+    // 用户点击后退时，后退或前进到了由pushState打开的地址时，触发
+    window.addEventListener('popstate', e => {
+      console.log(e)
+      console.dir(e)
+      if(location.href.endsWith('push-state.html')) { //以 push-state.html 为结尾的地址
+        popup.style.display = 'none'
+      }else { // 否则进入到了具体的图片的页面
+        let imgId = e.state.imgId  
+       //let imgId = history.state.imgId
+        let imgSrc = document.getElementById(imgId).src
+
+        popupImg.src = imgSrc
+        popup.style.display = 'block'
+      }
+    })
+  </script>
+</body>
+</html>

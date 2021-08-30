@@ -1,0 +1,25 @@
+<script> // 该文件不能直接双击启动，只能通过网址的形式启动
+// 打开该文件所在的位置，通过在该文件中，打开git   输入 hs -o 即可
+  // var a = 1
+
+  // 交互输出，无法预测
+  // 浏览器内，主线程运行完，才运行worker
+
+  // var worker1 = new Worker('./a.js') // 浏览器，只能添加链接
+  // var worker2 = new Worker('./b.js')// 没有window变量，没有docume变量
+
+  var primeWorker = new Worker('./prime.js')
+  primeWorker.addEventListener('message', e => {
+    console.log(e.data)
+  })
+
+  // function deadloop(time) {
+  // var start = Date.now()
+  // while(Date.now() - start < time) {}
+  // }
+  // for(var i = 0; i < 10; i++) {
+  //   deadloop(1000)
+  //   console.log('main')
+  // }
+  // var worker3 = new Worker('./c.js')
+</script>

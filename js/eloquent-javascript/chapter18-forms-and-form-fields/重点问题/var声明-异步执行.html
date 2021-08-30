@@ -1,0 +1,78 @@
+
+<script>
+  var buttons = document.getElementsByName("color" )
+  
+  for (var i = 0; i < buttons.length; i++){ // 给每个radio 的7 change事件的添加setColor处理函数
+    buttons[i].addEventListener("change" , function setColor(event) {
+      document.body.style.background = event.target.value;
+      // document.body.style.background = buttons[i].value; // var 声明，使得 i 提前，全局只有一个i变量 可以将var换位let
+      // addEventListener  异步访问buttons[i]异步执行， 当页面的数据加载完，用户才可以交互页面，那时，i= 3
+    });
+  }
+
+  var buttons = document.getElementsByName("color" )
+  
+  for (let i = 0; i < buttons.length; i++){ // 循环体每运行一次，i 就在循环体中出现一次， 同时就创建一个作用域（用新的i创建新的作用域，作用域内的i值不变）
+    buttons[i].addEventListener("change" , function setColor(event) {
+      // document.body.style.background = event.target.value;
+      document.body.style.background = buttons[i].value; // 作用域中的i值不变，异步执行的i值不变，读取的是当前作用域中的i值
+      // addEventListener  异步访问buttons[i]异步执行， 当页面的数据加载完，用户才可以交互页面，那时，i= 3
+    });
+  }
+
+  var buttons = document.getElementsByName("color" )
+  
+  for (var i = 0; i < buttons.length; i++){ 
+    (function(i) {
+        buttons[i].addEventListener("change" , function setColor(event) {
+          document.body.style.background = buttons[i].value;
+        });
+    }(i)) // 利用函数（参数）创建新的作用域，传参， 创建了六个函数
+    // 不用括号包起来，function关键字开头，位函数表达式
+  }
+  
+  
+  var buttons = document.getElementsByName("color" )
+  
+  function loop(i) {
+    buttons[i].addEventListener("change" , function setColor(event) {
+      document.body.style.background = buttons[i].value;
+    });
+  } // 利用函数（参数）创建新的作用域，传参， 创建了六个函数
+  for (var i = 0; i < buttons.length; i++){ 
+    loop(i)
+  }
+  
+  
+  
+
+  
+  
+  
+  // buttons.length = 3
+  for (var i = 0; i < buttons.length; i++){ // 循环体运行了三次
+    (function(i) {
+      buttons[i].addEventListener("change" , function setColor(event) {
+        document.body.style.background = buttons[i].value;
+      });
+      i++ // 函数作用域中的i
+    }(i))  
+  }
+  // buttons.length = 3
+  for (let i = 0; i < buttons.length; i++){ // for 循环的let语句复杂
+    buttons[i].addEventListener("change" , function setColor(event) {
+      document.body.style.background = buttons[i].value;
+    });
+    i++ // 循环体运行了两次
+  }
+  
+  // var buttons = document.getElementsByName("color" );
+  
+  // function setColor(event) {
+  //   document.body.style.background = event.target.value;
+  // }
+  // for (var i = 0; i < buttons.length; i++){ // 给每个radio 的7 change事件的添加setColor处理函数
+  //   buttons[i].addEventListener("change" , setColor);
+  // }
+  
+</script>

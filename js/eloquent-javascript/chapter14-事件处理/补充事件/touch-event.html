@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+  <script>  //移动端事件， 触摸事件
+    // touchstart
+    // touchmove
+    // touchend
+  </script>
+  <pre id="tStart"></pre>
+  <pre id="tMove"></pre>
+  <pre id="tEnd"></div>
+  <script>
+    window.addEventListener('touchstart', e => {
+      // e.changedTouches
+      // console.log(e.changedTouches[0].identifier)
+      tStart.innerText = Array.from(e.changedTouches).map(it => {
+        return `id:${it.identifier} x:${it.clientX.toFixed(2)} y: ${it.clientY.toFixed(2)}`
+      }).join('\n')
+      e.preventDefault()
+      // console.log(e)
+    }, {passive: false})
+    window.addEventListener('touchmove', e => {
+      tMove.innerText = Array.from(e.changedTouches).map(it => {
+        return `id:${it.identifier} x:${it.clientX.toFixed(2)} y: ${it.clientY.toFixed(2)}`
+      }).join('\n')
+      e.preventDefault()
+      
+    }, {passive: false})
+    window.addEventListener('touchend', e => {
+      tEnd.innerText = Array.from(e.changedTouches).map(it => {
+        return `id:${it.identifier} x:${it.clientX.toFixed(2)} y: ${it.clientY.toFixed(2)}`
+      }).join('\n')
+      e.preventDefault()
+      
+    }, {passive: false})
+  </script>
+</body>
+</html>
