@@ -1,3 +1,5 @@
+const { prototype } = require("events")
+
 var beasajane = function(){
     function chunk(array, size){
       let subary = Math.ceil(array.length / size) //chunk 数量
@@ -280,6 +282,20 @@ var beasajane = function(){
         
       }
     }
+    function isArray(val) {
+      if(Object.prototype.toString.call(val) == '[object Array]')
+      // if(toString.call(val) == '[object Array]')
+      return true
+      return false
+    }
+    function gte(value, other) {
+      return value >= other ? true : false
+    }
+    function isArguments(value) {
+      if(toString.call(val) == '[object Arguments]') 
+      return true
+      return false 
+    }
     return {
       chunk: chunk, 
       indexOf: indexOf,
@@ -300,5 +316,8 @@ var beasajane = function(){
       difference:difference,
       values:values,
       keys:keys,
+      isArray: isArray,
+      gte:gte,
+      isArguments:isArguments,
     }
 }()
