@@ -216,8 +216,19 @@ var beasajane = function(){
     }
     function map(array, f) {
       let ary = []
-      for(let i = 0; i < array.length; i++) {
-        ary.push(f(array[i]))
+      if(typeof f == 'function') {
+        for(let i = 0; i < array.length; i++) {
+          ary.push(f(array[i], i, array))
+        }
+      }else if(typeof f == 'string') {
+        let ar = f.split('.') // f = 'a.b'  ar = ['a','b']
+        for(let i = 0; i < array.length; i++) {
+          let prop = array[i]
+          for(let i = 0; i < ar.length; i++) {
+            prop = prop[a[i]] // array[i][ar[0]][ar[1]]
+          }
+          ary.push( prop )
+        }
       }
       return ary
     }
