@@ -1,0 +1,176 @@
+<script>
+  // // 98个百分比答不出来
+
+  // class TaskQueue {
+  //   constructor(){
+    
+  //   }
+  
+  //   addTask(task: function) {
+  
+  //   }
+    
+  // }
+  
+  
+  // var q = new TaskQueue()
+  // q.addTask(function(next: function) {
+  
+  // })
+  
+
+
+
+class TaskQueue {
+  constructor() {
+    this.tasks = [] //记录任务数量
+    this.taskRunning = fasle // 当前是否有任务在运行
+  }
+
+  addTask(taskFun) { //taskFun 
+    if(this.taskRunning) {
+      this.tasks.push(taskFun)
+    }else {
+      this.taskRunning = true
+      var nextFun = () => {  // 声明一个函数，运行
+        if (this.tasks.length) {
+          var task = this.tasks.shift()
+          task(nextFun)
+        }else {
+          this.taskRunning = false
+        }
+      }
+      taskFun(nextFun)
+    }
+    return this
+  }
+}
+var q = new TaskQueue()
+q.addTask(function (next) {
+    console.log(1)
+    setTimeout(next, 10000);
+})
+q.addTask(function (next) {
+    console.log(2)
+    setTimeout(next, 10000);
+})
+q.addTask(function (next) {
+    console.log(3)
+    setTimeout(next, 10000);
+})
+
+
+// 师版1
+  // class TaskQueue {
+  //     constructor(){
+  //         this.tasks = []
+  //         this.taskRunning = false
+  //     }
+
+  //     addTask(taskFunc) {
+  //         if (this.taskRunning) {
+  //             this.tasks.push(taskFunc)
+  //         } else {
+  //             this.taskRunning = true
+
+  //             var nextFunc = () => {
+  //                 if (this.tasks.length) {
+  //                     var task = this.tasks.shift()
+  //                     task(nextFunc)
+  //                 } else {
+  //                     this.taskRunning = false
+  //                 }
+  //             }
+
+  //             taskFunc(nextFunc)
+  //         }
+  //         return this
+  //     }
+  // }
+
+//师版2
+  // class TaskQueue {
+  //     constructor(){
+  //         this.tasks = []
+  //         this.taskRunning = false
+  //     }
+
+  //     addTask(taskFunc) {
+  //         var that = this
+  //         var self = this //此时避免了函数的this问题
+  //         if (this.taskRunning) {
+  //             this.tasks.push(taskFunc)
+  //         } else {
+  //             this.taskRunning = true
+
+  //             function 开始下一个任务() {  // 用箭头函数，this看外面的函数   而此时的function的this为window
+  //                 if (self.tasks.length) {
+  //                     var task = self.tasks.shift()
+  //                     task(开始下一个任务)
+  //                 } else {
+  //                     self.taskRunning = false
+  //                 }
+  //             }
+
+  //             taskFunc(开始下一个任务)
+  //         }
+  //         return this
+  //     }
+  // }
+
+// 师版3
+  // class TaskQueue {
+  //     constructor(){
+  //         this.tasks = []
+  //         this.taskRunning = false
+
+  //         this.startNewTask = () => { // 目的仅为避免this问题
+  //             if (this.tasks.length) {
+  //                 var task = this.tasks.shift()
+  //                 task(this.startNewTask)
+  //             } else {
+  //                 this.taskRunning = false
+  //             }
+  //         }
+  //     }
+
+  //     addTask(task) {
+  //         if (this.taskRunning) {
+  //             this.tasks.push(task)
+  //         } else {
+  //             this.taskRunning = true
+  //             task(this.startNewTask)
+  //         }
+  //         return this
+  //     }
+  // }
+
+// 师版4
+  // class TaskQueue {
+  //   constructor(limit = 1) {
+  //       this.limit = limit
+  //       this.tasks = []
+  //       this.runningCount = 0
+
+  //       this.startNewTask = () => {
+  //           if (this.tasks.length) {
+  //               var task = this.tasks.shift()
+  //               task(this.startNewTask)
+  //           } else {
+  //               this.runningCount--
+  //           }
+  //       }
+  //   }
+
+  //   addTask(task) {
+  //       if (this.runningCount >= this.limit) {
+  //           this.tasks.push(task)
+  //       } else {
+  //           this.runningCount++
+  //           task(this.startNewTask)
+  //       }
+  //       return this
+  //   }
+  // }
+
+</script>

@@ -25,8 +25,9 @@ server.listen(40080, () => { // 开始监听
 // 以下为终端
 node// 打开node
 conn = net.connect(40080, '127.0.0.1') // 建立连接
+
 conn.on('data', data => { console.log( data.toString() )}) //接收数据
-conn.read(5) // 主动读取收到的数据？
+conn.read(5) // 主动读取收到的数据
 conn.write('djalskdf', repeat(10))  // "DJALSKDF"  编码成json才能发送
 // 按序送达
 conn.end // 终止连接
