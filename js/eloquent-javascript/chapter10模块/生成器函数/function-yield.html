@@ -1,0 +1,166 @@
+<script>
+  // 返回斐波那契数列的前n项
+  function fibb(n) {
+    var result = []
+    var a = 0
+    var b = 1
+    while(n-- > 0) {
+      result.push(b)
+      b = b + a 
+      a = b - a
+    }
+    return result 
+  } 
+  var sum = fibb(23).map(it => it * it).reduce((a,b) => a + b)  // O(n)
+  console.log(sum)
+
+  // ==================
+
+  function fibbsum(n) {  // 求和 ，内存占用，O(1)
+    var sum = 0
+    var a = 0
+    var b = 1
+    while(n-- > 0) { // 该循环干了两件事,逻辑混在一起
+      sum += b * b
+
+      b = b + a 
+      a = b - a
+    }
+    return sum
+  }
+
+  // =======
+  function fibb2(n, f) {  // 需连续销毁所占内存，不能暂停
+    var a = 0
+    var b = 1
+    while(n-- > 0) {  
+      f(b)
+      b = b + a 
+      a = b - a
+    }
+  }
+  var sum = 0
+  fibb2(10, item => {
+    sum += item
+  })
+  console.log(sum)
+
+  // ==========
+  function fibb3(n) {  // 不占内存，逻辑拆分，可以在中间停住（需要的时候，往下迭代一步）
+    var a = 0
+    var b = 1
+
+    return {
+      getNext() {
+        if(n-- > 0) {
+          var result = b
+          b = b + a 
+          a = b - a
+          return b
+        }
+      }
+    }
+  }
+  
+</script>
+<script>
+  
+// 返回斐波那契数列的前n项
+function fibb(n) {
+  var result = []
+  var a = 0
+  var b = 1
+  while (n-- > 0) {
+    result.push(b)
+    b = b + a
+    a = b - a
+  }
+  return result
+}
+var sum = fibb(20).map(it => it * it).reduce((a,b) => a + b)
+console.log(sum)
+
+// ===============================
+
+var sum = 0
+
+var a = 0
+var b = 1
+var n = 10
+
+while (n-- > 0) {
+  sum += b * b
+  b = b + a
+  a = b - a
+}
+
+console.log(sum)
+
+//=======================
+function fibb2(n, f) {
+  var a = 0
+  var b = 1
+
+  while (n-- > 0) {
+    f(b)
+    b = b + a
+    a = b - a
+  }
+}
+
+var sum = 0
+
+fibb2(10, item => {
+  sum += item
+})
+
+console.log(sum)
+
+// ========================================
+
+function fibbs(n) {
+  var a = 1
+  var b = 0
+
+  return {
+    getNext() {
+      if (n-- > 0) {
+        b = b + a
+        a = b - a
+        return b
+      }
+    }
+  }
+}
+function* fibbs(n) {
+  var a = 0
+  var b = 1
+
+  while (n-- > 0) {
+    yield b
+    b = b + a
+    a = b - a
+  }
+
+    return  8888
+}
+function forof(iterable, f) {
+    var generated = iterable.next()
+    while (!generated.done) {
+        if (f(generated.value) === false) {
+            break
+        }
+        generated = iterable.next()
+    }
+    iterable.return()
+}
+Number.prototype[Symbol.iterator] = function*() {
+    for (var i = 0; i < this; i++) {
+        yield i 
+    }
+}
+
+for (var i of 10) {
+    console.log(i)
+}
+</script>

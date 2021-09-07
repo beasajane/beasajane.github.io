@@ -1,0 +1,46 @@
+<script> // amd 方式
+  (function() {
+    //在浏览器端，几乎无法使用同步请求 加载模块文件 异步请求
+    // 因为同步请求的话，只能一个一个按顺序加载（串行加载），相对来说，需要更久的时间
+    // 文件加载过程中以及模块加载过程中，页面都无法响应
+    function readFile(url, callback) {  // 异步请求
+      var xhr = new XMLHttpRequest()
+      xhr.open('get', url)
+      xhr.onload = function () {
+        callback(xhr.responseText)
+      }
+      xhr.send()
+    }
+
+    // 给定模块名称/文件，返回模块的导出（即模块将要提供给外界的接口）
+    function require(name, f) {  // 可以只导出一个单个值
+      if(name in require.cache) {
+        return require.cache[name].exports
+      }
+
+      readFile(name, code => {
+        var codeFunc = new Function( 'module, exports', code) // (相当于=>) function(exports) {exports.foo = 'abcdefghijklmnopqrstuvwxyz';exports.bar = 'ABCDEFHHIJKLMNOPQRSTUVWXYZ'}
+    
+        var module = { 
+          id: name,
+          exports: {} //（exports式module唯一的属性） 如果导出一个值，就直接替换exports属性，如果导出多个则给exports属性增加属性
+        }
+
+        require.cache[name] = module 
+  
+        codeFunc(module, module.exports, require)
+        f(module.exports)
+      }) // 读取文件内容
+
+    }
+
+    // 模块的缓存，由模块名映射到模块对象
+    require.cache = {}
+
+    window.require = require
+  })()
+
+  require ('isprime.js', 'weekday.js', function (isPrime,weekDay) {
+
+  })
+</script>

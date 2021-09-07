@@ -1,0 +1,101 @@
+<script>  // 打包原理，，根据入口文件，分析出所有的依赖，把所有的依赖打包到一个文件里，并未该文件加上启动代码（bundleResult）
+  // (function() {  // 异步（并行）加载
+
+    // 给定模块名称/文件，返回模块的导出（即模块将要提供给外界的接口）
+    function require(name) {  
+      if(name in require.cache) {
+        return require.cache[name].exports
+      }
+      var code = require.codeCache[name] // 读取文件内容
+      var codeFunc = new Function( 'module, exports', code) // (相当于=>) function(exports) {exports.foo = 'abcdefghijklmnopqrstuvwxyz';exports.bar = 'ABCDEFHHIJKLMNOPQRSTUVWXYZ'}
+  
+      var module = { // exports 才是导出的值
+        id: name,
+        exports: {} //（exports式module唯一的属性） 如果导出一个值，就直接替换exports属性，如果导出多个则给exports属性增加属性
+      }
+
+      require.cache[name] = module // 不会因为循环require(循环依赖)而爆栈
+
+      codeFunc(module, module.exports, require)
+      return module.exports
+    }
+
+    // 模块的缓存，由模块名映射到模块对象S
+    require.cache = {}
+
+    // 模块名称映射到模块代码的缓存对象
+    require.codeCache = {}
+
+
+    // 给定入口文件，加载所有依赖的模块，并执行它
+    require.createBundle = function(entry) { //由入口文件创建一个的打包结果
+      loadAllDeps2(entry)
+      // loadAllDeps(entry, () => {
+        var bundleResult =` // 该代码，可以输出为一个文件，为打包结果，此为打包原理
+          function require(name) {  // 
+            if(name in require.cache) {
+              return require.cache[name].exports
+            }
+            var code = require.codeCache[name] // 读取文件内容
+            var codeFunc = new Function( 'module, exports', code) // (相当于=>) function(exports) {exports.foo = 'abcdefghijklmnopqrstuvwxyz';exports.bar = 'ABCDEFHHIJKLMNOPQRSTUVWXYZ'}
+        
+            var module = { // exports 才是导出的值
+              id: name,
+              exports: {} //（exports式module唯一的属性） 如果导出一个值，就直接替换exports属性，如果导出多个则给exports属性增加属性
+            }
+
+            require.cache[name] = module // 不会因为循环require(循环依赖)而爆栈
+
+            codeFunc(module, module.exports, require)
+            return module.exports
+          }
+          // 模块的缓存，由模块名映射到模块对象
+          require.cache = {}
+
+          require.codeCache = ${JSON.stringify(require.codeCache, null, 2)}
+
+          require('${entry}')
+        `
+        console.log(bundleResult)
+        // require(entry)
+      // })
+    }
+
+    function readFileSync(url) {
+      var xhr = new XMLHttpRequest()
+      xhr.open('get', url, false)
+      xhr.send()
+      return xhr.responseText 
+    }
+
+    //loadAllDeps同步版  (简版webpack)
+    function loadAllDeps2(moduleName) {
+      if(require.codeCache[moduleName]) {  // 已经加载的文件，直接返回
+        return 
+      }
+      var code = readFileSync(moduleName)
+      require.codeCache[moduleName] = code // 将模块的代码缓存
+      var deps = getDeps(code)
+      for(var dep of deps) {
+         loadAllDeps2(dep)
+      }
+      return 
+    }
+
+    // 有模块源代码得到模块依赖的模块名称（模块的文件名）
+    function getDeps(code) {
+      let re = /require\s*\(\s*["']([^"']+)["']\s*\)/g
+      var deps = []
+       var mstch = null 
+       while(match = re.exec(code)) {
+         deps.push(match[1])
+       }
+       return deps
+    }
+
+
+    window.require = require
+  // })()
+//   `var jQuery = require('jquery')
+// var moment = require('moment')`.match(/require\s*\(\s*(["'])([^"']+)\1\s*\)/g)
+</script>

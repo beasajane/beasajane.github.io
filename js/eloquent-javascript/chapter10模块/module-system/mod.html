@@ -1,0 +1,38 @@
+<script>
+  (function() {
+    function readFile(url) {
+      var xhr = new XMLHttpRequest()
+      xhr.open('get', url, false)
+      xhr.send()
+      return xhr.responseText
+    }
+
+    // 给定模块名称/文件，返回模块的导出（即模块将要提供给外界的接口）
+    function require(name) {  // 可以只导出一个单个值
+      if(name in require.cache) {
+        return require.cache[name].exports
+      }
+      var code = readFile(name) // 读取文件内容
+      var codeFunc = new Function( 'module, exports', code) // (相当于=>) function(exports) {exports.foo = 'abcdefghijklmnopqrstuvwxyz';exports.bar = 'ABCDEFHHIJKLMNOPQRSTUVWXYZ'}
+  
+      var module = { // exports 才是导出的值
+        id: name,
+        exports: {} //（exports式module唯一的属性） 如果导出一个值，就直接替换exports属性，如果导出多个则给exports属性增加属性
+      }
+
+      require.cache[name] = module // 不会因为循环require(循环依赖)而爆栈
+
+      codeFunc(module, module.exports, require)
+
+      // require.cache[name] = module // 会因循环require爆栈
+  
+      // return require.cache[name].exports  // 时间较久
+      return module.exports
+    }
+
+    // 模块的缓存，由模块名映射到模块对象
+    require.cache = {}
+
+    window.require = require
+  })()
+</script>
