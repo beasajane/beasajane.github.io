@@ -107,4 +107,37 @@
   // })()
 //   `var jQuery = require('jquery')
 // var moment = require('moment')`.match(/require\s*\(\s*(["'])([^"']+)\1\s*\)/g)
+
+
+
+
+// function fib(a) {
+//   if(a < 2) {
+//     return 1
+//   } else {
+//     return fib(a - 1) + fib(a - 2)
+//   }
+// }
+// function fib(a, callback) {
+//   if(a < 2) {
+//     return 1
+//   } else {
+//     var a1, a2
+//     var done = 0
+//     fib(a - 1, r1 => {
+//       a1 = r1
+//       done++
+//       if(done == 2) {
+//         callback(a1 + a2)
+//       }
+//     })
+//     fib(a - 2, r2 => {
+//       a2 = r2
+//       done++
+//       if(done == 2) {
+//         callback(a1 + a2)
+//       }
+//     })
+//   }
+// }
 </script>

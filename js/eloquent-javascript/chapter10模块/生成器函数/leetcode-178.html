@@ -1,0 +1,17 @@
+<script>
+  function* traverse(root) {
+     if(root) {
+       yield * traverse(root.left)
+       yield root.val
+       yield * traverse(root.right)
+     }
+  }
+
+  tree = {val:3, left: {val: 1}, right: {val: 4}}
+  // [...traverse(tree)]
+  let r = traverse(tree)
+  t.next()
+  t.next()
+  t.next()
+  t.next()
+</script>
