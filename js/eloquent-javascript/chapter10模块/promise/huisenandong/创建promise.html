@@ -1,0 +1,210 @@
+<script>
+  Promise.resolve(5)
+
+  Promise.resolve2 = function(value) {
+    return new Promise((resolve) => {
+      resolve(value)
+    })
+  }
+
+  //=====
+  Promise.resolve2 = function(value) {
+    var promise = new Promise ((resolve, reject) => {
+
+    })
+    ResolvePromise(promise, value ,resolve, reject)
+    return promse
+  }
+  
+  function ResolvePromise(promise, x, resolve, reject) {
+    if( x instanceof Promise) {
+      x.then(value => {
+        resolve(value)
+      }, reason => {
+        reject(reason)
+      })
+    }
+
+    if(x && (typeof x == 'object' || typeof x == 'function')) {
+      try {
+        var then = x.then  // 最开始读出来的那个值
+        if(typeof x.then == 'function') {
+          then.call(x, y => {
+            ResolvePromise(promise, y, resolve, reject)(value)
+          }, reason => {
+            reject(reason)
+          })
+          reject(x)
+        } else {
+  
+        } 
+      } catch(e) {
+        reject(e)
+      }
+    }
+  }
+
+
+//=====
+
+  Promise.reject2 = function(reason) {
+    return new Promise( (_, reject) => {
+      reject(reason)
+    }) 
+  }
+
+  Promise.all = function(promises) {
+    return new Promise((resolve, reject) => {
+      let result = []
+      var resolved = 0
+      if (promises.length == 0) {
+        resolve(result)
+      }
+      for(let i = 0; i < promises.length; i++) {
+        Promise.resolve(promise[i]).then(val => {
+          result[i] = val
+          resolved++
+          if(resolved == promises.length) {
+            resolve(result)
+          }
+        }, err => {
+          reject(err)
+        })
+      }
+    })
+  }
+
+  Promise.race = function(promises) {
+    return new Promise((resolve, reject) => {
+      if (promises.length == 0) {
+        resolve()
+      }
+      for(let promise of promises) {
+        promise.then(val => {
+          resolve(val)
+        }, err => {
+          reject(err)
+        })
+      }
+    })
+  }
+  Promise.race = function(promises) {
+    return new Promise((resolve, reject) => {
+      if (promises.length == 0) {
+        resolve()
+      }
+      for(let promise of promises) {
+        promise.then(resolve, reject)
+      }
+    })
+  }
+  Promise.allSettled = function(promises) {
+    return new Promise((resolve, reject) => {
+      var result = Array(promise.length)
+      var settled = 0
+      for(let i = 0; i < promise.length; i++) {
+        promises[i].then(value => {
+          settled++
+          result[i] = {
+            value: value,
+            status: 'fulfilled'
+          }
+          if(settled == promise.length) {
+            resolve(result)
+          }
+        }, reason => {
+          settled++
+          result[i] = {
+            status: 'rejected',
+            reason: reason
+          }
+          if(settled == promise.length) {
+            reject(result)
+          }
+        })
+      }
+      
+    })
+  }
+  Promise.any = function() {
+
+  }
+
+  Promise.prototype.finally = function(f) {
+    var v, r
+    return this.then(val => {
+      v = val
+      return f()
+    }, reason => {
+      r = reason
+      throw f()
+    }).then(() => {return v}, () => {throw r})
+  }
+
+  Promise.prototype.finally = function(f) {
+    return this.then(val => {
+      return Promise.resolve(f()).then(() => val)
+    }, reason => {
+      return Promise.resolve(f()).then(() => val, reason => { throw reason})
+    }) //reason => { throw reason} 可省
+  }
+
+  
+  Promise.resolve(5).then()
+                    .then((v) => {
+                      console.log(v)
+                      return 2
+                    })
+                    .finally(() => {
+                      console.log(345)
+                      return 5
+                    })
+                    .then(console.log)
+  
+  
+  Promise.resolve(5).then()
+                    .then((v) => {
+                      console.log(v)
+                      return 2
+                    })
+                    .finally(() => {
+                      console.log(345)
+                      throw 'd'
+                    })
+                    .then(console.log)
+  
+
+  new Promise((resolve, reject) => {
+
+  } )
+
+
+  function ResolvePromise(promise, x, resolve, reject) {
+    if( x instanceof Promise) {
+      x.then(value => {
+        resolve(value)
+      }, reason => {
+        reject(reason)
+      })
+    }
+
+    if(x && (typeof x == 'object' || typeof x == 'function')) {
+      try {
+        var then = x.then  // 最开始读出来的那个值
+        if(typeof x.then == 'function') {
+          then.call(x, y => {
+            ResolvePromise(promise, y, resolve, reject)(value)
+          }, reason => {
+            reject(reason)
+          })
+          reject(x)
+        } else {
+  
+        } 
+      } catch(e) {
+        reject(e)
+      }
+    }
+  }
+
+</script>

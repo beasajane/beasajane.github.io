@@ -1,0 +1,116 @@
+<script>
+    localdb.get(element.doc._id).then(function (resp) {
+      localdb.remove(resp._id, resp._rev).then(function (resp) {
+      })
+    })
+
+    localdb.get(element.doc._id).then(function (resp) {
+      localdb.remove(resp._id, resp._rev)
+    }).then(function (resp) {
+
+    })
+
+
+
+      remotedb.allDocs({
+        include_docs: true,
+        attachments: true
+      }).then(function (result) {
+        var docs = result.rows;
+        docs.forEach(function (element) {
+          localdb.put(element.doc).then(function (response) {
+            alert("Pulled doc with id " + element.doc._id + " and added to local db.");
+          }).catch(function (err) {
+            if (err.name == 'conflict') {
+              localdb.get(element.doc._id).then(function (resp) {
+                localdb.remove(resp._id, resp._rev).then(function (resp) { })
+              })
+            }
+          })
+        })
+      })
+
+  remotedb.allDocs(...a).then(function (resultOfAllDocs) {
+    return localdb.put(...b);
+  }).then(function (resultOfPut) {
+    return localdb.get(...c);
+  }).then(function (resultOfGet) {
+    return localdb.put(...d);
+  }).catch(function (err) {
+    console.log(err);
+  });
+
+
+
+
+    // I want to remove() all docs
+    db.allDocs({ include_docs: true }).then(function (result) {
+      return Promise.all(result.rows.map(function (row) {
+        return db.remove(row.doc);
+      }))
+    }).then(function () {
+      // I naively believe all docs have been removed() now!
+    });
+
+
+
+
+  function defered() {
+    var dfd = {}
+    dfd.promise = new Promise((resolve, reject) => {
+      dfd.resolve = resolve
+      dfd.reject = reject
+    })
+    return dfd
+  }
+
+
+Promise.resolve()
+  .then(() => p11)
+  .then(() => p12)
+  .then(() => p13)
+  .then(() => p14)
+  .then(() => p15)
+  .then(() => p16)
+  .then(() => p17)
+  .then(() => p18)
+
+  function executeSequentially(promises) {
+    var result = Promise.resolve();
+    promises.forEach(function (promise) {
+      result = result.then(promise);
+    });
+    return result;
+  }
+  function executeSequentially(promises) {
+    return promises.reduce((promise) => 
+      result.then(promise), Promise.resolve()
+    )
+  }
+
+  function executeSequentially(promiseFactories) { // promiseFactories  返回promise的函数，， 什么时候创建，什么时候所代表的异步才开始
+    var result = Promise.resolve();
+    promiseFactories.forEach(function (promiseFactory) {
+      result = result.then(promiseFactory);
+    });
+    return result;
+  }
+
+
+
+
+
+
+
+  getUserByName('nolan').then(function (user) {
+    return getUserAccountById(user.id);
+  }).then(function (userAccount) {
+    // dangit, I need the "user" object too!
+  });
+  // => 改写
+  getUserByName('nolan').then(function (user) {
+    return getUserAccountById(user.id).then(function (userAccount) {
+      // dangit, I need the "user" object too!
+    })
+  })
+</script>

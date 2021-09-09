@@ -26,7 +26,11 @@
   }
 
 
-
+  obj[Symbol.iterator] = function* () {
+    for(var i = 0; i < 10; i++) {
+        yield i
+    }
+  }
 
 
 
@@ -125,4 +129,198 @@ Symbol() // 创建不同的
 Symbol.for()// 可以创建相同的 Symbol
 b1 = Symbol.for('boob')
 b2 = Symbol.for('boob')
+
+
+//=======
+
+
+function forof(iterable, f) {
+    var generated = iterable.next()
+    while (!generated.done) {
+        if (f(generated.value) === false) {
+            break
+        }
+        generated = iterable.next()
+    }
+    iterable.return()
+}
+
+
+
+//==========
+
+
+Number.prototype[Symbol.iterator] = function*() {
+    for (var i = 0; i < this; i++) {
+        yield i 
+    }
+}
+
+for (var i of 10) {
+    console.log(i)
+}
+
+
+//=========
+
+function get(url, callback) {
+  var xhr = new XMLHttpRequest()
+  xhr.open('get', url)
+  xhr.onload = () => {
+    callback(xhr.responseText)
+  }
+  xhr.send()
+}
+
+async.map(['https://caolan.github.io/','https://caolan.github.io/','https://caolan.github.io/'], function(url, callback) {
+    
+    get(url, response => {
+        callback(null, response)
+    })
+
+}, function(err, result) {
+    console.log(result)
+})
+
+
+
+//==============
+
+    async.parallelLimit([
+    function task1(callback) {
+        console.log(1)
+        setTimeout(callback, 3000)
+    },
+    function task2(callback) {
+        console.log(2)
+        setTimeout(callback, 2000)
+    },
+    function task3(callback) {
+        console.log(3)
+        setTimeout(callback, 2000)
+    },
+    function task4(callback) {
+        console.log(4)
+        callback()
+    },
+], 2, function() {
+    console.log('all task done')
+})
+
+//===============
+
+
+//=======================================******************
+
+
+async.parallel([
+    function task1(callback) {
+        console.log(1)
+        callback()
+    },
+    function task2(callback) {
+        console.log(2)
+        setTimeout(callback, 1000)
+    },
+    function task3(callback) {
+        console.log(3)
+        setTimeout(callback, 2000)
+    },
+    function task4(callback) {
+        console.log(4)
+        callback()
+    },
+], function() {
+    console.log('all task done')
+})
+
+
+//=======================================******************
+
+
+async.series([
+    function task1(callback) {
+        console.log(1)
+        callback()
+    },
+    function task2(callback) {
+        console.log(2)
+        setTimeout(callback, 1000)
+    },
+    function task3(callback) {
+        console.log(3)
+        setTimeout(callback, 2000)
+    },
+    function task4(callback) {
+        console.log(4)
+        callback()
+    },
+], function() {
+    console.log('all task done')
+})
+
+
+//=======================================******************
+
+
+function parallel(tasks, callback) { // 并行执行所有任务，所有有任务完成时调用callback
+    var done = 0
+    for (var task of tasks) {
+        task(() => {
+            done++ // 完成一个任务计一个数
+            if (done == tasks.length) {
+                callback()
+            }
+        })
+    }
+}
+
+
+//=======================================******************
+
+
+// 串行执行所有任务，一个执行完才能开始下一个，所有有任务完成时调用callback
+function series(tasks, callback) {
+    if (tasks.length == 0) {
+        callback()
+    } else {
+        var runned = 0//已经完成的任务数量
+
+        function startTask() {
+            runned++
+            if (tasks.length > runned) {
+                tasks[runned](startTask)
+            } else {
+                callback()
+            }
+        }
+
+        tasks[0](startTask)
+    }
+}
+
+
+//=======================================******************
+
+
+function map(array, mapper, callback) {
+    var result = []
+    var n = 0
+    if (array.length == 0) {
+        callback(result)
+    }
+    for (let i = 0; i < array.length; i++) {
+        mapper(array[i], (mapped) => {
+            result[i] = mapped
+            n++
+            if (n == array.length) {
+                callback(result)
+            }
+        })
+    }
+}
+
+
+
+
 </script>

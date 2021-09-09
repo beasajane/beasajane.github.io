@@ -144,6 +144,8 @@ function* fibbs(n) {
 
     return  8888
 }
+
+
 function forof(iterable, f) {
     var generated = iterable.next()
     while (!generated.done) {
@@ -154,6 +156,10 @@ function forof(iterable, f) {
     }
     iterable.return()
 }
+
+
+
+
 Number.prototype[Symbol.iterator] = function*() {
     for (var i = 0; i < this; i++) {
         yield i 
@@ -163,4 +169,23 @@ Number.prototype[Symbol.iterator] = function*() {
 for (var i of 10) {
     console.log(i)
 }
+
+
+
+
+
+function * f() {
+  var a = yield 'x'
+    console.log(a)
+  var b = yield 'y'
+    console.log(b)
+}
+
+r = c()  //c {<suspended>}
+r.next('aaa')  // {value: "x", done: false}
+r.next('aaa')  // aaa     {value: "y", done: false}
+r.next('bbb')  // bbb     {value: undefined, done: true}
+
+
+
 </script>

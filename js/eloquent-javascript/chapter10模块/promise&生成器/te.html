@@ -1,0 +1,243 @@
+<script>
+    function getValue(n , time = 1000) {
+      return new Promise(resolve => {
+        setTimeout(() => resolve(n), time)
+      })
+    }
+    getValue(2, 2000).then(console.log)
+
+
+  function* f() {
+    console.log('1')
+    var m = yield getValue(2, 1000)
+    console.log('3')
+    var m = yield getValue(4, 2000)
+    console.log('5')
+    var m = yield getValue(6, 3000)
+    console.log('7')
+    var m = yield getValue(8, 4000)
+  }
+
+  function* ff() {
+    console.log('1')
+    var m = yield getValue(2, 1000)
+    console.log(m)
+    var m = yield getValue(4, 2000)
+    console.log(m)
+    var m = yield getValue(6, 3000)
+    console.log(m)
+    var m = yield getValue(8, 4000)
+    console.log(m)
+  }
+
+var i = f()  // ff()
+generated = i.next()
+generated.value.then(val => {
+    generated = i.next(val)
+    generated.value.then(val => {
+        generated = i.next(val)
+        generated.value.then(val => {
+            generated = i.next(val)
+                
+        })
+    })
+})
+
+
+new Promise((resolve, reject) =>{
+   resolve(value)  // 收到什么就返回什么
+   reject(reason)  // 传入的参数是什么就抛出什么
+})
+
+
+  function getValue(n, time = 1000) {
+    return new Promise(resolve => {
+      setTimeout(() => resolve(n), time)
+    })
+  }
+
+  function* ff() {
+    console.log('1')
+    var m = yield getValue(2, 1000)
+    console.log(m)
+    var m = yield getValue(4, 2000)
+    console.log(m)
+    var m = yield getValue(6, 3000)
+    console.log(m)
+    var m = yield getValue(8, 4000)
+    console.log(m)
+  }
+
+
+  async function f(a,b) {
+    var a = await getJSON('a.json')  //  await + promise   (否则直接返回后面的值)
+  }
+  await f(1,2)
+  async () => {}
+
+
+  function co(generator) {  // generator 生成器函数
+    var iterable = generator()
+    
+    function tick(value) {
+      var generated = iterable.next(value)
+      if (!generated.done) {
+        generated.value.then(value => {
+          console.log('value :'+ value)
+          tick(value)
+        })
+      }
+    }
+    tick()
+  }
+
+
+
+  
+  function getValue(n, time = 1000) {
+    return new Promise(resolve => {
+      setTimeout(() => resolve(n), time)
+    })
+  }
+  
+  function* ff() {
+    console.log('1')
+    var m = yield getValue(2, 1000)
+    console.log(m)
+    var m = yield getValue(4, 1000)
+    console.log(m)
+    try {
+      var m = yield Promise.reject(6666)
+      console.log(m)
+    }catch(e) {
+      console.log(e)
+    }
+    console.log(m)
+    var m = yield getValue(8, 2000)
+    console.log(m)
+    return 9
+  }
+   co( ff).then(() => {console.log('ff running completed')})  // co(ff) 仅仅是启动ff函数，然后直接调用then函数
+
+  function co(generator) {  // generator 生成器函数
+    return new Promise((resolve, reject) => {
+      var iterable = generator()
+      var generated = iterable.next()
+      
+      function tick() {
+        if (!generated.done) {
+          generated.value.then(value => {
+            generated = iterable.next(value)
+            // console.log('value :'+ value)
+            tick()
+          }, reason => {
+              generated = iterable.throw(reason)
+              // console.log('reason :'+ reason)
+              tick()
+          })
+        }else {
+          console.log('generated.value', generated.value)
+          resolve(generated.value)
+        }
+      }
+      tick()
+    })
+  }
+  
+
+
+
+  function getValue(n, time = 1000) {
+    return new Promise(resolve => {
+      setTimeout(() => resolve(n), time)
+    })
+  }
+   
+  function* ff() {
+    console.log('1')
+    var m = yield getValue(2, 1000)
+    console.log(m)
+    var m = yield getValue(4, 1000)
+    console.log(m)
+    try {
+      var m = yield Promise.reject(6666)
+      console.log(m)
+    }catch(e) {
+      console.log(e)
+    }
+    console.log(m)
+    var m = yield getValue(8, 2000)
+    console.log(m)
+    return 9
+  }
+  co(ff).then((val) => {console.log('ff running completed', val)})  // co(ff) 仅仅是启动ff函数，然后直接调用then函数
+
+  function co(generator) {  // generator 生成器函数
+    return new Promise((resolve, reject) => {
+      var iterable = generator()
+      var generated = iterable.next()
+      tick()
+      
+      function tick() {
+        if (!generated.done) {
+          generated.value.then(value => {
+            try{
+              generated = iterable.next(value)
+              tick()
+            }catch (e) {
+              reject(e)
+            }
+          }, reason => {
+            try{
+              generated = iterable.throw(reason)
+              tick()
+            }catch (e) {
+              reject(e)
+            }
+          })
+        } else {
+          resolve(generated.value)
+        }
+      }
+    })
+  }
+
+
+
+
+
+
+//
+  function* f() {
+    debugger
+    var a = yield 'x'  // 1
+    debugger
+    console.log(a)  // 2
+    debugger
+    var b = yield 'y'  // 3
+    debugger
+    console.log(b)  // 4
+    debugger
+    return 9
+  }
+
+  r = c()  //c {<suspended>}  (dubugger不启动)
+  r.next('aaa')  // {value: "x", done: false}  ()    // 只运行完 1 并停留在该行末尾 'aaa' 并不赋值
+  r.next('bbb')  // aaa     {value: "y", done: false}  // 从1 末尾开始运行 'bbb'赋值给 a  并log出，然后运行到3末尾
+  r.next('ccc')  // bbb     {value: undefined, done: true}  //  'ccc' 赋值给 b  
+
+  // new Promise(function1(function2, function3) => {箭头函数，this指向可能会出现问题})
+  // function1 立即调用，，函数体内部可以时异步和同步
+  // function2,function3是内部函数
+
+
+
+// Ajax 
+  let xhr = new XMLHttpRequest()
+  xhr.open('get', 'https://xieranmaya.github.io/images/cats/cats.json')
+  xhr.send()
+  console.log(xhr.responseText)
+
+
+
+</script>
