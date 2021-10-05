@@ -1,4 +1,4 @@
-const { prototype } = require("events")
+
 
 var beasajane = function(){
     function chunk(array, size){
