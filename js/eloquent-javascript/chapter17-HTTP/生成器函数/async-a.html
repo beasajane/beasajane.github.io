@@ -1,0 +1,38 @@
+<script  title="https://bluepnume.medium.com/even-with-async-await-you-probably-still-need-promises-9b259854c161">
+  function serialAsyncMap(collection, fn) {
+
+    let results = [];
+    let promise = Promise.resolve();
+
+    for (let item of collection) {
+      promise = promise.then(() => {
+        return fn(item).then(result => {
+          results.push(result);
+        });
+      });
+    }
+    return promise.then(() => {
+      return results;
+    });
+  }
+
+
+  function serialAsyncMap(collection, fn) {
+
+    let results = [];
+    let promise = Promise.resolve();
+
+    for (let item of collection) {
+      promise = promise.then(() => fn(item))
+        .then(result => results.push(result));
+    }
+
+    return promise.then(() => results);
+  }
+
+
+
+  async function j() {
+    // await  版本
+  }
+</script>

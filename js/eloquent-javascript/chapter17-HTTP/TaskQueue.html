@@ -87,6 +87,38 @@ q.addTask(function (next) {
   //         return this
   //     }
   // }
+  // ****=====上方改写
+
+class TaskQueue11 { //解决问题（可能是同一个任务）：：：   每个任务接到的next都不是同一个函数，并且只能调用一次
+  constructor() {
+    this.tasks = []
+    this.taskRunning = false
+  }
+
+  createNext() {
+    var called = false
+    return () => {
+      if (called) return
+      called = true
+
+      if (this.tasks.length) {
+        var task = this.tasks.shift()
+        task(this.createNext())
+      } else {
+        this.taskRunning = false
+      }
+    }
+  }
+  addTask(taskFunc) {
+    if (this.taskRunning) {
+      this.tasks.push(taskFunc)
+    } else {
+      this.taskRunning = true
+      taskFunc(nextFunc)
+    }
+    return this
+  }
+}
 
 //师版2
   // class TaskQueue {

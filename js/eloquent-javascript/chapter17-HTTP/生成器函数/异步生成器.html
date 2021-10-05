@@ -1,0 +1,85 @@
+<script title='异步生成器函数'>
+
+  function getValue(n, time = 1000) {
+    return new Promise(resolve => {
+      setTimeout(() => resolve(n), time)
+    })
+  }
+  async function * foo() {
+    await getValue(1, 1000)
+    yield 1
+    await getValue(1, 1000)
+    yield 2
+    await getValue(1, 1000)
+    yield 3
+
+    var a = await getValue(9, 1000)
+    console.log(a)
+    yield 1
+    a = await getValue(8, 1000)
+    console.log(a)
+    yield 2
+    a = await getValue(7, 1000)
+    console.log(a)
+    yield 3
+  }
+  g = foo() // 无法立刻得到结果，但可以运行后续代码  resolve 
+  g.next()
+  g.next()
+  g.next()
+  g.next()
+  
+  
+  
+  for await(var x of foo()) {
+    console.log(x)
+  }
+</script>
+<script>
+  function * foo() {
+    yield 1
+    yield 2
+    yield 3
+  }
+  for(var x of foo()) {
+    
+  }
+  
+  async function foo() {  // await 目的为了去then
+    await getValue(1, 1000)
+    await getValue(1, 1000)
+    await getValue(1, 1000)
+  }
+  async function too() {
+    return await getValue(1, 1000)
+    await getValue(1, 1000)
+    await getValue(1, 1000)
+  }
+
+  // coroutine  纤程、协程   thread 线程
+  foo()
+  too()
+
+
+
+
+  async function foo() {
+
+  } //返回 promise   resolve undefined
+</script>
+
+<script title="将for await of 实现为一个函数  网络连接数据">
+  for await (var x of foo()) {
+    await get (x)
+  }
+  async function forawaitof(asyncIterable, body) {  //asyncIterable: 异步生成器 生成每一个值 得到的结果传给 body   body : 异步function 
+    for(;;) {
+      var gen = await asyncIterable.next()
+      if(!gen.done) {
+        await body(gen.value)
+      } else {
+        break
+      }
+    }
+  }
+</script>
