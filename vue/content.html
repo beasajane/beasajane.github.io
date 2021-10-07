@@ -1,0 +1,21 @@
+<div id="app-2">
+  <span v-bind:title="message"></span>
+  <span :title="message">
+    鼠标悬停几秒钟查看此处动态绑定的提示信息！
+  </span>
+
+  <span @click="f()">等价</span>
+  <span v-on:click="f()">等价</span>
+  <span v-if="">等价</span>
+  <span v-for="xx in yy">等价</span>
+  <span v-show="">等价</span>
+</div>
+
+
+<button v-on:click="reverseMessage">反转消息</button>  <!-- 无括号 传唯一参数 事件对象 $event -->
+等价于  button.addEventListener('click', reverseMessage)
+
+  <button v-on:click="reverseMessage()">反转消息</button>  <!-- 仅仅将 reverseMessage() 绑在button上    reverseMessage() 相当于事件处理中函数体-->
+  更像浏览器中的--约等价---<button onclick="reverseMessage()">反转消息</button>
+
+  button.addEventListener('click', f() ) // f的调用结果被绑定在button上

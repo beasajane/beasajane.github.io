@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!--  数据驱动型 根据数据渲染模板
+      语法
+      * @click="show == 'all'"
+      * :checked="show == 'all'"
+      * v-if="todos.some(it => it.done)"
+      *  v-for="(todo, idx) of todos"
+
+      * this
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>todo-vue</title>
+  <style>
+    ul.active li.completed {
+      display: none;
+    }
+    ul.completed li.active {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <select multiple v-model="answer">
+      <option value="a">a</option>
+      <option value="b">b</option>
+      <option value="c">c</option>
+      <option value="d">d</option>
+    </select>
+    <select v-model="question">
+      <option value="a">a</option>
+      <option value="b">b</option>
+      <option value="c">c</option>
+      <option value="d">d</option>
+    </select>
+    <input type="checkbox" v-model="like" name="lick" value="apple">
+    <input type="checkbox" v-model="like" name="lick" value="orange">
+    <input type="checkbox" v-model="like" name="lick" value="banana">
+  </div>
+  <script src="todo/vue.js"></script>
+  <script>
+    // mvvm model -> view  view -> model  双向绑定
+    //数据驱动
+    var data = {
+        answer: ['a', 'c'],
+        question: 'd',
+        like: ['apple', 'orange']
+      } 
+    var app = new Vue({  // vm  view-model 视图模型
+      el: '.container',
+      data: data
+    })
+    console.log(data.answer === app.answer)
+    // var app = new Vue({  // vm  view-model 视图模型
+    //   el: '.container',
+    //   data: {
+    //     answer: ['a', 'c'],
+    //     question: 'd',
+    //     like: ['apple', 'orange']
+    //   },
+    // })
+
+  </script>
+</body>
+</html>

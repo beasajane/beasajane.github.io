@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<!--  数据驱动型 根据数据渲染模板
+      语法
+      * @click="show == 'all'"
+      * :checked="show == 'all'"
+      * v-if="todos.some(it => it.done)"
+      *  v-for="(todo, idx) of todos"
+
+      * this
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>todo-vue</title>
+  <style>
+    ul.active li.completed {
+      display: none;
+    }
+    ul.completed li.active {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div>
+      <input type="checkbox" class="toggle-all" @click="toggleAll()" :checked="todos.length && todos.every(it => it.done)" >
+      <input type="text" class="todo-input" v-model="todoText" @keyup="addTodo($event)">
+      <!-- $event  事件对象 -->
+    </div>
+
+    <ul :class="show">
+      <li :class="todo.done ? 'completed' : 'active'" v-for="(todo, idx) of todos">
+        <!-- <input type="checkbox" v-model="todo.done"/> -->
+        <!-- 等价于  --><input type="checkbox" :checked="todo.done" @click="todo.done = $event.target.checked"/>
+
+        <!-- <input type="checkbox" :checked="todo.done" @click="todo.done = !todo.done"/> -->
+
+        <input @blur="editingIdx = -1" :value="todo.text" @keyup="handleEditKeyup($event)" v-if="editingIdx == idx" type="text">
+        <span @dblclick="editingIdx = idx" v-else>{{todo.text}}</span>
+        <button class="delete" @click="deleteItem(idx)">Delete</button>
+      </li>
+    </ul>
+
+    <div>
+      <span>{{ todos.filter(it => !it.done).length }} items left</span>
+      <div >
+        <label><input type="radio" name="category" @click="show = 'all'" :checked="show == 'all'" value="all">All</label>
+        <label><input type="radio" name="category" @click="show = 'active'" :checked="show == 'active'" value="active">Active</label>
+        <label><input type="radio" name="category" @click="show = 'completed'" :checked="show == 'completed'" value="completed">Completed</label>
+      </div>
+      <button v-if="todos.some(it => it.done)" @click="clear()">Clear Completed</button>
+    </div>
+  </div>
+  <script src="vue.js"></script>
+  <script>
+    var app = new Vue({
+      el: '.container',
+      data: {
+        todoText: '',
+        show: 'all',
+        editingIdx: -1,
+        todos: [
+          {
+            text: 'eat',
+            done: false,
+          },
+          {
+            text: 'drink',
+            done: false,
+          }
+        ]
+      },
+      methods: {
+        handleEditKeyup(e ) {
+          if (e.key == 'Enter') {
+            app.todos[app.editingIdx].text = e.target.value.trim() // 等价于this.todos[editingIdx]
+            app.editingIdx = -1
+          }
+          if (e.key == 'Escape') {
+            app.editingIdx = -1 
+          }
+        },
+        toggleAll() {
+          if ( this.todos.every(it => it.done) ) {
+            this.todos.forEach(it => {
+              it.done = false
+            })
+          } else {
+            this.todos.forEach(it => {
+              it.done = true
+            })
+          }
+        },
+        addTodo(e) { // 在模板中，将事件对象传给它，需要用 $event
+          if(e.key == 'Enter') {
+            var text = this.todoText
+            // var text = e.target.value.trim()
+            if(!text) {
+              return 
+            } 
+            // e.target.value = '' 
+            this.todoText = ''
+            this.todos.push({
+              text,
+              done: false,
+            })
+          }
+        },
+        deleteItem: function(idx) {
+           this.todos.splice(idx, 1) // this ==  app
+        },
+        clear() {
+          this.todos = this.todos.filter(it => !it.done)
+        }
+        // toggle(idx) {
+        //   this.todos[idx].done = !this.todos[idx].done
+        // }
+      },
+      watch: {
+        show: function() {
+
+        },
+        editingIdx: function() {
+
+        },
+        todos: function() {
+
+        }
+      }
+    })
+
+  </script>
+</body>
+</html>

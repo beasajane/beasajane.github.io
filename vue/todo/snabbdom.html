@@ -11,7 +11,7 @@
         模板直接写到container元素里
         不使用模板字符串
 -->
-<!-- 以数据为关注点的---todo -->
+<!-- 以数据为关注点的---todo --- snabbdom-->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -22,29 +22,44 @@
 <body>
   <div id="container"></div>
 
-  <script>
-    // var {show, editingIdx, todos} = JSON.parse(localStorage.todosInfo) || {show: 'all', editingIdx: -1, todos: {}}
-    var {show, editingIdx, todos} = JSON.parse(localStorage.getItem('todosInfo')) || {show: 'all', editingIdx: -1, todos: []}
-    // var show = 'all' // 当前显示的种类
-      // var editingIdx = -1 
+  <script type="module">
+    import {//*
+      init,
+      classModule,
+      propsModule,
+      styleModule,
+      eventListenersModule,
+      h,
+    } from "https://unpkg.com/snabbdom?module";
 
-      // var  todos = [
-      //   {
-      //     text: 'eat',
-      //     done: TextTrackCue,
-      //   },
-      //   {
-      //     text: 'drink',
-      //     done: false,
-      //   },
-      //   {
-      //     text: 'sleep',
-      //     done: false,
-      //   }
-      // ]
+    import htm from "https://unpkg.com/htm?module"  // htm``  带标签的模板字符串
+    window.htm = htm
+
+
+    window.patch = init([
+      // Init patch function with chosen modules
+      classModule, // makes it easy to toggle classes
+      propsModule, // for setting properties on DOM elements
+      styleModule, // handles styling on elements with support for animations
+      eventListenersModule, // attaches event listeners
+    ]);
+
+    window.container = document.getElementById("container");
+
+    window.h = h
+
+    function h2(tag, attr, ...children) {
+      return h(tag, attr, children)
+    }
+
+    window.html = htm.bind(h2) //*
+
+    var {show, editingIdx, todos} = JSON.parse(localStorage.getItem('todosInfo')) || {show: 'all', editingIdx: -1, todos: []}
 
     var container = document.querySelector('div#container')
-    updatePage()
+    var oldVnode = renderVnode()   //*
+
+    patch(container, oldVnode) //*
 
     container.addEventListener('click', function(e) {
       if(e.target.matches('button.delete')){ //点击来源于删除按钮
@@ -52,10 +67,6 @@
         todos.splice(idx, 1)
         updatePage()
       }
-      // if(e.target.matches('button.clear')) { // 点击来源于删除已完成项按钮 
-      //   todos = todos.filter(it => !it.done)
-      //   updatePage()
-      // }
       if(e.target.matches('li > input[type="checkbox"]')) { // 点击来源于切换按钮 
         var idx = e.target.dataset.idx
         todos[idx].done = !todos[idx].done
@@ -120,12 +131,6 @@
         }
       }
     })
-    // container.addEventListener('blur', function (e) { // blur 事件不冒泡
-      //   if (e.target.matches('.edit')) {
-      //       editingIdx = -1
-      //       updatePage()
-      //   }
-      // }, true) // true 捕获
     container.addEventListener('focusout', function (e) { 
       if (e.target.matches('.edit')) {
           editingIdx = -1
@@ -133,11 +138,11 @@
       }
     }) 
 
-    function updatePage() {
-      var dom = readerHTML()
-      console.log(dom)
-      container.innerHTML = ''
-      container.append(dom)
+    function updatePage() {//*
+      console.log(renderVnode())
+      var newVnode = renderVnode()
+      patch(oldVnode, newVnode)
+      oldVnode = newVnode
       save()
     }
     function save() {
@@ -147,8 +152,8 @@
       localStorage.todosInfo = JSON.stringify(obj)
     }
 
-    function readerHTML() {  // 模板字符串   模板引起
-      var html =  `
+    function renderVnode() {  // 模板字符串   模板引起 
+      return  html`
         <section>
           <div>
           <input type="checkbox" class="toggle-all" ${todos.length && todos.every(it => it.done) ? 'checked' : ''}>
@@ -182,10 +187,7 @@
             ${todos.some(it => it.done) ? '<button class="clear" onclick="clearCompleted()">Clear Completed </button>' : ''}
           </div>
         </section>
-      `
-      var div = document.querySelector('div')
-      div.innerHTML = html
-      return div.firstElementChild
+      `//*
     }
 
     function clearCompleted() {
