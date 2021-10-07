@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+  <!-- 原始方法 -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>原始方法1.0</title>
+  <style>
+    /* li.completed span {
+      text-decoration: line-through;
+    }
+    li.completed {
+      background-color: grey;
+    } */
+
+  </style>
+</head>
+<!-- 首先关注功能 其次才是界面 -->
+<body>
+  <h1>todos</h1>
+  <div>
+    <input type="checkbox" name="" id="toggleSelectAll">
+    <input type="text" id="todoInput">
+  </div>
+  <ul id="todoList">
+    <!-- <li>
+      <input type="checkbox" name="" id="">
+      <span>eat fish</span>
+      <button>&times;</button>
+    </li> -->
+  </ul>
+  <div>
+    <span><em id="count">0</em> items left</span>
+    <div>
+      <label><input type="radio" name="cur">All</label>
+      <label><input type="radio" name="cur">Active</label>
+      <label><input type="radio" name="cur">Completed</label>
+    </div>
+    <button>Clear completed</button>
+  </div>
+
+
+
+  <script>
+    const todoInput = document.querySelector('#todoInput')
+    const todoList = document.querySelector('#todoList')
+    const cout = document.querySelector('#count')
+    const toggleSelectAll = document.querySelector('#toggleSelectAll')
+
+
+    todoInput.addEventListener('keyup', function(e) {
+      if(e.key == 'Enter') {
+        var todoText = todoInput.value.trim()
+        if(!todoText) {//empty string
+          return  
+        }
+
+        todoInput.value = ''
+
+        var li = document.createElement('li')
+        li.classList.add('active')
+
+        var checkbox = document.createElement('input')
+        checkbox.type = 'checkbox'
+        checkbox.onclick = function(e) {
+          if(this.checked) {
+            count.textContent = Number(count.textContent) - 1
+            li.classList.add('completed')
+            li.classList.remove('active')
+          }else {
+            count.textContent = Number(count.textContent) + 1
+            li.classList.add('active')
+            li.classList.remove('completed')
+          }
+
+          if(isAllChecked()) {
+            toggleSelectAll.checked = true
+          } else {
+            toggleSelectAll.checked = false
+          }
+        }
+
+        var span = document.createElement('span')
+        span.textContent = todoText
+
+        var button = document.createElement('button')
+        button.textContent = '×'
+
+        // 删除功能
+        button.onclick = function() {
+          todoList.removeChild(li) // remove 删自己
+          if(!checkbox.checked) {
+            count.textContent = Number(count.textContent) - 1
+          }
+        }
+
+
+        li.append(checkbox, span, button)
+        todoList.append(li)
+        
+        count.textContent = Number(count.textContent) + 1  // ++ 返回原值
+      }
+    })
+
+    toggleSelectAll.addEventListener('click', function(e) {
+      var checkboxes =  Array.from(todoList.querySelectorAll('input[type="checkbox"]'))
+      if(isAllChecked()) {
+        checkboxes.forEach(it => {
+          it.checked = false
+        })
+      } else {
+        checkboxes.forEach(it => {
+          it.checked = true
+        })
+      }
+    })
+
+    function isAllChecked() {
+      return Array.from(todoList.querySelectorAll('input[type="checkbox"]')).every(it => it.checked)
+    }
+    function elt() {} // 创建 新元素
+  </script>
+</body>
+</html>
