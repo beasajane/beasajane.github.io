@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<!-- element 组件 -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /* div{
+      border-radius: 50%;
+      float:
+    } */
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="todo/vue-2.6.14.js"></script>
+  <script>
+    Vue.component('my-progress', {
+      props: {
+        percentage: {
+          type: Number,
+          required: true,
+        },
+        color: {
+          type: String,
+          default: '#409eff',
+        },
+        textInside: {
+          type: Boolean,
+          default: false,
+        }
+      },
+      template: `
+        <div> 
+          <div style="display: inline-block;border-radius: 600px; height: 12px; width: 150px; background-color: #ebeef5;">
+            <div style="height: 100%;border-radius: 6px;" :style="{width: percentage + '%', backgroundColor: color}">
+              <span style="float: right;font-size: 10px;color:white;" v-if="textInside">{{ percentage }}%</span>
+            </div>
+          </div>
+          <span v-if="!textInside">{{ percentage }}%</span>
+        </div>
+      `,
+    })
+    Vue.component('my-input-number', {
+      props: {
+        value1: {
+          type: Number,
+          required: true,
+        },
+        max: {
+          type: Number,
+          default: 10,
+        },
+        min: {
+          type: Number,
+          default: 0,
+        },
+      },
+      template: `
+        <span style="display: inline-block">
+          <button @click="dec">-</button>
+          <input type="text" :value="value11" style="width: 4em; text-align: center;" />
+          <button @click="inc">+</button>
+        </span>
+      `,//  style="display: inline-block" 清除空格
+      data() {
+        return {
+          value11 : this.value1
+        }
+      },
+      // 有问题的地方
+      methods: {
+        inc() {
+          this.value11++
+        },
+        dec() {
+          this.value11--
+        }
+      }
+      // 有问题的地方
+    })
+    var app = new Vue({
+      el: '#root',
+      template: `
+        <div>
+          <my-input-number :value1="value2"></my-input-number>
+          <my-input-number :value1="value3"></my-input-number>
+          <my-progress :percentage="20" :color="'red'"></my-progress>
+          <my-progress :percentage="50" :color="'green'"></my-progress>
+          <my-progress :percentage="78" :color="'purple'"></my-progress>
+          <my-progress :percentage="33" :textInside="true"></my-progress>
+        </div>
+      `,
+      data: {
+        value2: 10,
+        value3: 14,
+      },
+      updated() {
+        console.log(this)
+        console.log('root component update')
+      }
+    })
+  </script>
+  
+</body>
+</html>

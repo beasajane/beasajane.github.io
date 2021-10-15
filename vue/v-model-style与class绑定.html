@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+  
+  
+  <div class="container" :class="['fbr', 'bac', {great: true}]">
+    <template v-if="ok">
+      <h1>Title</h1>
+      <p>Paragraph 1</p>
+      <p>Paragraph 2</p>
+    </template>
+    <template v-if="no">
+      <h1>Title</h1>
+      <p>Paragraph 3</p>
+      <p>Paragraph 4</p>
+    </template>
+
+
+    <h1 v-show="ok">Hello2!</h1>
+    <h1 v-show="no">Hello3!</h1>
+    <h1 v-show="x > 30">Hello4!</h1>
+    <h1 v-show="x <= 30">Hello5!</h1>
+
+
+    <div v-if="type === 'A'">
+      Aaaaaa
+    </div>
+    <div v-else-if="type === 'B'">
+      Bbbbbb
+    </div>
+    <div v-else-if="type === 'C'">
+      Cccccc
+    </div>
+    <div v-else>
+      Not A/B/C
+    </div>
+
+    <!--条件渲染 -->
+    <h1 v-if="awesome">Vue is awesome!</h1>
+    <h1 v-else>Oh no 😢</h1>
+
+
+
+    <!-- v-if  v-for  同时存在 -->
+    <ul>
+      <li v-if="item > 2" v-for="item of list">{{item}}</li>
+      <br>
+      <li v-for="item of list.filter(it => it > 2)">{{item}}</li>
+      <br>
+      <li v-for="item of listFilter">{{item}}</li>
+    </ul>
+
+    <dl>
+      <template v-for="n in 3">
+        <dt>a</dt>
+        <dd>b</dd>
+      </template>
+    </dl>
+
+    <!-- 列表渲染 -->
+    <ul>
+      <!-- 把一个数组对应为一组元素 -->
+      <!-- key问题为重点问题 -->
+      <li v-for="item in items" :key="item.message">
+        {{ item.message }}
+      </li>
+      <br>
+      <!-- 第二个参数，即当前项的索引 -->
+      <li v-for="(item, index) in items">
+        {{ parentMessage }} - {{ index }} - {{ item.message }}
+      </li>
+      <br>
+      <!--  用 of 替代 in -->
+      <li v-for="(item, index) of items">
+        {{ parentMessage }} - {{ index }} - {{ item.message }}
+      </li>
+      <br>
+      <!--  在 v-for 里使用对象  遍历一个对象的 property -->
+      <li v-for="value in object">
+        {{ value }}
+      </li>
+      <br>
+      <!-- 第二个的参数为 property 名称 -->
+      <div v-for="(value, name) in object">
+        {{ name }}: {{ value }}
+      </div>
+      <br>
+      <!-- 第三个参数 index -->
+      <div v-for="(value, name, index) in object">
+        {{ index }}. {{ name }}: {{ value }}
+      </div>
+    </ul>
+
+
+
+
+    <!-- <span :style="{'font-size': x + 'px'}" style="color: red;">aaaaa</span> -->
+
+    <span :style="spanStyle" style="display: inline-block; color: green;">bbbbb</span>
+    <span :style="spanStyle2" style="display: inline-block; color: green;">bbbbb</span>
+    <span :style="spanStyle3" style="display: inline-block; color: green;">bbbbb</span>
+    <span :style="[spanStyle4,spanStyle3]" style="display: inline-block; color: green;">bbbbb</span>
+    <!-- <span :style="{fontSize: x + 'px', 'margin-top': x * 2 + 'em'}" style="display: inline-block; color: green;">bbbbb</span> -->
+        classObj: {
+    <p class="star" :class="[{ foo: true, bar: x > 50 }, classObj, 'fbr', 'bac']" :class="classObj">
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore voluptatibus sit saepe fuga quas quod. Inventore dicta quas ducimus laboriosam consequatur omnis nesciunt facilis? Quaerat assumenda eveniet numquam? Sed, culpa!
+    </p>
+    <p class="star" :class="classObj">
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore voluptatibus sit saepe fuga quas quod. Inventore dicta quas ducimus laboriosam consequatur omnis nesciunt facilis? Quaerat assumenda eveniet numquam? Sed, culpa!
+    </p>
+  </div>
+  <div class="container">
+    <p class="star" :class="{ foo: true, bar: x > 50 }">
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore voluptatibus sit saepe fuga quas quod. Inventore dicta quas ducimus laboriosam consequatur omnis nesciunt facilis? Quaerat assumenda eveniet numquam? Sed, culpa!
+    </p>
+  </div>
+
+  <script src="todo/vue.js"></script>
+
+  <script>
+    var app = new Vue({
+      el: '.container',
+      data:  {
+        ok: true,
+        no: false,
+        type: 'A',
+        awesome: false,
+        
+        parentMessage: 'Parent',
+        items: [
+          { message: 'Foo' },
+          { message: 'Bar' },
+          { message: 'baz' },
+        ],
+        list: [
+          1,2,3,4
+        ], 
+
+        object: {
+          title: 'How to do lists in Vue',
+          author: 'Jane Doe',
+          publishedAt: '2016-04-10'
+        },
+
+        x: '25',
+        classObj: {
+          a: true,
+          b: false,
+          c: true,
+        }
+      },
+      computed: {
+        listFilter() {
+          return this.list.filter(it => it > 2)
+        },
+        spanStyle() {
+          return {fontSize: this.x + 'px', 'margin-top': this.x * 2 + 'em'}
+        },
+        spanStyle2() {
+          return 'font-size: 80px'
+        },
+        spanStyle4() {
+          return {'font-size': '80px'}
+        },
+        spanStyle3() {
+          return {'border': '3px blue solid'}
+        }
+      }
+    })
+  </script>
+</body>
+</html>

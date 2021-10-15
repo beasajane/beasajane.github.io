@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<!-- element 组件 -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /* div{
+      border-radius: 50%;
+      float:
+    } */
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="todo/vue-2.6.14.js"></script>
+  <script>
+    Vue.component('my-progress', {
+      props: {
+        percentage: {
+          type: Number,
+          required: true,
+        },
+        color: {
+          type: String,
+          default: '#409eff',
+        },
+        textInside: {
+          type: Boolean,
+          default: false,
+        }
+      },
+      template: `
+        <div> 
+          <div style="display: inline-block;border-radius: 600px; height: 12px; width: 150px; background-color: #ebeef5;">
+            <div style="height: 100%;border-radius: 6px;" :style="{width: percentage + '%', backgroundColor: color}">
+              <span style="float: right;font-size: 10px;color:white;" v-if="textInside">{{ percentage }}%</span>
+            </div>
+          </div>
+          <span v-if="!textInside">{{ percentage }}%</span>
+        </div>
+      `,
+    })
+    Vue.component('my-input-number', {
+      props: {
+        val: {
+          type: Number,
+          required: true,
+        },
+        max: {
+          type: Number,
+          default: 10,
+        },
+        min: {
+          type: Number,
+          default: 0,
+        },
+      },
+      template: `
+        <span style="display: inline-block">
+          <button @click="dec">-</button>
+          <input @blur="fix" type="text" :value="current" style="width: 4em; text-align: center;" />
+          <button @click="inc">+</button>
+        </span>
+      `,//  style="display: inline-block" 清除空格
+      data() {
+        return {
+          // current: this.val,  // value是谁 :value="current"？  value: { type: Number,required: true,}
+          current: this.val < this.min ? this.min : (this.val > this.max ? this.max : this.val),
+        }
+      },
+      watch: {
+        current(val) {
+          this.$emit('change', val)
+        }
+      },
+      methods: {
+        fix(e) {
+          var valu = Number(e.target.value.trim())
+          if(Number,isNaN(valu)) {
+            this.$forceUpdate()  // ***
+          } else {
+            if(valu > this.max) {
+              this.current = this.max
+            }else if(valu < this.min) {
+              this.current = this.min
+            }else {
+              this.current = valu
+            }
+          }
+          // this.$emit('change', this.current)
+        },
+        inc() {
+          this.current++
+          if(this.current > this.max) {
+            this.current = this.max
+          }
+          // this.$emit('change', this.current)
+        },
+        dec() {
+          this.current--
+          if(this.current < this.min) {
+            this.current = this.min
+          }
+          // this.$emit('change', this.current)
+        }
+      }
+    })
+    Vue.component('my-pagination', {
+      props: {
+        total: {
+          type: Number,
+          required: true,
+        },
+        pageSize: {
+          type: Number,
+          default: 10,
+        },
+        layout: {
+          type: String,
+          default: 'prev, pager, next'
+        }
+      },
+      template: `
+        <div> 
+          <button v-if="showPrev" @click="dec"> < </button>
+          <span v-if="showPager">
+            <button @click="currentPage = i" v-for="i of pageCount" :style="{color: i == currentPage ? 'red' : 'black'}">{{i}}</button>
+          </span>
+          <button v-if="showNext" @click="inc"> > </button>
+        </div>
+      `,
+      methods: {
+        inc() {
+          if(this.currentPage < this.pageCount) {
+            this.currentPage++
+          }
+        },
+        dec() {
+          if(this.currentPage > 1){
+            this.currentPage--
+          }
+        },
+      },
+      watch: {
+        currentPage(val) {
+          this.$emit('current-change', val)
+        }
+      },
+      data() {
+        // debugger
+        var layout = this.layout.split(',').map(it => it.trim())
+        var pageCount = Math.ceil(this.total / this.pageSize)
+        return {
+          showPrev: layout.includes('prev'),
+          showPager: layout.includes('pager'),
+          showNext: layout.includes('next'),
+          pageCount,
+          currentPage: 1,
+        }
+      }
+    })
+    var app = new Vue({
+      el: '#root',
+      template: `
+        <div>
+          <ul>
+            <li v-for="item of list.slice((page - 1) * 20, page * 20)">{{item}}</li>
+          </ul>
+          <my-pagination :total="list.length" :page-size="20" @current-change="page = $event" ></my-pagination>
+
+
+          <my-input-number :val="value2" @change="f"></my-input-number>
+          <my-input-number :val="value3" :max="100" :min="20" @change="f"></my-input-number>
+
+          <my-progress :percentage="20" :color="'red'"></my-progress>
+          <my-progress :percentage="50" :color="'green'"></my-progress>
+          <my-progress :percentage="78" :color="'purple'"></my-progress>
+          <my-progress :percentage="33" :textInside="true"></my-progress>
+
+        </div>
+      `,
+      methods: {
+        f(val) {
+          console.log(val)
+        }
+      },
+      data: {
+        value2: 8, // 值为10 的时候有问题
+        value3: 2,
+        page: 1,
+        list: Array(2015).fill(0).map((it,idx) => `${idx} + ${Math.random()}`)
+      },
+      updated() {
+        console.log('root component update')
+      },
+    })
+  </script>
+  
+</body>
+</html>

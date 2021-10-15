@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!-- 
+  注入
+ -->
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>传数据-依赖注入</title>
+</head>
+
+<body>
+  <div id="container">
+  </div>
+
+  <script src="./todo/vue-2.6.14.js"></script>
+  <script>
+
+    Vue.component('baz', {
+      props: ['msg'],
+      inject: ['a', 'b'],
+      template: `
+        <div>{{msg}} --- a: {{a}} b: {{b}} </div>
+      `,
+    })
+    Vue.component('bar', {
+      provide() {
+        return {
+          a: 1,
+          b: 33333,
+        }
+      },
+      props: ['msg'],
+      template: `
+        <baz :msg="msg"></baz>
+      `,
+    })
+    Vue.component('foo', {  
+      props: ['msg'],
+      template: `
+        <bar :msg="msg"></bar>
+      `,
+    })
+    var app = new Vue({
+      provide() {
+        return {
+          a: 1,
+          b: 2,
+        }
+      },
+      el: '#container',
+      template: `
+          <div id="container">
+            <foo :msg="message"></foo>
+          </div>
+        `,
+      methods: {
+      },
+      data: { 
+        showSlider: true,
+        message: 'faskdf',
+      },
+    })
+  </script>
+</body>
+
+</html>

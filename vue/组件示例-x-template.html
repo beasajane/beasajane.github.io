@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<!-- element 组件 -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+  </style>
+</head>
+<body>
+  <div id="root">
+    <async-example v-if="show"></async-example>
+    <table border="1">
+      <tr is="my-table-row">
+        <td>123</td>
+      </tr>
+    </table>
+  </div>
+  <script src="todo/vue-2.6.14.js"></script>
+  <script type="text/x-template" id="classic-layout-template">
+    <div style="border: 1px solid;">
+      <header style="border-bottom: 1px solid;">
+        <slot name="header"></slot>
+      </header>
+      <div style="display: flex;">
+        <aside style="border-right: 1px solid;">
+          <slot name="aside"></slot>
+        </aside>
+        <main style="flex-grow: 1;">
+          <slot></slot>
+        </main>
+      </div>
+    </div>
+  </script>
+  <script>
+    Vue.component('navigation-link', {
+      props: ['url'],
+      template: `
+        <a :href="url">
+          <slot>link</slot>
+        </a>
+      `,
+      data() {
+        return {
+          a: 1,
+          b: 3,
+        }
+      }
+    })
+    Vue.component('classic-layout',{
+      template:'#classic-layout-template',
+    })
+    Vue.component('list', {
+    props: {
+      value: Array,
+      required: true,
+    },
+    template: `
+      <ul>
+        <li v-for="item of value">
+          <slot :data="item" a="owef" b="owiejf" :c="888"></slot>
+        </li>
+      </ul>
+    `
+  })//作用域插槽
+    var app = new Vue({
+      el: '#root',
+      template: `
+        <div>
+          
+          <list :value="shoppingList">
+            <template v-slot:default="slotProps">
+              <!-- slotProps对象相当于 slot -->
+              {{slotProps.data.id}} - {{slotProps.data.name}} - {{slotProps.data.price}} - {{slotProps.c}} - {{slotProps.b}}
+            </template>
+          </list>
+          
+          <list :value="todos">
+            <template v-slot:default="slotProps">
+            <!-- <template v-slot:name="slotProps"> -->
+              <input type="checkbox" :checked="slotProps.data.done"> - {{slotProps.data.text}}
+            </template>
+          </list>
+
+          <classic-layout>
+            <div slot="header">header....</div>
+            <ul slot="aside">
+              <li>aa</li>
+              <li>bb</li>
+              <li>cc</li>
+            </ul>
+            als jf skdj flsjdfoiwej fosjdl fijweoi fjwoe
+            <p>lsdj foiwjeof iwjeoifjowiejf </p>
+          </classic-layout>
+
+          <navigation-link url="aaa.html">
+            <span>Hei!</span>
+            a 编译作用域
+              <br>
+            <div>Hei!Hei!Hei!Hei!</div>
+            <hr>
+          </navigation-link>
+        </div>
+      `,
+      data: {
+        xshow: false,
+        shoppingList: [
+          {
+            id: 38383,
+            name: '肥皂',
+            price: 5,
+          },{
+            id: 8303,
+            name: '毛巾',
+            price: 10,
+          }, {
+            id: 8302,
+            name: '洗衣液',
+            price: 15,
+          }
+        ],
+        todos: [
+          {
+            text: 'eat',
+            done: false,
+          },
+          {
+            text: 'drink',
+            done: true,
+          }
+
+        ]
+      },
+    })
+  </script>
+  
+</body>
+</html>

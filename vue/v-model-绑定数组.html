@@ -1,13 +1,4 @@
 <!DOCTYPE html>
-<!--  数据驱动型 根据数据渲染模板
-      语法
-      * @click="show == 'all'"
-      * :checked="show == 'all'"
-      * v-if="todos.some(it => it.done)"
-      *  v-for="(todo, idx) of todos"
-
-      * this
--->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -25,6 +16,10 @@
 </head>
 <body>
   <div class="container">
+    <div :[xx]="yy">sfdgsdfg</div>
+    <span>{{ foo }} {{ Math.sqrt(2) }} {{ console(3) }}</span>
+      <!-- {{用于转义，放置出现安全漏洞}} -->
+    <span v-html="foo"></span>
     <select multiple v-model="answer">
       <option value="a">a</option>
       <option value="b">b</option>
@@ -48,7 +43,12 @@
     var data = {
         answer: ['a', 'c'],
         question: 'd',
-        like: ['apple', 'orange']
+        like: ['apple', 'orange'],
+        
+      xx: 'xxx',
+      yy: 'yyy',
+      console: console.log,
+      foo: '<strong style="color: red;">aa</strong>',
       } 
     var app = new Vue({  // vm  view-model 视图模型
       el: '.container',

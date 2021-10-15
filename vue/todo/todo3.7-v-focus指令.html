@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<!-- 
+           // 注册一个全局自定义指令 `v-focus`
+    Vue.directive('focus', {
+      // 当被绑定的元素插入到 DOM 中时……
+      inserted: function (el) {
+        // 聚焦元素
+        el.focus()
+      }
+    })
+     <input v-focus  ref="editBox"  @blur="editingIdx = -1" 
+-->
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>todo-vue</title>
+  <style>
+    ul.active li.completed {
+      display: none;
+    }
+
+    ul.completed li.active {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root">
+    <todo></todo>
+  </div>
+
+  <div hidden class="container">
+  </div>
+
+  <script src="vue.js"></script>
+  <script>
+    // 注册一个全局自定义指令 `v-focus`
+    Vue.directive('focus', {
+      // 当被绑定的元素插入到 DOM 中时……
+      inserted: function (el) {
+        // 聚焦元素
+        el.focus()
+      }
+    })
+    Vue.component('todo', {
+      // el: '.container',
+      template: `
+        <div class="container">
+          <div>
+            <input type="checkbox" class="toggle-all" @click="toggleAll()" :checked="isAllSelected" >
+            <input type="text" class="todo-input" v-model="todoText" @keyup.enter="addTodo()">
+          </div>
+
+          <ul :class="show">
+            <li :class="todo.done ? 'completed' : 'active'" v-for="(todo, idx) of todos" :key="todo.text">
+              <input type="checkbox" :checked="todo.done" @click="todo.done = $event.target.checked"/>
+              <input v-focus  ref="editBox"  @blur="editingIdx = -1" :value="todo.text" @keyup="handleEditKeyup($event)" v-if="editingIdx == idx" type="text">
+              <span @dblclick="startEdit(idx)" v-else>{{todo.text}}</span>
+              <button class="delete" @click="deleteItem(idx)">Delete</button>
+            </li>
+          </ul>
+
+          <div>
+            <span>{{ leftCount }} items left</span>
+            <!-- <span>{{ todos.filter(it => !it.done).length }} items left</span> -->
+            <div >
+              <label><input type="radio" name="category" @click="show = 'all'" :checked="show == 'all'" value="all">All</label>
+              <label><input type="radio" name="category" @click="show = 'active'" :checked="show == 'active'" value="active">Active</label>
+              <label><input type="radio" name="category" @click="show = 'completed'" :checked="show == 'completed'" value="completed">Completed</label>
+            </div>
+            <button v-if="showClear" @click="clear()">Clear Completed</button>
+            <!-- <button v-if="todos.some(it => it.done)" @click="clear()">Clear Completed</button> -->
+          </div>
+        </div>
+      `,
+      data: function () {
+        return {
+          todoText: '',
+          show: 'all',
+          editingIdx: -1,
+          todos: [
+            {
+              text: 'eat',
+              done: false,
+            },
+            {
+              text: 'drink',
+              done: false,
+            }
+          ]
+        }
+      },
+      computed: { // 计算属性 有现有的数据推导出来
+        showClear() { // 作为属性使用  getter
+          return this.todos.some(it => it.done)
+        },
+        leftCount() {
+          return this.todos.filter(it => !it.done).length
+        },
+        isAllSelected() {
+          return this.todos.length && this.todos.every(it => it.done)
+        }
+      },
+      methods: {
+        async startEdit(idx) {
+          this.editingIdx = idx // 异步更新  
+          // await Vue.nextTick()// dom更新之后执行
+          // this.$refs.editBox[0].focus()
+        },
+        handleEditKeyup(e) {
+          if (e.key == 'Enter') {
+            app.todos[app.editingIdx].text = e.target.value.trim() // 等价于this.todos[editingIdx]
+            app.editingIdx = -1
+          }
+          if (e.key == 'Escape') {
+            app.editingIdx = -1
+          }
+        },
+        toggleAll() {
+          if (this.todos.every(it => it.done)) {
+            this.todos.forEach(it => {
+              it.done = false
+            })
+          } else {
+            this.todos.forEach(it => {
+              it.done = true
+            })
+          }
+        },
+        addTodo() {
+          // if(e.key == 'Enter') {
+          var text = this.todoText
+          if (!text) {
+            return
+          }
+          this.todoText = ''
+          this.todos.push({
+            text,
+            done: false,
+          })
+          // }
+        },
+        deleteItem: function (idx) {
+          console.log(idx)
+          this.todos.splice(idx, 1) // this ==  app
+        },
+        clear() {
+          this.todos = this.todos.filter(it => !it.done)
+        }
+        // toggle(idx) {
+        //   this.todos[idx].done = !this.todos[idx].done
+        // }
+      },
+      watch: {
+        show: function () {
+
+        },
+        editingIdx: function () {
+
+        },
+        todos: function () {
+
+        }
+      }
+    })
+    var app = new Vue({
+      el: '#root'
+    })
+
+  </script>
+</body>
+
+</html>

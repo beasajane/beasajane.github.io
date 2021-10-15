@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div class="container">
+    <span>{{ message234 }}</span>
+  </div>
+  <script src="todo/vue.js"></script>
+  <script>
+    var data = {
+      message234: 'fasdlfkjasdkfjaslkdfja;sldfk',
+      x: 1, 
+      y: {
+        a: 1, 
+        b: 2,
+      }
+    }
+    var app = new Vue ({
+      el: '.container', 
+      data: data,
+      // template: `<em>aaa</em>`,
+
+      // render(h) {  //  h == createElement()
+      //   return h(
+      //     'div',
+      //     [
+      //       h('span', ['lfaksdjf']),
+      //       h('em', ['lfaksdjf'])
+      //     ]
+      //   )
+      // },
+      methods: {},
+      computed: {},
+      watch: {},
+      // 生命周期勾子函数 (在特定时机调用) hook  与事件类似  ， 由框架内部自己触发
+      beforeCreate() {
+        debugger
+      },
+      created() {
+      },
+      beforeMount() {
+      },
+      moutned() {
+      },
+      beforeUpdate() {
+      },
+      updated() {
+      },
+    })
+  </script>
+</body>
+</html>

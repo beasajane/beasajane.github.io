@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div class="container">
+    <span>{{ foo }} {{ Math.sqrt(2) }} </span>
+    <span v-html="foo"></span>
+    <br>
+    
+    <span>{{ now }} - {{ time }}</span>
+    <br>
+    
+    <select multiple v-model="answer">
+      <option value="a">a</option>
+      <option value="b">b</option>
+      <option value="c">c</option>
+      <option value="d">d</option>
+    </select>
+  </div>
+
+  <script src="todo/vue.js"></script>
+
+  <script>
+    var app = new Vue({
+      el: '.container',
+      data:  {
+        x: 'xxxx',
+        y: 'uuuu',
+        foo: '<strong style="color:red; font-size: 3rem">aa</strong>',
+        answer: ['a', 'c'],
+        todos: [{a: 'b'},{a: 'b'},{a: 'b'}],
+        time: Date.now(),
+      },
+      computed: {
+        now() {
+          return Date.now()
+        }
+      },
+      watch: {
+        x(newVal, oldVal) {
+          console.log('newVal:',newVal,' oldVal:',oldVal)
+          console.log('x x x x x')
+        },
+        y: function(newVal, oldVal) {
+          console.log('y y y y y')
+        },
+        answer() {
+          console.log('answer')
+        },
+        todos: {
+          handler: function() {
+            console.log('todos deep change')
+          },
+          deep: true,
+        },
+        // todos() {
+        //   console.log('todos')
+        // },
+      }
+    })
+    setInterval(() => {
+      app.time = Date.now()
+    }, 1000)
+  </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Simple word count web component</title>
+  </head>
+  <body>
+    <h1>Word count rating widget</h1>
+
+    <article contenteditable="">
+      <p is="word-count"></p>
+    </article>
+    
+    <div is="my-slider" imgs="https://travel.12306.cn/imgs/resources/uploadfiles/images/6d77d0ea-53d0-4518-b7e9-e53795b4920c_product_W572_H370.jpg,https://travel.12306.cn/imgs/resources/uploadfiles/images/8b36f9a7-f780-4e71-b719-9300109a9ff2_product_W572_H370.jpg"></div>
+    <script>
+      class MySlider extends HTMLDivElement {
+        constructor() {
+          super()
+          this.style.width = '300px'
+          this.style.height = '200px'
+          this.style.border = '1px solid red'
+
+          var shadow = this.attachShadow({
+            mode: 'closed'
+          })
+
+          var prevBtn = document.createElement('button')
+          var nextBtn = document.createElement('button')
+          prevBtn.textContent = '上一张'
+          nextBtn.textContent = '下一张'
+
+          prevBtn.onclick = function() {
+            i--
+            if (i == -1) {
+              i = imgs.length - 1
+            }
+            update()
+          }
+          nextBtn.onclick = function() {
+            i++
+            if (i == imgs.length) {
+              i = 0
+            }
+            update()
+          }
+
+          var self = this
+          function update() {
+            shadow.innerHTML = ''
+            shadow.appendChild(prevBtn)
+            shadow.appendChild(nextBtn)
+            shadow.appendChild(imgs[i])
+          }
+
+          shadow.appendChild(prevBtn)
+          shadow.appendChild(nextBtn)
+
+          var urls = this.getAttribute('imgs').split(',')
+          var i = 0
+
+          var imgs = []
+          for (var url of urls) {
+            var img = document.createElement('img')
+            img.src = url
+            imgs.push(img)
+          }
+
+          shadow.appendChild(imgs[i])
+
+        }
+      }
+      customElements.define('my-slider', MySlider, {
+          extends: 'div'
+      });
+    </script>
+
+  </body>
+</html>

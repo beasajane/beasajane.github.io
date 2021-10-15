@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!-- element 组件 -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+  </style>
+</head>
+<body>
+  <div id="root">
+  </div>
+  <script src="todo/vue-2.6.14.js"></script>
+  <script>
+    Vue.component('json-viewer', {
+      props: ['value', 'outermost'],
+      template: `
+        <span style="font-family: consolas">
+          <span v-if="typeof value == 'number'" style="color: blue;">{{ value }}</span>
+          <span v-else-if="typeof value == 'string'" style="color: red;">"{{ value }}"</span>
+          <span v-else-if="typeof value == 'boolean'" style="color: blue;">{{ value }}</span>
+          <span v-else-if="value === null" style="color: grey;">null</span>
+          <span v-else-if="Array.isArray(value)">
+            <span v-show="!outermost" @click="toggle">{{show ? '-' : '+'}}</span>[
+              <div v-show="show">
+                <div v-for="(item,idx) of value" style="padding-left: 1em;">
+                  <json-viewer :value="item"></json-viewer><span v-if="idx < value.length - 1">,</span>
+                </div>
+              </div>
+              <span v-show="!show">...</span>
+            ]
+          </span>
+          <span v-else>
+            <span v-show="!outermost" @click="toggle">{{show ? '-' : '+'}}</span>{
+              <div v-show="show">
+                <div v-for="(item, key, idx) of value" style="padding-left: 1em;">
+                  <span>"{{key}}"</span>:
+                  <json-viewer :value="item"></json-viewer><span v-if="idx < Object.keys(value).length - 1">,</span>
+                </div>
+              </div>
+              <span v-show="!show">...</span>
+            }
+          </span>
+        </span>
+      `,// v-show 元素不会显示，但不会销毁  v-if会销毁元素
+      methods: {
+        toggle() {
+          this.show = !this.show
+        },
+      },
+      data() {
+        return {
+          show: true,
+        }
+      }
+    })
+
+
+    app = new Vue({
+    el: '#root',
+    template: `
+      <div>
+        <json-viewer :value="data" :outermost="true"></json-viewer>
+      </div>
+    `,
+    methods: {
+    },
+    data() {
+      return {
+        data: {
+          x: 1,
+          y: 2,
+          z: {
+            pos: 9,
+            col: 9,
+            tu: {
+              xx: 89,
+              yy: 22,
+            },
+          },
+          shoppingList: [
+            {
+              id: 38383,
+              name: '肥皂',
+              price: 5,
+            },{
+              id: 8303,
+              name: '毛巾',
+              price: 10,
+            }, {
+              id: 8302,
+              name: '洗衣液',
+              price: 15,
+            }
+          ],
+          todos: [
+            {
+              text: 'eat',
+              done: false,
+            },{
+              text: 'drink',
+              done: true,
+              hello: null,
+            }
+          ]
+        }
+      }
+    },
+  })
+  </script>
+  
+</body>
+</html>

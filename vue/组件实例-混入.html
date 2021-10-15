@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  
+  <div id="container">
+    <foo></foo>
+    <bar></bar>
+  </div>
+  <script src="todo/vue-2.6.14.js"></script>
+  <script>
+    // 定义一个混入对象
+    var timeMixin = {
+      data() {
+        return {
+          time: new Date().toString()
+        }
+      },
+      mounted() {
+        this.id = setInterval(() => {
+          this.time = new Date().toString()
+        },1000)
+      },
+      beforeDestroy() {
+        clearInterval(this.id)
+      }
+    }
+    var clickCount = {
+      data() {
+        return {
+          count: 0
+        }
+      },
+      methods: {
+        handle() {
+          this.count++
+        }
+      }
+    }
+
+    // 定义一个使用混入对象的组件
+    Vue.component('foo',{
+      template: `
+        <div @click="handle">{{time}}------{{count}}</div>
+      `,
+      mixins: [timeMixin, clickCount]
+    })
+    Vue.component('bar',{
+      template: `
+        <div>{{time}}</div>
+      `,
+      mixins: [timeMixin]
+    })
+
+    var app = new Vue({
+      el: '#container',
+      ctemplate: `
+        <foo></foo>
+      `,
+    })
+  </script>
+</body>
+
+</html>

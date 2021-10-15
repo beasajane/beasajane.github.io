@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div class="container">
+    <span> {{ firstName }} {{ lastName }} </span>
+    <p>{{ fullName }}</p>
+  </div>
+  <div class="container2">
+    <span> {{ firstName }}, {{ lastName }} </span>
+    <p>{{ fullName }}</p>
+  </div>
+  <div class="container3">
+    数量 <input type="text" v-model="amout">
+    价格 <input type="text" v-model="price">
+    总价 <input type="text" v-model="total">
+  </div>
+
+  <script src="todo/vue.js"></script>
+
+  <script>
+    var app = new Vue({
+      el: '.container',
+      data: {
+        firstName: 'Foo',
+        lastName: 'Bar',
+        fullName: 'Foo Bar'
+      },
+      watch: {
+        fullName: function(val){
+          [this.firstName, this.lastName] = val.split(' ')
+        },
+        firstName: function (val) {
+          this.fullName = val + ' ' + this.lastName
+        },
+        lastName: function (val) {
+          this.fullName = this.firstName + ' ' + val
+        }
+      }
+    })
+    var app2 = new Vue({
+      el: '.container2',
+      data: {
+        firstName: 'Foo',
+        lastName: 'Bar',
+      },
+      computed: {
+        fullName: {
+          get: function() {
+            return this.firstName + ' ' + this.lastName
+          },
+          set: function(val) {
+            [this.firstName, this.lastName] = val.split(' ')
+          }
+        }
+      },
+    })
+    var app3 = new Vue({
+      el: '.container3',
+      data: {
+        amout: 0,
+        price: 20,
+        // total: 0,
+      },
+      computed: {
+        total: {
+          get() {
+            return this.amout * this.price
+          },
+          set(val) {
+            this.amout = val / this.price
+          }
+        }
+      },
+      // watch: {
+      //   amout(val) {
+      //     this.total = val * this.price
+      //   },
+      //   price(val) {
+      //     this.total = val * this.amout
+      //   },
+      //   total(val) {
+      //     this.amout = val / this.price
+      //   }
+      // }
+    })
+  </script>
+</body>
+</html>

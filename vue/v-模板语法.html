@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div class="container">
+    <span :[x]="y">{{ foo }} {{ Math.sqrt(2) }} </span>
+    <span v-html="foo"></span>
+  <script src="todo/vue.js"></script>
+  <script>
+    // mvvm  model -> view view -> model
+    // 数据驱动
+    var data = {
+      x: 'xxxx',
+      y: 'uuuu',
+      foo: '<strong>aa</strong>',
+    }
+
+    var app = new Vue({
+      el: '.container',
+      data: data,
+    })
+  </script>
+</body>
+</html>

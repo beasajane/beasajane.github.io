@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>组件</title>
+</head>
+
+<body>
+  <div id="container">
+    <p>{{message.repeat(3)}}</p>
+    <foo-bar></foo-bar>
+    <button-counter :start="23" :step="2"></button-counter>
+    <button-counter></button-counter>
+    <button-counter v-for="i in 10" :start="i" :step="i" :key="i"></button-counter>
+  </div>
+
+  <div id="container1"></div>
+
+  <script src="./todo/vue-2.6.14.js"></script>
+  <script>
+    Vue.component('foo-bar', {
+      template: `
+        <div>
+          <span>foo</span>
+          <span>bar</span>
+        </div>
+      `
+    })
+
+    Vue.component('button-counter', {
+      template: `
+      <div>
+        <button @click="dec()">-</button>
+        <span>{{count}}</span>
+        <button @click="inc()">+</button>
+        </div>
+        `
+    })
+
+    Vue.component('button-counter', {  // 每一个组件相当于小型的Vue程序
+      props: ['start', 'step'], // 声明组件接收一个参数，名为start  该参数已经挂在this上
+      template: `
+        <div>
+          <button @click="dec()">-</button>
+          <span>{{count}}</span>
+          <button @click="inc()">+</button>
+        </div>
+      `,
+
+      data() {  // 可以是一个函数返回一个对象
+        return {
+          count: this.start || 0,
+        }
+      },
+      methods: {
+        dec() {
+          this.count -= this.step || 1
+        },
+        inc() {
+          this.count += this.step || 1
+        }
+      }
+    })
+
+    var app = new Vue({
+      el: '#container',
+      data: {
+        message: '方式一'
+      }
+    })
+
+    // 组件写法二：
+    Vue.component('ButtonCounter', { // 大型项目卸载这里，浏览器不区分大小写
+      props: ['start', 'step'],
+      template: `
+          <div>
+            <button @click="dec()">-</button>
+            <span>{{count}}</span>
+            <button @click="inc()">+</button>
+          </div>
+        `,
+      data() {  // 可以是一个函数返回一个对象
+        return {
+          count: this.start || 0,
+        }
+      },
+      methods: {
+        dec() {
+          this.count -= this.step || 1
+        },
+        inc() {
+          this.count += this.step || 1
+        }
+      }
+    })
+    var app = new Vue({
+      el: '#container1',
+      template: `
+          <div id="container1">
+            <p>{{message.repeat(3)}}</p>
+            <foo-bar></foo-bar>
+            <ButtonCounter :start="23" :step="2"></ButtonCounter>
+            <ButtonCounter>{{ countr }}</ButtonCounter>
+            <ButtonCounter v-for="i in 10" :start="i" :step="i" :key="i"></ButtonCounter>
+          </div>
+        `,
+      data: {  // 可以是一个函数返回一个对象
+        message: '方式二',
+        countr: 456,
+      },
+    })
+    var app1 = new Vue({
+      el: '#container1',
+      data: {
+        message: 'heilo'
+      }
+    })
+  </script>
+</body>
+
+</html>

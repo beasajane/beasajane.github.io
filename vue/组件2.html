@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>组件</title>
+</head>
+
+<body>
+  <div id="container">
+    <!-- <p>{{message.repeat(3)}}</p>
+    <foo-bar></foo-bar> -->
+    <!-- <button-counter :start="23" :step="2"></button-counter>
+    <button-counter>{{count}}</button-counter>
+    <button-counter v-for="i in 10" :start="i" :step="i" :key="i"></button-counter> -->
+  </div>
+
+  <script src="./todo/vue-2.6.14.js"></script>
+  <script>
+    Vue.component('foo-bar', {
+      template: `
+        <div>
+          <span>foo</span>
+          <span>bar</span>
+        </div>
+      `
+    })
+    // Vue.component('button-counter', {  // 每一个组件相当于小型的Vue程序
+    //     props: ['start', 'step'], // 声明组件接收一个参数，名为start  该参数已经挂在this上
+    //     template: `
+    //       <div>
+    //         <button @click="dec()">-</button>
+    //         <span>{{count}}</span>
+    //         <button @click="inc()">+</button>
+    //       </div>
+    //     `,
+    //     data() {  // 可以是一个函数返回一个对象
+    //       return {
+    //         count: this.start || 0,
+    //       }
+    //     },
+    //     methods: {
+    //       dec() { 
+    //         this.count -= this.step || 1
+    //       },
+    //       inc() {
+    //         this.count += this.step || 1
+    //       }
+    //     }
+    //   })
+
+    // var app = new Vue({
+    //   el: '#container',
+    //   data: {
+    //     message: 'heilo'
+    //   }
+    // })
+
+
+    Vue.component('test1', {
+      props: ['postTitle','pos-tit'],
+      template: 
+        `
+        <div>{{ posTit,postTitle }}<br>{{ postTitle }}</div>
+        `
+    })
+    Vue.component('my-slider', {
+      props: {
+        imgs: {
+          type: Array,
+          required: false,
+        },
+        autoplay: {
+          type: Boolean,
+          default: false,
+        },
+        interval: {
+          type: Number,
+          default: 2000,
+        },
+      },
+      template: `
+        <div style="width: 320px; height: 320px;">
+          <button @click="prev">上一张</button>
+          <button @click="next">下一张</button>
+          <img :src="imgs[i]" style="width=300px; height: 300px;"/>
+        </div>
+      `,
+      data: function() {
+        return {
+          i : 0
+        }
+      },
+      methods: {
+        prev() {
+          this.i--
+          if(this.i == -1) {
+            this.i = this.imgs.length - 1
+          }
+          // this.$emit('change', this.i)  // 通知调用者自己发生了什么事件      组件（Vue）实例都是一个事件触发器  让自己冒出事件
+        },
+        next() {  
+          this.i++
+          if(this.i == this.imgs.length) {
+            this.i = 0
+          }
+          // this.$emit('change', this.i)  // 通知调用者自己发生了什么事件      组件（Vue）实例都是一个事件触发器  让自己冒出事件
+        }
+      },
+      mounted() { // 声明周期函数
+        if(this.autoplay) {
+          this.id = setInterval(() => { 
+            // console.log('next slide')
+            this.next()
+          }, this.interval)
+        }
+      },
+      beforeDestroy() { // 声明周期函数
+        // console.log('clear interval')
+        clearInterval(this.id)
+      },
+    })
+    Vue.component('ButtonCounter', { // 大型项目卸载这里，浏览器不区分大小写
+      // props: ['start', 'step'],
+      props: {
+        start: {
+          type:Number,
+          default: 0
+        }, 
+        step: {
+          type:Number,
+          default: 1
+        }, 
+        post: {
+          id: 1,
+          title: 'My Journey with Vue'
+        },
+        propE: {
+          type: Object,
+          // 对象或数组默认值必须从一个工厂函数获取
+          default: function () {  // 如果是 对象，所有的 默认值值都是同一个对象 错
+            return { message: 'hello' }
+          }
+        },
+      },
+      template: `
+          <div class="baz">
+            <button @click="dec()">-</button>
+            <span>{{count}}</span>
+            <button @click="inc()">+</button>
+            <div v-bind="post">hello</div>
+          </div>
+        `,
+      data() {  // 可以是一个函数返回一个对象
+        return {
+          count: this.start
+          // count: this.start || 0,
+        }
+      },
+      inheritAttrs: false,
+      methods: {
+        dec() {
+          this.count -= this.step
+          // this.count -= this.step || 1
+        },
+        inc() {
+          this.count += this.step
+          // this.count += this.step || 1
+        }
+      }
+    })
+    var app = new Vue({ // 组件（Vue) 的事件 组件可以向外触发事件 通知外界里面发生了什么事件，甚至可以传参  
+      el: '#container',
+      template: `
+          <div id="container">
+            <p>{{message.repeat(3)}}</p>
+            <test1 postTitle="00000fsdfgsdf00000" posTit='1111asdfasdf11111' heilo="heiheihei"></test1>
+            <hr>
+            <foo-bar></foo-bar>
+            <ButtonCounter>{{countr,message,<p>fasdf</p>}}</ButtonCounter>
+            <ButtonCounter a='a' b="b" c="c" class="foo bar"></ButtonCounter>
+            <ButtonCounter :start="23" :step="2"></ButtonCounter>
+            <ButtonCounter v-for="i in 10" :start="i" :step="i" :key="i"></ButtonCounter>
+
+            <my-slider v-if="showSlider" v-on:change="onSliderChange" :imgs="slides" :autoplay="true"></my-slider>
+          </div>
+        `,
+        //@change="onSliderChange()  给组件实例绑事件
+        //该轮播图 每个三秒钟自动播放到下一个
+        // 这个 heilo="heiheihei" attribute 就会自动添加到 <test1> 的根元素上。
+      components: { // 局部注册
+        'bar': {  
+          template: ``,
+          data:{},
+          methods:{}
+        }
+      },
+      methods: {
+        onSliderChange(curIdx) {
+          console.log('slider changed...', curIdx)
+        }
+      },
+      data: {  // 可以是一个函数返回一个对象
+        showSlider: true,
+        message: 'faskdf',
+        countr: 456,
+        slides: [
+          'https://travel.12306.cn/imgs/resources/uploadfiles/images/6d77d0ea-53d0-4518-b7e9-e53795b4920c_product_W572_H370.jpg',
+          'https://travel.12306.cn/imgs/resources/uploadfiles/images/1716878f-79a2-4db1-af8c-b9c2039f0b3c_product_W572_H370.jpg',
+          'https://travel.12306.cn/imgs/resources/uploadfiles/images/b0c76b21-531b-4af4-a607-cf5672c72ded_product_W572_H370.jpg',
+        ]
+      },
+    })
+  </script>
+</body>
+
+</html>

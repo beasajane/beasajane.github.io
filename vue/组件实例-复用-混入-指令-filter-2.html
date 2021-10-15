@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!--指定定义对象 钩子函数 -->
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  
+  <div id="container">
+    <foo></foo>
+    <bar></bar>
+    <input v-datepicker>
+    <input v-datepicker:fooo.bar.baz="show + 5">
+    <input>
+    <input v-if="show" v-datepicker>
+
+    <!-- <select v-chosen>
+      <option value="aa">aa</option>
+      <option value="bb">bb</option>
+      <option value="cc">cc</option>
+      <option value="dd">dd</option>
+    </select> -->
+
+    <my-datepicker v-model="birthday"></my-datepicker>
+  </div>
+  <script src="todo/vue-2.6.14.js"></script>
+  <link rel="stylesheet" href="https://pikaday.com/css/pikaday.css">
+  <script src="https://pikaday.com/pikaday.js"></script>
+  <script>
+    // 定义一个混入对象
+    var timeMixin = {
+      data() {
+        return {
+          time: new Date().toString()
+        }
+      },
+      mounted() {
+        this.id = setInterval(() => {
+          this.time = new Date().toString()
+        },1000)
+      },
+      beforeDestroy() {
+        clearInterval(this.id)
+      }
+    }
+    var clickCount = {
+      data() {
+        return {
+          count: 0
+        }
+      },
+      methods: {
+        handle() {
+          this.count++
+        }
+      }
+    }
+
+    // 定义一个使用混入对象的组件
+    Vue.component('foo',{
+      template: `
+        <div @click="handle">{{time}}------{{count}}</div>
+      `,
+      mixins: [timeMixin, clickCount]
+    })
+    Vue.component('bar',{
+      template: `
+        <div>{{time}}</div>
+      `,
+      mixins: [timeMixin]
+    })
+
+    // Vue.directive('chosen', { // 需要jQuery
+    //   inserted(el) {
+    //     $(el).chosen()
+    //   }
+    // })
+    Vue.directive('datepicker', {  //钩子函数
+      componentUpdated() {},
+      bind() {},
+      update(el) {
+      },
+      unbind() {
+        debugger
+        el.pikaday.destroy()
+      },
+      inserted(el,binding,vnode,oldVnode) {
+        el.pikaday = new Pikaday({
+          field: el
+        })
+      }
+    })
+    Vue.component('my-datepicker', {
+      props: ['value'],
+      template: `<input ref="inputBox" :value="date" />`,
+      data() {
+        return {
+          date: this.value
+        }
+      },
+      watch: {
+        value() {
+          this.date = this.value
+        }
+      },
+      mounted() {
+        this.pikaday = new Pikaday({
+          field: this.$refs.inputBox,
+          onSelect: () => {
+            // this.date = this.pikaday.getMoment().format('Do MMMM YYYY')
+            this.date = this.pikaday.getDate().toString()
+            this.$emit('input', this.date)// 把值通过input 冒泡出去
+          }
+        })
+      },
+      
+      beforeDestroy() {
+        console.log(this.pikaday,123)
+        this.pikaday.destroy()
+      }
+    })
+    var app = new Vue({
+      el: '#container',
+      ctemplate: `
+        <foo></foo>
+      `,
+      data: {
+        birthday: '2021/10/25',
+        show: true
+      }
+    })
+  </script>
+</body>
+
+</html>

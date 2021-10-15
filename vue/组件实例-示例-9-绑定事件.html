@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<!--  app.$refs.pager.$on('change-change', () => console.log(1234567890)) 
+    绑定多个事件
+    $on === addEventListener
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+  </style>
+</head>
+<body>
+  <div id="root">
+    <async-example v-if="show"></async-example>
+    <table border="1">
+      <tr is="my-table-row"></tr>
+    </table>
+  </div>
+  
+  <script src="todo/vue-2.6.14.js"></script>
+  <script>
+    Vue.component('my-table-row', {
+      template:`
+        <tr>
+          <td>11111</td>
+          <td>11111</td>
+          <td>11111</td>
+        </tr>
+      `,
+    })
+    Vue.component('my-progress', {
+      props: {
+        percentage: {
+          type: Number,
+          required: true,
+        },
+        color: {
+          type: String,
+          default: '#409eff',
+        },
+        textInside: {
+          type: Boolean,
+          default: false,
+        }
+      },
+      template: `
+        <div> 
+          <div style="display: inline-block;border-radius: 600px; height: 12px; width: 150px; background-color: #ebeef5;">
+            <div style="height: 100%;border-radius: 6px;" :style="{width: percentage + '%', backgroundColor: color}">
+              <span style="float: right;font-size: 10px;color:white;" v-if="textInside">{{ percentage }}%</span>
+            </div>
+          </div>
+          <span v-if="!textInside">{{ percentage }}%</span>
+        </div>
+      `,
+    })
+    Vue.component('my-input-number', {
+      props: {
+        value: { 
+          type: Number,
+          required: true,
+        },
+        max: {
+          type: Number,
+          default: 10,
+        },
+        min: {
+          type: Number,
+          default: 0,
+        },
+      },
+      template: `
+        <span style="display: inline-block">
+          <button @click="dec">-</button>
+          <input @blur="fix" type="text" :value="current" style="width: 4em; text-align: center;" />
+          <button @click="inc">+</button>
+        </span>
+      `,
+      data() {
+        return { 
+          
+          current: this.value < this.min ? this.min : (this.value > this.max ? this.max : this.value),
+        }
+      },
+      watch: {
+        value(val) {
+          this.current = this.value < this.min ? this.min : (this.value > this.max ? this.max : this.value)
+        },
+        current(val) {
+          this.$emit('input', val) 
+        }
+      },
+      methods: {
+        fix(e) {
+          var valu = Number(e.target.value.trim())
+          if(Number,isNaN(valu)) {
+            this.$forceUpdate()  
+          } else {
+            if(valu > this.max) {
+              this.current = this.max
+            }else if(valu < this.min) {
+              this.current = this.min
+            }else {
+              this.current = valu
+            }
+          }
+          
+        },
+        inc() {
+          this.current++
+          if(this.current > this.max) {
+            this.current = this.max
+          }
+          
+        },
+        dec() {
+          this.current--
+          if(this.current < this.min) {
+            this.current = this.min
+          }
+          
+        }
+      }
+    })
+    Vue.component('my-pagination', {
+      model: { // v-model绑定自定义属性和事件   v-model="a"  ===   :current-page="a" @current-change="a = $event"
+        prop: 'current-page',
+        event: 'current-change'
+      },
+      props: {
+        currentPage: {
+          type: Number,
+          default: 1,
+        },
+        total: {
+          type: Number,
+          required: true,
+        },
+        pageSize: {
+          type: Number,
+          default: 10,
+        },
+        layout: {
+          type: String,
+          default: 'prev, pager, next'
+        }
+      },
+      template: `
+        <div> 
+          <button v-if="showPrev" @click="dec"> < </button>
+          <span v-if="showPager">
+            <button @click="current = i" v-for="i of pageCount" :style="{color: i == current ? 'red' : 'black'}">{{i}}</button>
+          </span>
+          <button v-if="showNext" @click="inc"> > </button>
+        </div>
+      `,
+      methods: {
+        inc() {
+          if(this.current < this.pageCount) {
+            this.current++
+          }
+        },
+        dec() {
+          if(this.current > 1){
+            this.current--
+          }
+        },
+      },
+      watch: {
+        current(val) {
+          console.log('组件实例(this)',this, '组件实例') // 组件实例
+          console.log('父组件', this.$parent,'父组件')
+          console.log('root组件', this.$root,'root组件')
+          this.$emit('current-change', val)
+        },
+        currentPage(val) {
+          this.current = val
+        },
+        pageSize() {
+          this.pageCount = Math.ceil(this.total / this.pageSize)
+        }
+      },
+      data() {
+        var layout = this.layout.split(',').map(it => it.trim())
+        console.log(this.total)
+        var pageCount = Math.ceil(this.total / this.pageSize)
+        console.log(pageCount)
+        console.log(this.pageSize)
+        return {
+          showPrev: layout.includes('prev'),
+          showPager: layout.includes('pager'),
+          showNext: layout.includes('next'),
+          pageCount,
+          current: this.currentPage,
+        }
+      }
+    })
+    Vue.component('bigint-input', {
+      props: {
+        value: {
+          type: BigInt,
+          require: true,
+        },
+      },
+      template: `
+          <input v-model="str"/>
+      `, 
+      watch: {
+        str() {
+          this.$emit('input', BigInt(this.str))
+        },
+        value() {
+          this.str = this.value.toString()
+        },
+      },
+      data() {
+        return {
+          str: this.value.toString()
+        }
+      },
+    })
+    Vue.component('array-input', {
+      props: {
+        value: {
+          type: Array,
+          default: [],
+        },
+      },
+      template: `
+        <div>
+          <div v-for="(item, idx) of list"> 
+            <input type="text" v-model="list[idx]" :key="idx"/>
+            <button @click="list.splice(idx,1)">-</button>
+          </div>
+          <button @click="list.push('')">+</button>
+        </div>
+      `,
+      watch: {
+        value() {
+          if(this.value.every((it, idx) => it == this.list[idx]) && this.list.every((it, idx) => it == this.value[idx])) {
+            return 
+          }
+          this.list = this.value.slice() 
+        },
+        list() {
+          this.$emit('input', this.list)
+        },
+      },
+      data() {
+        return {
+          list : this.value.slice()
+        }
+      },
+    })
+    //.sync
+    Vue.component('test-sync', {
+      props: ['a','b'],
+      template: `
+        <div>
+          <input type="text" :value="a" @input="$emit('update:a', $event.target.value)" />
+          <input type="text" :value="b" @input="$emit('update:b', $event.target.value)" />
+        </div>
+      `,
+    })
+
+    Vue.component('async-example', function (resolve, reject) {// 异步组件
+      console.log('fetching component...')
+      setTimeout(function () {
+        // 向 `resolve` 回调传递组件定义
+        resolve({
+          template: '<div>I am async!</div>'
+        })
+      }, 1000)
+    })
+    Vue.component('async-example2', () => {
+      return import('./xxx.js') // 需要xxx.js的默认导出为一个组件的定义对象 
+    })
+
+    var app = new Vue({
+      el: '#root',
+      xtemplate: `
+        <table border="1">
+          <my-table-row></my-table-row>
+        </table>
+      `,
+      template: `
+        <div>
+          <input ref="firstInput" />
+          <!-- 原生组件 -->
+
+          <test-sync :a.sync="foo" :b.sync="bar"></test-sync>
+          <br>
+          <!-- 展开--> 
+          <test-sync :a="fo" @update:a="fo = $event" :b="ba" @update:b="ba = $event" ></test-sync>
+
+          <array-input v-model="tags"></array-input>
+
+          <bigint-input v-model="z"></bigint-input>
+          
+          <ul>
+            <li ref='listItems' v-for="item of currentPageContent">{{item}}</li>
+          </ul>
+
+          <my-pagination ref="pager" v-model="page" :total="list.length" :page-size="pageSize">
+            qqqqqqqqqqqqqqqkalsdjalksdjfaldkjfpppppppppppppp
+          </my-pagination>
+          <!-- <my-pagination :total="list.length" :page-size="20" @current-change="page = $event" ></my-pagination> -->
+
+          <my-input-number v-model="value2"></my-input-number>
+          <my-input-number v-model="value2"></my-input-number>
+          <my-input-number :value="value3" :max="100" :min="20" @change="f"></my-input-number>
+
+          <my-progress :percentage="20" :color="'red'"></my-progress>
+          <my-progress :percentage="50" :color="'green'"></my-progress>
+          <my-progress :percentage="78" :color="'purple'"></my-progress>
+          <my-progress :percentage="33" :textInside="true"></my-progress>
+
+        </div>
+      `,
+      methods: {
+        f(val) {
+          console.log(val)
+        }
+      },
+      data: {
+        show: false,
+        tags: ['linux', 'js', 'node'],
+        y: 3434,
+        foo: 1,
+        bar: 2,
+        fo: 1,
+        ba: 2,
+        z: 2938438475n,
+        value2: 8, 
+        value3: 2,
+        page: 1,
+        pageSize: 10,
+        list: Array(215).fill(0).map((it,idx) => `${idx} + ${Math.random()}`)
+      },
+      computed: {
+        currentPageContent() {
+          return this.list.slice((this.page - 1) * this.pageSize, this.page * this.pageSize)
+        }
+      },
+      mounted() {
+        this.firstInput = document.querySelector('div')
+        this.$refs.pager.$on('current-change', () => console.log(123123132132132132132132132123))
+      },
+      updated() {
+        console.log('root component update')
+      },
+    })
+  </script>
+  
+</body>
+</html>

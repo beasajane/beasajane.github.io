@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>传数据</title>
+</head>
+
+<body>
+  <div id="container">
+    <!-- <p>{{message.repeat(3)}}</p>
+    <foo-bar></foo-bar> -->
+    <!-- <button-counter :start="23" :step="2"></button-counter>
+    <button-counter>{{count}}</button-counter>
+    <button-counter v-for="i in 10" :start="i" :step="i" :key="i"></button-counter> -->
+  </div>
+
+  <script src="./todo/vue-2.6.14.js"></script>
+  <script>
+
+    Vue.component('baz', {
+      props: ['msg'],
+      template: `
+        <div>{{msg}}</div>
+      `,
+    })
+    Vue.component('bar', {
+      props: ['msg'],
+      template: `
+        <baz :msg="msg"></baz>
+      `,
+    })
+    Vue.component('foo', { 
+      props: ['msg'],
+      template: `
+        <bar :msg="msg"></bar>
+      `,
+    })
+    var app = new Vue({
+      el: '#container',
+      template: `
+          <div id="container">
+            <foo :msg="message"></foo>
+          </div>
+        `,
+      methods: {
+      },
+      data: { 
+        showSlider: true,
+        message: 'faskdf',
+      },
+    })
+  </script>
+</body>
+
+</html>

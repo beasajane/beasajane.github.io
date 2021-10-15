@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+  
+  
+  <div class="container">
+    <textarea>{{ x }}</textarea>
+    <textarea :value="x"></textarea>
+    <textarea v-model="x"></textarea>
+    <br>
+    <input type="checkbox" v-model="remenber">remenber is: {{remenber}}
+    <br>
+    <input type="checkbox" v-model="remenber1" true-value="a" false-value="b">remenber1 is: {{remenber1}}
+    <br>
+    <input type="checkbox" v-model="remenber2" :true-value="{x:1}" :false-value="{x:2}">remenber2 is: {{remenber2}}
+    <br>
+    <input type="checkbox" v-model="like" value="aa"> aad
+    <input type="checkbox" v-model="like" value="ab"> abd
+    <input type="checkbox" v-model="like" value="ac"> acd
+    <input type="checkbox" v-model="like" :value="2"> acd
+    <input type="checkbox" v-model="like" :value="obj"> acd
+
+    <br>
+    <select name="" id="" v-model="selectAnswer">
+      <option value="aaa">aaa</option>
+      <option value="bbb">bbb</option>
+      <option value="ccc">ccc</option>
+      <option :value="obj">ddd</option>
+    </select>
+  </div>
+
+  <script src="todo/vue.js"></script>
+
+  <script>
+    var app = new Vue({
+      el: '.container',
+      data:  {
+        x: 'xxxx',
+        remenber: true,
+        remenber1: 'b',
+        remenber2: '',
+        like: [],
+        obj:{
+          z: 1,
+          w: 2,
+        },
+        selectAnswer: 'ccc'
+      },
+    })
+  </script>
+</body>
+</html>

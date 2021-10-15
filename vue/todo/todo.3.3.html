@@ -27,7 +27,8 @@
   <div class="container">
     <div>
       <input type="checkbox" class="toggle-all" @click="toggleAll()" :checked="todos.length && todos.every(it => it.done)" >
-      <input type="text" class="todo-input" v-model="todoText" @keyup="addTodo($event)">
+      <input type="text" class="todo-input" v-model="todoText" @keyup.enter="addTodo()">
+      <!-- <input type="text" class="todo-input" v-model="todoText" @keyup="addTodo($event)"> -->
       <!-- $event  事件对象 -->
     </div>
 
@@ -94,20 +95,18 @@
             })
           }
         },
-        addTodo(e) { // 在模板中，将事件对象传给它，需要用 $event
-          if(e.key == 'Enter') {
+        addTodo() {
+          // if(e.key == 'Enter') {
             var text = this.todoText
-            // var text = e.target.value.trim()
             if(!text) {
               return 
             } 
-            // e.target.value = '' 
             this.todoText = ''
             this.todos.push({
               text,
               done: false,
             })
-          }
+          // }
         },
         deleteItem: function(idx) {
            this.todos.splice(idx, 1) // this ==  app
